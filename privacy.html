@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Privacy Policy · BotDroid</title>
+  <meta name="description" content="How BotDroid handles your bot tokens, LLM API keys, message data, and on-device storage. Required reading for Google Play Data Safety." />
+  <meta name="theme-color" content="#060C09" />
+  <meta name="robots" content="index,follow" />
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23060C09'/%3E%3Cpath d='M16 22h32v20H16z' fill='none' stroke='%2300E5C8' stroke-width='3'/%3E%3Ccircle cx='26' cy='32' r='2.5' fill='%2300E5C8'/%3E%3Ccircle cx='38' cy='32' r='2.5' fill='%2300E5C8'/%3E%3Cpath d='M32 14v8M22 42v6M42 42v6' stroke='%2300E5C8' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E" />
+
+  <meta property="og:title" content="Privacy Policy · BotDroid" />
+  <meta property="og:description" content="How BotDroid handles your bot tokens, LLM API keys, and on-device data." />
+  <meta property="og:type" content="article" />
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            base: '#060C09',
+            panel: '#0C1612',
+            panel2: '#121C18',
+            line: '#1F2A24',
+            ink: '#E6EFEA',
+            inkdim: '#8FA39A',
+            cyan: { DEFAULT: '#00E5C8', soft: '#00E5C81A' },
+            amber: { DEFAULT: '#FFB830', soft: '#FFB8301A' },
+            danger: '#FF5555',
+          },
+          fontFamily: {
+            mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+            sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+          },
+          letterSpacing: { wider2: '0.14em' },
+        },
+      },
+    };
+  </script>
+  <style>
+    html, body { background: #060C09; color: #E6EFEA; }
+    body { font-family: 'Inter', system-ui, sans-serif; }
+    .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+    .grid-bg {
+      background-image:
+        linear-gradient(to right, rgba(0,229,200,0.06) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0,229,200,0.06) 1px, transparent 1px);
+      background-size: 48px 48px;
+    }
+    .led { box-shadow: 0 0 0 2px #060C09, 0 0 12px 1px currentColor; }
+    .prose-doc h2 { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+    .prose-doc h3 { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+    .prose-doc a { color: #00E5C8; text-decoration: underline; text-underline-offset: 3px; }
+    .prose-doc a:hover { color: #E6EFEA; }
+    .prose-doc ul { list-style: none; padding: 0; }
+    .prose-doc ul li { position: relative; padding-left: 1.25rem; }
+    .prose-doc ul li::before {
+      content: "›"; position: absolute; left: 0; color: #00E5C8;
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+    }
+    .prose-doc code { font-family: 'JetBrains Mono', ui-monospace, monospace;
+      background: #0C1612; border: 1px solid #1F2A24;
+      padding: 1px 6px; border-radius: 4px; color: #00E5C8; font-size: 0.875em; }
+  </style>
+</head>
+<body class="min-h-screen antialiased">
+
+  <!-- NAV -->
+  <header class="sticky top-0 z-40 border-b border-line/80 bg-base/85 backdrop-blur">
+    <div class="mx-auto flex max-w-7xl items-center justify-between px-5 py-3.5 lg:px-8">
+      <a href="./" class="flex items-center gap-2.5">
+        <span class="grid h-8 w-8 place-items-center rounded-md border border-cyan/40 bg-cyan-soft">
+          <svg viewBox="0 0 64 64" class="h-5 w-5" fill="none" stroke="#00E5C8" stroke-width="4">
+            <rect x="14" y="22" width="36" height="22" rx="2" />
+            <circle cx="26" cy="33" r="2.4" fill="#00E5C8" stroke="none" />
+            <circle cx="38" cy="33" r="2.4" fill="#00E5C8" stroke="none" />
+            <path d="M32 14v8M22 44v6M42 44v6" stroke-linecap="round" />
+          </svg>
+        </span>
+        <span class="mono text-sm font-bold tracking-wider2">BOTDROID</span>
+        <span class="mono ml-1 hidden rounded border border-cyan/30 px-1.5 py-0.5 text-[10px] tracking-wider2 text-cyan sm:inline">PRIVACY</span>
+      </a>
+      <nav class="hidden items-center gap-7 text-sm text-inkdim md:flex">
+        <a href="./#features" class="hover:text-ink">Features</a>
+        <a href="./#how" class="hover:text-ink">How it works</a>
+        <a href="./#pricing" class="hover:text-ink">Pricing</a>
+        <a href="./#faq" class="hover:text-ink">FAQ</a>
+      </nav>
+      <a href="./#cta" class="mono inline-flex items-center gap-2 rounded-md border border-cyan bg-cyan-soft px-3.5 py-2 text-xs font-bold tracking-wider2 text-cyan hover:bg-cyan hover:text-base">
+        GET IT
+        <svg viewBox="0 0 24 24" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- HEADER -->
+  <section class="relative overflow-hidden border-b border-line">
+    <div class="absolute inset-0 grid-bg opacity-50"></div>
+    <div class="absolute -top-40 left-1/2 h-[28rem] w-[28rem] -translate-x-1/2 rounded-full bg-cyan/10 blur-3xl"></div>
+    <div class="relative mx-auto max-w-4xl px-5 pb-12 pt-12 lg:px-8 lg:pt-16">
+      <div class="mono inline-flex items-center gap-2 rounded-full border border-cyan/30 bg-cyan-soft px-3 py-1 text-[11px] tracking-wider2 text-cyan">
+        <span class="led inline-block h-1.5 w-1.5 rounded-full bg-cyan text-cyan"></span>
+        PRIVACY&nbsp;POLICY&nbsp;·&nbsp;V0.4.0
+      </div>
+      <h1 class="mt-5 text-4xl font-extrabold tracking-tight text-ink sm:text-5xl">
+        Your tokens stay on your phone.
+      </h1>
+      <p class="mt-4 max-w-2xl text-base leading-relaxed text-inkdim">
+        BotDroid is built so that your bot tokens, LLM API keys, and message contents never sit on our servers — because we don't operate any. This page explains exactly what lives on your device, what gets sent where, and what you control.
+      </p>
+      <p class="mono mt-6 text-[11px] tracking-wider2 text-inkdim">
+        LAST&nbsp;UPDATED&nbsp;·&nbsp;2026-05-27 · EFFECTIVE&nbsp;·&nbsp;2026-05-27
+      </p>
+    </div>
+  </section>
+
+  <!-- BODY -->
+  <main class="prose-doc relative mx-auto max-w-4xl px-5 py-12 lg:px-8 lg:py-16 text-[15px] leading-relaxed text-ink">
+
+    <!-- TL;DR -->
+    <section class="mb-12 rounded-lg border border-cyan/30 bg-cyan-soft p-5">
+      <h2 class="text-[12px] tracking-wider2 text-cyan">TL;DR</h2>
+      <ul class="mt-3 space-y-2 text-[15px] text-ink">
+        <li>BotDroid runs entirely on your Android device. We do not operate a backend server that handles your bot traffic or messages.</li>
+        <li>Bot tokens and LLM API keys are stored in encrypted local storage (<code>EncryptedSharedPreferences</code>, AES-256-GCM with a key sealed by the Android Keystore).</li>
+        <li>Outbound network calls go only to: (a) the messaging providers <em>you</em> configure (Telegram, Discord, Slack, Zalo, etc.), (b) the LLM provider <em>you</em> point at with <em>your</em> API key, (c) Google Firebase for crash reporting and app configuration, and (d) Google Play Billing for subscription purchases.</li>
+        <li>Uninstalling the app deletes all your local data, including tokens and message history. There is no separate "delete account" flow because there is no account.</li>
+      </ul>
+    </section>
+
+    <!-- 1 WHO WE ARE -->
+    <h2 class="mt-10 text-[12px] tracking-wider2 text-cyan">1 · WHO WE ARE</h2>
+    <p class="mt-3">
+      "BotDroid" (the "app", "we", "us") is published independently. Contact for privacy questions: <a href="mailto:support@botdroid.app">support@botdroid.app</a>. We are the data controller for the limited diagnostic and purchase data described below; for everything you configure inside the app (bot tokens, LLM keys, messages), you remain the controller — we never see it.
+    </p>
+
+    <!-- 2 SCOPE -->
+    <h2 class="mt-10 text-[12px] tracking-wider2 text-cyan">2 · WHAT THIS POLICY COVERS</h2>
+    <p class="mt-3">
+      This policy applies to the BotDroid Android application distributed on Google Play and to this marketing website (botdroid.app). It does <strong>not</strong> cover the third-party services you choose to connect to from inside BotDroid — those services (Telegram, OpenAI, OpenRouter, Anthropic via OpenRouter, Google Gemini, Groq, NVIDIA, DeepSeek, xAI, Cloudflare Workers AI, Discord, Slack, Zalo, LINE, DingTalk, Feishu, WeCom, etc.) have their own privacy policies, which you should read separately.
+    </p>
+
+    <!-- 3 DATA -->
+    <h2 class="mt-10 text-[12px] tracking-wider2 text-cyan">3 · DATA WE HANDLE</h2>
+
+    <h3 class="mt-6 text-base font-semibold text-ink">3.1 — Stored only on your device (we never see it)</h3>
+    <ul class="mt-3 space-y-2 text-inkdim">
+      <li><strong class="text-ink">Bot tokens</strong> for Telegram, Discord, Slack, Zalo, LINE, DingTalk, Feishu, and WeCom that you paste into the app.</li>
+      <li><strong class="text-ink">LLM API keys</strong> for OpenAI, OpenRouter, Google Gemini, Groq, NVIDIA, DeepSeek, xAI, Cloudflare Workers AI, or any OpenAI-compatible endpoint you configure.</li>
+      <li><strong class="text-ink">Webhook URLs and channel secrets</strong> you enter (e.g. Zalo webhook, LINE channel secret).</li>
+      <li><strong class="text-ink">Bot scripts</strong> (Python scripts you import or write inside the app) and per-bot configuration.</li>
+      <li><strong class="text-ink">Live logs</strong> emitted by your bots while they run on your phone.</li>
+      <li><strong class="text-ink">Scheduled task definitions</strong> (prompts, intervals, target chat IDs).</li>
+      <li><strong class="text-ink">Per-bot usage metrics</strong> (token counts, estimated cost, latency) computed locally for the in-app dashboard.</li>
+    </ul>
+    <p class="mt-3">
+      Secrets in this category are stored in Android's <code>EncryptedSharedPreferences</code> using AES-256-GCM. The encryption key is generated on-device and held in the Android Keystore, which is hardware-backed on devices that support it. Scripts and logs are stored in the app's private storage area, which other apps cannot read on a non-rooted device.
+    </p>
+    <p class="mt-3">
+      None of this category is transmitted to BotDroid's developers or to any backend we operate. It is transmitted only when <em>you</em> trigger a bot run — at which point it goes directly from your phone to the third-party service you configured (e.g., Telegram's servers, your chosen LLM provider).
+    </p>
+
+    <h3 class="mt-8 text-base font-semibold text-ink">3.2 — Sent to third parties at your direction</h3>
+    <ul class="mt-3 space-y-2 text-inkdim">
+      <li><strong class="text-ink">Messaging providers (Telegram, Discord, Slack, Zalo, …):</strong> the app long-polls or connects to each provider you configure, using <em>your</em> token. Message contents flow between your phone and the provider's API. We do not proxy this traffic.</li>
+      <li><strong class="text-ink">LLM providers (OpenAI, OpenRouter, Gemini, Groq, NVIDIA, DeepSeek, xAI, Cloudflare, custom OpenAI-compatible endpoints):</strong> when a bot calls a model, the app issues an HTTPS request from your phone directly to the API base URL you set, using your API key. The request body (prompts, conversation history) is visible to that provider per its own privacy policy. We do not proxy this traffic.</li>
+      <li><strong class="text-ink">picoclaw agent (bundled binary):</strong> when you use the Picobot / agent mode, an embedded Go binary executes on your phone and calls the LLM provider directly with your key. It does not phone home to BotDroid.</li>
+    </ul>
+
+    <h3 class="mt-8 text-base font-semibold text-ink">3.3 — Diagnostic and configuration data (Firebase)</h3>
+    <p class="mt-3">
+      BotDroid integrates Google Firebase to keep the app stable and current. Specifically:
+    </p>
+    <ul class="mt-3 space-y-2 text-inkdim">
+      <li><strong class="text-ink">Firebase Crashlytics:</strong> crash stack traces, device model, OS version, app version, a stable installation ID, and breadcrumb logs we emit (which contain operational events like "bot started", "schedule fired", "LLM call failed: HTTP 401" — never your tokens, keys, message contents, or LLM prompt/response bodies).</li>
+      <li><strong class="text-ink">Firebase Analytics:</strong> standard Google Analytics for Firebase events (app open, screen view, button tap on key flows) plus a small number of custom events we use to understand which features are working (e.g. <code>bot_started</code>, <code>llm_test_succeeded</code>, <code>upgrade_button_tapped</code>). No event carries your tokens, keys, or message contents.</li>
+      <li><strong class="text-ink">Firebase Remote Config:</strong> the app fetches the curated LLM-provider/model catalog (<code>llm_catalog_json</code>) and similar configuration so we can update available models without shipping a new app build. This is a one-way fetch of public configuration; no personal data flows back beyond the standard Firebase request metadata.</li>
+      <li><strong class="text-ink">Firebase Realtime Database (optional, anonymous):</strong> used only if a future feature explicitly opts you in; no personally identifying data is written from the app's default flows in v0.4.0.</li>
+    </ul>
+    <p class="mt-3">
+      Firebase processes the above as a sub-processor on our behalf. See Google's policy at <a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener">firebase.google.com/support/privacy</a> and <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">policies.google.com/privacy</a>.
+    </p>
+
+    <h3 class="mt-8 text-base font-semibold text-ink">3.4 — Purchases (Google Play Billing)</h3>
+    <p class="mt-3">
+      If you upgrade to BotDroid Pro, the purchase is processed by Google Play Billing. We receive a purchase token and product ID from Google to verify your entitlement; we do not receive your full name, email, postal address, or payment instrument. Google's policy applies to the payment itself: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">policies.google.com/privacy</a>.
+    </p>
+
+    <h3 class="mt-8 text-base font-semibold text-ink">3.5 — Marketing website (botdroid.app)</h3>
+    <p class="mt-3">
+      This site is static and does not set tracking cookies of its own. It loads webfonts from Google Fonts and Tailwind from a CDN; those providers see standard request metadata (IP address, user-agent) per their own policies. We do not run analytics on this site at the moment; if that changes, this policy will be updated.
+    </p>
+
+    <!-- 4 PERMISSIONS -->
+    <h2 class="mt-12 text-[12px] tracking-wider2 text-cyan">4 · ANDROID PERMISSIONS WE REQUEST AND WHY</h2>
+    <ul class="mt-3 space-y-2 text-inkdim">
+      <li><strong class="text-ink"><code>INTERNET</code></strong> — to talk to the messaging and LLM providers you configure, and to Firebase.</li>
+      <li><strong class="text-ink"><code>FOREGROUND_SERVICE</code> + <code>FOREGROUND_SERVICE_SPECIAL_USE</code></strong> — the core promise of the app is running bots 24/7. A foreground service keeps your bot process alive in the background and shows the persistent "BotDroid is running" notification required by Android.</li>
+      <li><strong class="text-ink"><code>POST_NOTIFICATIONS</code></strong> — to display the foreground-service notification and, optionally, alerts about bot crashes or scheduled events.</li>
+      <li><strong class="text-ink"><code>REQUEST_IGNORE_BATTERY_OPTIMIZATIONS</code></strong> — Android aggressively kills background work on most OEMs. We ask for this exemption so scheduled triggers and long-running bots actually survive overnight. The prompt is shown only when you tap "Enable" in-app; you can decline.</li>
+      <li><strong class="text-ink"><code>RECEIVE_BOOT_COMPLETED</code></strong> — to restore your scheduled bots after a phone reboot.</li>
+      <li><strong class="text-ink"><code>WAKE_LOCK</code></strong> — to keep the CPU awake while a bot is mid-call, so a long LLM response doesn't get suspended.</li>
+    </ul>
+
+    <!-- 5 RETENTION -->
+    <h2 class="mt-12 text-[12px] tracking-wider2 text-cyan">5 · DATA RETENTION</h2>
+    <ul class="mt-3 space-y-2 text-inkdim">
+      <li><strong class="text-ink">On-device data</strong> (tokens, scripts, logs, schedules, metrics) — retained until you delete the bot, clear app data, or uninstall the app. We have no remote copy to retain or delete on your behalf.</li>
+      <li><strong class="text-ink">Crashlytics crash reports</strong> — retained by Google per Firebase's retention policy (currently up to 90 days for individual crash details, 6 months for aggregated trends).</li>
+      <li><strong class="text-ink">Analytics events</strong> — retained for the period you can configure in your Firebase Analytics user-data-retention setting (default: 2 months for user-level data, 14 months for event-level).</li>
+      <li><strong class="text-ink">Purchase records</strong> — retained by Google Play; we retain only the minimal entitlement state (Free / Pro) needed to unlock features.</li>
+    </ul>
+
+    <!-- 6 RIGHTS -->
+    <h2 class="mt-12 text-[12px] tracking-wider2 text-cyan">6 · YOUR CHOICES AND RIGHTS</h2>
+    <ul class="mt-3 space-y-2 text-inkdim">
+      <li><strong class="text-ink">Delete everything:</strong> uninstalling BotDroid removes all on-device data instantly. There is no separate account to close.</li>
+      <li><strong class="text-ink">Revoke a token:</strong> delete it from inside the relevant provider (e.g. Telegram BotFather) — the local copy in BotDroid becomes inert.</li>
+      <li><strong class="text-ink">Opt out of Crashlytics / Analytics:</strong> email <a href="mailto:support@botdroid.app">support@botdroid.app</a>. We expect to add an in-app toggle in a future release; until then we will handle opt-outs manually on request.</li>
+      <li><strong class="text-ink">Access / correct / port:</strong> because everything personal lives on your device, you already have full access. For diagnostic data Firebase holds on our behalf, contact us and we will request export or deletion from Google.</li>
+      <li><strong class="text-ink">Regional rights (GDPR / UK GDPR / CCPA / LGPD):</strong> you may exercise any rights granted by the law of your residence by emailing <a href="mailto:support@botdroid.app">support@botdroid.app</a>. We aim to respond within 30 days. Legal basis under GDPR is (i) <em>contract</em> for entitlement processing, (ii) <em>legitimate interest</em> for crash diagnostics and product analytics, and (iii) <em>consent</em> for any future opt-in features.</li>
+    </ul>
+
+    <!-- 7 SECURITY -->
+    <h2 class="mt-12 text-[12px] tracking-wider2 text-cyan">7 · SECURITY</h2>
+    <ul class="mt-3 space-y-2 text-inkdim">
+      <li>All API traffic between the app and third-party providers uses HTTPS.</li>
+      <li>Tokens and API keys at rest are encrypted with AES-256-GCM via <code>EncryptedSharedPreferences</code>; the unwrap key is held in the Android Keystore.</li>
+      <li>Bot scripts and the SQLite database are stored in the app's private storage. They are excluded from Android's automatic cloud backup (<code>backup_rules.xml</code> / <code>data_extraction_rules.xml</code>) so tokens are never copied off-device by Auto Backup.</li>
+      <li>Release builds are signed with a developer-controlled key and minified/shrunk by R8.</li>
+      <li>BotDroid does <strong>not</strong> phone home with your tokens, keys, or message contents — there is no backend that could be breached to leak them. The compromise surface is your phone and the third-party providers you've chosen to use.</li>
+    </ul>
+
+    <!-- 8 CHILDREN -->
+    <h2 class="mt-12 text-[12px] tracking-wider2 text-cyan">8 · CHILDREN</h2>
+    <p class="mt-3">
+      BotDroid is a developer tool and is not directed at children under 13 (or the equivalent minimum age in your jurisdiction). We do not knowingly collect data from children. If you believe a child has used the app, contact us and we will work with you to remove any related diagnostic data.
+    </p>
+
+    <!-- 9 INTERNATIONAL -->
+    <h2 class="mt-12 text-[12px] tracking-wider2 text-cyan">9 · INTERNATIONAL TRANSFERS</h2>
+    <p class="mt-3">
+      Crash and analytics data processed by Firebase may be transferred to and stored in the United States and other countries where Google operates. Google's standard contractual clauses and adequacy frameworks apply; see Google's privacy policy for current details.
+    </p>
+
+    <!-- 10 CHANGES -->
+    <h2 class="mt-12 text-[12px] tracking-wider2 text-cyan">10 · CHANGES TO THIS POLICY</h2>
+    <p class="mt-3">
+      We will update this page when the app's data handling changes. Material changes will also be flagged in the app's release notes. The "Last updated" date at the top of this page always reflects the current version.
+    </p>
+
+    <!-- 11 CONTACT -->
+    <h2 class="mt-12 text-[12px] tracking-wider2 text-cyan">11 · CONTACT</h2>
+    <p class="mt-3">
+      Privacy questions, opt-out requests, or regional-rights requests:
+    </p>
+    <p class="mt-2">
+      <a href="mailto:support@botdroid.app">support@botdroid.app</a>
+    </p>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-line bg-base">
+    <div class="mx-auto grid max-w-7xl gap-10 px-5 py-12 lg:grid-cols-12 lg:px-8">
+      <div class="lg:col-span-5">
+        <a href="./" class="flex items-center gap-2.5">
+          <span class="grid h-8 w-8 place-items-center rounded-md border border-cyan/40 bg-cyan-soft">
+            <svg viewBox="0 0 64 64" class="h-5 w-5" fill="none" stroke="#00E5C8" stroke-width="4">
+              <rect x="14" y="22" width="36" height="22" rx="2" />
+              <circle cx="26" cy="33" r="2.4" fill="#00E5C8" stroke="none" />
+              <circle cx="38" cy="33" r="2.4" fill="#00E5C8" stroke="none" />
+              <path d="M32 14v8M22 44v6M42 44v6" stroke-linecap="round" />
+            </svg>
+          </span>
+          <span class="mono text-sm font-bold tracking-wider2">BOTDROID</span>
+        </a>
+        <p class="mt-3 max-w-sm text-sm text-inkdim">Run AI bots 24/7 from your Android phone. No VPS. No SSH. No cloud bill.</p>
+        <p class="mono mt-5 text-[11px] tracking-wider2 text-inkdim">© 2026 BOTDROID · MIT (PICOBOT) · ALL OTHER RIGHTS RESERVED</p>
+      </div>
+      <div class="grid gap-8 sm:grid-cols-3 lg:col-span-7">
+        <div>
+          <h3 class="mono text-[11px] tracking-wider2 text-cyan">PRODUCT</h3>
+          <ul class="mt-4 space-y-2 text-sm text-inkdim">
+            <li><a href="./#features" class="hover:text-ink">Features</a></li>
+            <li><a href="./#how" class="hover:text-ink">How it works</a></li>
+            <li><a href="./#pricing" class="hover:text-ink">Pricing</a></li>
+            <li><a href="./#faq" class="hover:text-ink">FAQ</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="mono text-[11px] tracking-wider2 text-cyan">LEGAL</h3>
+          <ul class="mt-4 space-y-2 text-sm text-inkdim">
+            <li><a href="./privacy.html" class="hover:text-ink">Privacy policy</a></li>
+            <li><a href="mailto:support@botdroid.app" class="hover:text-ink">Data requests</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="mono text-[11px] tracking-wider2 text-cyan">CONNECT</h3>
+          <ul class="mt-4 space-y-2 text-sm text-inkdim">
+            <li><a href="mailto:support@botdroid.app" class="hover:text-ink">support@botdroid.app</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="border-t border-line">
+      <div class="mono mx-auto flex max-w-7xl flex-col items-center justify-between gap-2 px-5 py-5 text-[10px] tracking-wider2 text-inkdim sm:flex-row lg:px-8">
+        <span>PRIVACY&nbsp;v1.0 · LAST&nbsp;UPDATED&nbsp;2026-05-27</span>
+        <span class="flex items-center gap-2"><span class="led inline-block h-1.5 w-1.5 rounded-full bg-cyan text-cyan"></span>SYSTEM&nbsp;ONLINE</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

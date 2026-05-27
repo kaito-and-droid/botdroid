@@ -1,0 +1,749 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BotDroid — Run AI bots 24/7 from your Android phone</title>
+  <meta name="description" content="BotDroid turns your Android phone into a persistent AI-bot host. Telegram, Discord, Slack, Zalo. Bring your own LLM key. No VPS, no SSH, no cloud bill." />
+  <meta name="theme-color" content="#060C09" />
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23060C09'/%3E%3Cpath d='M16 22h32v20H16z' fill='none' stroke='%2300E5C8' stroke-width='3'/%3E%3Ccircle cx='26' cy='32' r='2.5' fill='%2300E5C8'/%3E%3Ccircle cx='38' cy='32' r='2.5' fill='%2300E5C8'/%3E%3Cpath d='M32 14v8M22 42v6M42 42v6' stroke='%2300E5C8' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E" />
+
+  <!-- OG / Twitter -->
+  <meta property="og:title" content="BotDroid — Run AI bots 24/7 from your Android phone" />
+  <meta property="og:description" content="Telegram, Discord, Slack, Zalo bots that run forever. No VPS. Bring your own LLM key." />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            base: '#060C09',
+            panel: '#0C1612',
+            panel2: '#121C18',
+            line: '#1F2A24',
+            ink: '#E6EFEA',
+            inkdim: '#8FA39A',
+            cyan: { DEFAULT: '#00E5C8', soft: '#00E5C81A' },
+            amber: { DEFAULT: '#FFB830', soft: '#FFB8301A' },
+            danger: '#FF5555',
+          },
+          fontFamily: {
+            mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+            sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+          },
+          letterSpacing: { wider2: '0.14em' },
+        },
+      },
+    };
+  </script>
+  <style>
+    html, body { background: #060C09; color: #E6EFEA; }
+    body { font-family: 'Inter', system-ui, sans-serif; }
+    .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+    .grid-bg {
+      background-image:
+        linear-gradient(to right, rgba(0,229,200,0.06) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0,229,200,0.06) 1px, transparent 1px);
+      background-size: 48px 48px;
+    }
+    .glow {
+      box-shadow: 0 0 0 1px rgba(0,229,200,0.18), 0 0 64px -16px rgba(0,229,200,0.35);
+    }
+    .glow-amber {
+      box-shadow: 0 0 0 1px rgba(255,184,48,0.25), 0 0 48px -16px rgba(255,184,48,0.35);
+    }
+    .led { box-shadow: 0 0 0 2px #060C09, 0 0 12px 1px currentColor; }
+    .scanline::after {
+      content: ""; position: absolute; inset: 0; pointer-events: none;
+      background: repeating-linear-gradient(to bottom, transparent 0 3px, rgba(0,229,200,0.04) 3px 4px);
+      mix-blend-mode: screen;
+    }
+    @keyframes blink { 0%, 60% { opacity: 1; } 61%, 100% { opacity: 0; } }
+    .cursor { animation: blink 1.05s steps(1) infinite; }
+    @keyframes ping-soft { 0% { transform: scale(1); opacity: 0.8; } 80%, 100% { transform: scale(2.6); opacity: 0; } }
+    .ping-soft::before {
+      content: ""; position: absolute; inset: 0; border-radius: 9999px;
+      background: currentColor; animation: ping-soft 1.6s cubic-bezier(0,0,0.2,1) infinite;
+    }
+    details[open] .chev { transform: rotate(180deg); }
+    .chev { transition: transform 0.2s ease; }
+  </style>
+</head>
+<body class="min-h-screen antialiased">
+
+  <!-- NAV -->
+  <header class="sticky top-0 z-40 border-b border-line/80 bg-base/85 backdrop-blur">
+    <div class="mx-auto flex max-w-7xl items-center justify-between px-5 py-3.5 lg:px-8">
+      <a href="#" class="flex items-center gap-2.5">
+        <span class="grid h-8 w-8 place-items-center rounded-md border border-cyan/40 bg-cyan-soft">
+          <svg viewBox="0 0 64 64" class="h-5 w-5" fill="none" stroke="#00E5C8" stroke-width="4">
+            <rect x="14" y="22" width="36" height="22" rx="2" />
+            <circle cx="26" cy="33" r="2.4" fill="#00E5C8" stroke="none" />
+            <circle cx="38" cy="33" r="2.4" fill="#00E5C8" stroke="none" />
+            <path d="M32 14v8M22 44v6M42 44v6" stroke-linecap="round" />
+          </svg>
+        </span>
+        <span class="mono text-sm font-bold tracking-wider2">BOTDROID</span>
+        <span class="mono ml-1 hidden rounded border border-cyan/30 px-1.5 py-0.5 text-[10px] tracking-wider2 text-cyan sm:inline">v0.4.0 BETA</span>
+      </a>
+      <nav class="hidden items-center gap-7 text-sm text-inkdim md:flex">
+        <a href="#features" class="hover:text-ink">Features</a>
+        <a href="#how" class="hover:text-ink">How it works</a>
+        <a href="#compare" class="hover:text-ink">Compare</a>
+        <a href="#pricing" class="hover:text-ink">Pricing</a>
+        <a href="#faq" class="hover:text-ink">FAQ</a>
+      </nav>
+      <a href="#cta" class="mono inline-flex items-center gap-2 rounded-md border border-cyan bg-cyan-soft px-3.5 py-2 text-xs font-bold tracking-wider2 text-cyan hover:bg-cyan hover:text-base">
+        GET IT
+        <svg viewBox="0 0 24 24" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="relative overflow-hidden border-b border-line">
+    <div class="absolute inset-0 grid-bg opacity-60"></div>
+    <div class="absolute -top-40 left-1/2 h-[40rem] w-[40rem] -translate-x-1/2 rounded-full bg-cyan/10 blur-3xl"></div>
+    <div class="relative mx-auto max-w-7xl px-5 pb-20 pt-14 lg:grid lg:grid-cols-12 lg:gap-10 lg:px-8 lg:pt-20">
+
+      <div class="lg:col-span-7">
+        <div class="mono inline-flex items-center gap-2 rounded-full border border-cyan/30 bg-cyan-soft px-3 py-1 text-[11px] tracking-wider2 text-cyan">
+          <span class="led inline-block h-1.5 w-1.5 rounded-full bg-cyan text-cyan"></span>
+          SYSTEM&nbsp;ONLINE&nbsp;·&nbsp;V0.4.0&nbsp;PUBLIC&nbsp;BETA
+        </div>
+
+        <h1 class="mt-5 text-4xl font-bold leading-[1.05] tracking-tight text-ink sm:text-5xl lg:text-6xl">
+          Run AI bots <span class="text-cyan">24/7</span><br />
+          from your Android <span class="relative inline-block">phone<svg viewBox="0 0 200 12" class="absolute -bottom-2 left-0 h-2 w-full text-amber" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M2 8 Q 50 0 100 6 T 198 4"/></svg></span>.
+        </h1>
+
+        <p class="mt-6 max-w-xl text-lg text-inkdim">
+          Paste a token, paste an LLM key, tap <span class="mono text-cyan">START</span>. Your bot runs as a foreground service — surviving screen-off, reboots, and OEM battery killers. <span class="text-ink">No VPS. No SSH. No cloud bill.</span>
+        </p>
+
+        <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+          <a id="cta-top" href="#cta" class="mono inline-flex items-center justify-center gap-2 rounded-md bg-cyan px-5 py-3.5 text-sm font-bold tracking-wider2 text-base hover:bg-ink">
+            GET ON GOOGLE PLAY
+            <svg viewBox="0 0 24 24" class="h-4 w-4" fill="currentColor"><path d="M3.6 2.2c-.4.3-.6.7-.6 1.3v17c0 .6.2 1 .6 1.3l9.3-9.6L3.6 2.2zm10.5 9.2 2.7 2.8-9 5.2 6.3-8zm0-1.4-6.3-8 9 5.2-2.7 2.8zm5.6-1.4 2.4 1.4c.9.5.9 1.7 0 2.2l-2.4 1.4-3-3 3-3z"/></svg>
+          </a>
+          <a href="#how" class="mono inline-flex items-center justify-center gap-2 rounded-md border border-line bg-panel px-5 py-3.5 text-sm font-bold tracking-wider2 text-ink hover:border-cyan">
+            HOW IT WORKS
+            <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+          </a>
+        </div>
+
+        <!-- proof strip -->
+        <dl class="mono mt-10 grid max-w-xl grid-cols-3 gap-px overflow-hidden rounded-lg border border-line bg-line text-center">
+          <div class="bg-panel p-4">
+            <dt class="text-[10px] tracking-wider2 text-inkdim">UPTIME</dt>
+            <dd class="mt-1 text-xl font-bold text-cyan">24/7</dd>
+          </div>
+          <div class="bg-panel p-4">
+            <dt class="text-[10px] tracking-wider2 text-inkdim">PROVIDERS</dt>
+            <dd class="mt-1 text-xl font-bold text-cyan">8</dd>
+          </div>
+          <div class="bg-panel p-4">
+            <dt class="text-[10px] tracking-wider2 text-inkdim">VPS COST</dt>
+            <dd class="mt-1 text-xl font-bold text-amber">$0</dd>
+          </div>
+        </dl>
+
+        <p class="mono mt-5 text-[11px] tracking-wider2 text-inkdim">
+          ENCRYPTED&nbsp;AT&nbsp;REST · AES-256-GCM · ANDROID&nbsp;KEYSTORE · NO&nbsp;TELEMETRY&nbsp;ON&nbsp;BOT&nbsp;CONTENT
+        </p>
+      </div>
+
+      <!-- Phone mockup -->
+      <div class="relative mt-14 lg:col-span-5 lg:mt-0">
+        <div class="relative mx-auto w-[300px] sm:w-[340px]">
+          <div class="absolute -inset-10 -z-10 rounded-full bg-cyan/10 blur-3xl"></div>
+          <div class="relative rounded-[2.5rem] border border-line bg-panel p-3 glow">
+            <div class="rounded-[2rem] border border-line bg-base">
+              <!-- notch -->
+              <div class="flex items-center justify-center pt-2">
+                <div class="h-1.5 w-20 rounded-full bg-line"></div>
+              </div>
+              <!-- status bar -->
+              <div class="mono flex items-center justify-between px-5 py-2 text-[10px] tracking-wider2 text-inkdim">
+                <span>09:41</span>
+                <div class="flex items-center gap-1.5">
+                  <span class="inline-block h-1.5 w-1.5 rounded-full bg-cyan"></span>
+                  <span>5G</span>
+                  <span>87%</span>
+                </div>
+              </div>
+              <!-- screen content -->
+              <div class="relative overflow-hidden px-4 pb-5 scanline">
+                <!-- header -->
+                <div class="flex items-center justify-between">
+                  <div>
+                    <div class="mono text-[10px] tracking-wider2 text-inkdim">SYSTEM</div>
+                    <div class="mono mt-0.5 text-sm font-bold text-cyan">NOMINAL · 3 RUNNING</div>
+                  </div>
+                  <button class="mono rounded border border-danger/40 px-2 py-1 text-[10px] tracking-wider2 text-danger">STOP ALL</button>
+                </div>
+
+                <!-- readout grid -->
+                <div class="mono mt-3 grid grid-cols-3 gap-1.5 text-center">
+                  <div class="rounded-md border border-line bg-panel py-2">
+                    <div class="text-[8px] tracking-wider2 text-inkdim">BOTS</div>
+                    <div class="text-base font-bold text-ink">3</div>
+                  </div>
+                  <div class="rounded-md border border-line bg-panel py-2">
+                    <div class="text-[8px] tracking-wider2 text-inkdim">TOKENS</div>
+                    <div class="text-base font-bold text-ink">42K</div>
+                  </div>
+                  <div class="rounded-md border border-line bg-panel py-2">
+                    <div class="text-[8px] tracking-wider2 text-inkdim">SPEND</div>
+                    <div class="text-base font-bold text-amber">$0.12</div>
+                  </div>
+                </div>
+
+                <!-- bot cards -->
+                <div class="mt-4 space-y-2">
+                  <div class="relative overflow-hidden rounded-md border border-line bg-panel p-3">
+                    <span class="absolute left-0 top-0 h-full w-1 bg-cyan"></span>
+                    <div class="ml-2 flex items-center justify-between">
+                      <div>
+                        <div class="mono text-[11px] font-bold text-ink">SUPPORT-FAQ</div>
+                        <div class="mono mt-0.5 text-[9px] tracking-wider2 text-inkdim">TELEGRAM · GPT-4O-MINI</div>
+                      </div>
+                      <span class="mono inline-flex items-center gap-1 rounded border border-cyan/40 bg-cyan-soft px-1.5 py-0.5 text-[9px] tracking-wider2 text-cyan">
+                        <span class="relative inline-block h-1.5 w-1.5 rounded-full bg-cyan text-cyan ping-soft"></span>
+                        ACTIVE
+                      </span>
+                    </div>
+                  </div>
+                  <div class="relative overflow-hidden rounded-md border border-line bg-panel p-3">
+                    <span class="absolute left-0 top-0 h-full w-1 bg-cyan"></span>
+                    <div class="ml-2 flex items-center justify-between">
+                      <div>
+                        <div class="mono text-[11px] font-bold text-ink">DISCORD-MOD</div>
+                        <div class="mono mt-0.5 text-[9px] tracking-wider2 text-inkdim">DISCORD · CLAUDE-SONNET</div>
+                      </div>
+                      <span class="mono inline-flex items-center gap-1 rounded border border-cyan/40 bg-cyan-soft px-1.5 py-0.5 text-[9px] tracking-wider2 text-cyan">
+                        <span class="inline-block h-1.5 w-1.5 rounded-full bg-cyan"></span>
+                        ACTIVE
+                      </span>
+                    </div>
+                  </div>
+                  <div class="relative overflow-hidden rounded-md border border-line bg-panel p-3">
+                    <span class="absolute left-0 top-0 h-full w-1 bg-amber"></span>
+                    <div class="ml-2 flex items-center justify-between">
+                      <div>
+                        <div class="mono text-[11px] font-bold text-ink">PYTHON-NOTIFIER</div>
+                        <div class="mono mt-0.5 text-[9px] tracking-wider2 text-inkdim">SCRIPT · 02:17 UPTIME</div>
+                      </div>
+                      <span class="mono inline-flex items-center gap-1 rounded border border-amber/40 bg-amber-soft px-1.5 py-0.5 text-[9px] tracking-wider2 text-amber">
+                        <span class="inline-block h-1.5 w-1.5 rounded-full bg-amber"></span>
+                        IDLE
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- log strip -->
+                <div class="mono mt-4 rounded-md border border-line bg-base p-2.5 text-[9px] leading-relaxed text-inkdim">
+                  <div><span class="text-cyan">[INFO]</span> 09:41:02 bot=support-faq msg_in</div>
+                  <div><span class="text-cyan">[INFO]</span> 09:41:03 llm.openrouter 412 tok</div>
+                  <div><span class="text-cyan">[INFO]</span> 09:41:04 msg_out · 312 ms</div>
+                  <div><span class="text-amber">[WARN]</span> 09:40:11 retry backoff=8s</div>
+                  <div class="text-ink">$ <span class="cursor">▍</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- side buttons -->
+          <span class="absolute -right-1 top-24 h-12 w-0.5 rounded bg-line"></span>
+          <span class="absolute -left-1 top-20 h-8 w-0.5 rounded bg-line"></span>
+          <span class="absolute -left-1 top-32 h-14 w-0.5 rounded bg-line"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LOGO STRIP / PROVIDER BAR -->
+  <section class="border-b border-line bg-base">
+    <div class="mx-auto max-w-7xl px-5 py-7 lg:px-8">
+      <p class="mono text-center text-[11px] tracking-wider2 text-inkdim">— BRING&nbsp;YOUR&nbsp;OWN&nbsp;KEY · WORKS&nbsp;WITH —</p>
+      <div class="mono mt-4 flex flex-wrap items-center justify-center gap-x-7 gap-y-3 text-xs tracking-wider2 text-ink/80">
+        <span>OPENAI</span><span class="text-line">·</span>
+        <span>ANTHROPIC</span><span class="text-line">·</span>
+        <span>OPENROUTER</span><span class="text-line">·</span>
+        <span>GEMINI</span><span class="text-line">·</span>
+        <span>DEEPSEEK</span><span class="text-line">·</span>
+        <span>xAI</span><span class="text-line">·</span>
+        <span>NVIDIA</span><span class="text-line">·</span>
+        <span class="text-cyan">+ ANY OPENAI-COMPATIBLE</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROBLEM / SOLUTION -->
+  <section class="border-b border-line">
+    <div class="mx-auto max-w-7xl px-5 py-20 lg:px-8">
+      <div class="mx-auto max-w-2xl text-center">
+        <p class="mono text-[11px] tracking-wider2 text-cyan">// THE PROBLEM</p>
+        <h2 class="mt-2 text-3xl font-bold text-ink sm:text-4xl">
+          Running a Telegram or AI bot shouldn't require a server.
+        </h2>
+        <p class="mt-4 text-inkdim">
+          A side-project bot that handles 30 messages a day doesn't deserve a $5–15/mo VPS, an SSH key, a Linux distro to update, and a process to babysit.
+        </p>
+      </div>
+
+      <div class="mt-12 grid gap-5 md:grid-cols-3">
+        <div class="rounded-xl border border-line bg-panel p-6">
+          <div class="mono inline-flex items-center gap-2 text-[11px] tracking-wider2 text-danger">
+            <span class="led inline-block h-1.5 w-1.5 rounded-full bg-danger text-danger"></span>
+            VPS&nbsp;BILL
+          </div>
+          <p class="mt-4 text-ink">$60–180/year for compute that's idle 99% of the time. You're paying for the privilege of restarting `systemd` after every kernel update.</p>
+        </div>
+        <div class="rounded-xl border border-line bg-panel p-6">
+          <div class="mono inline-flex items-center gap-2 text-[11px] tracking-wider2 text-danger">
+            <span class="led inline-block h-1.5 w-1.5 rounded-full bg-danger text-danger"></span>
+            SETUP&nbsp;HELL
+          </div>
+          <p class="mt-4 text-ink">SSH, firewall, Python, virtualenv, systemd unit, log rotation, secret management, TLS, reverse proxy — before a single message gets answered.</p>
+        </div>
+        <div class="rounded-xl border border-line bg-panel p-6">
+          <div class="mono inline-flex items-center gap-2 text-[11px] tracking-wider2 text-danger">
+            <span class="led inline-block h-1.5 w-1.5 rounded-full bg-danger text-danger"></span>
+            BABYSITTING
+          </div>
+          <p class="mt-4 text-ink">Process crashed at 3am. Disk full. CVE in your distro. You woke up to 200 unanswered DMs and an angry user.</p>
+        </div>
+      </div>
+
+      <div class="mt-14 rounded-2xl border border-cyan/30 bg-cyan-soft p-7 lg:p-10">
+        <div class="grid items-center gap-8 lg:grid-cols-12">
+          <div class="lg:col-span-7">
+            <p class="mono text-[11px] tracking-wider2 text-cyan">// THE SOLUTION</p>
+            <h3 class="mt-2 text-2xl font-bold text-ink sm:text-3xl">
+              Your Android phone is a server you're already paying for.
+            </h3>
+            <p class="mt-3 text-inkdim">
+              BotDroid runs every bot as a foreground OS process with a WakeLock — the same primitive that keeps your music app alive. Survives screen-off, app-swiped, and OEM battery killers. Restarts itself on crash. Comes back after reboot.
+            </p>
+          </div>
+          <ul class="mono space-y-2.5 text-sm tracking-wider2 text-ink lg:col-span-5">
+            <li class="flex items-start gap-3"><span class="mt-1.5 inline-block h-1.5 w-1.5 rounded-full bg-cyan"></span>FOREGROUND&nbsp;SERVICE&nbsp;+&nbsp;WAKELOCK</li>
+            <li class="flex items-start gap-3"><span class="mt-1.5 inline-block h-1.5 w-1.5 rounded-full bg-cyan"></span>EXPONENTIAL-BACKOFF&nbsp;RESTART</li>
+            <li class="flex items-start gap-3"><span class="mt-1.5 inline-block h-1.5 w-1.5 rounded-full bg-cyan"></span>BOOT&nbsp;RESTORE&nbsp;ON&nbsp;DEVICE&nbsp;REBOOT</li>
+            <li class="flex items-start gap-3"><span class="mt-1.5 inline-block h-1.5 w-1.5 rounded-full bg-cyan"></span>DAILY&nbsp;SCHEDULED&nbsp;START/STOP</li>
+            <li class="flex items-start gap-3"><span class="mt-1.5 inline-block h-1.5 w-1.5 rounded-full bg-cyan"></span>ENCRYPTED&nbsp;LOCAL&nbsp;STORAGE</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section id="features" class="border-b border-line">
+    <div class="mx-auto max-w-7xl px-5 py-20 lg:px-8">
+      <div class="mx-auto max-w-2xl text-center">
+        <p class="mono text-[11px] tracking-wider2 text-cyan">// FEATURES</p>
+        <h2 class="mt-2 text-3xl font-bold text-ink sm:text-4xl">Everything a bot needs. Nothing it doesn't.</h2>
+        <p class="mt-4 text-inkdim">Built for the indie dev who'd rather ship a bot than learn another DevOps tool.</p>
+      </div>
+
+      <div class="mt-12 grid gap-px overflow-hidden rounded-2xl border border-line bg-line md:grid-cols-2 lg:grid-cols-3">
+        <!-- card -->
+        <div class="group bg-panel p-7 hover:bg-panel2">
+          <div class="mono flex items-center gap-2 text-[11px] tracking-wider2 text-cyan">
+            <span class="grid h-7 w-7 place-items-center rounded border border-cyan/40 bg-cyan-soft">
+              <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 9h18M7 14h4"/></svg>
+            </span>
+            01 · TWO BOT TYPES
+          </div>
+          <h3 class="mt-4 text-lg font-bold text-ink">Picobot agent + Python script</h3>
+          <p class="mt-2 text-sm text-inkdim">A bundled AI agent runtime ships in the APK. Or paste raw Python and import from any GitHub URL — BotDroid downloads CPython 3.15 ARM64 once and SHA-256–verifies it.</p>
+        </div>
+
+        <div class="bg-panel p-7 hover:bg-panel2">
+          <div class="mono flex items-center gap-2 text-[11px] tracking-wider2 text-cyan">
+            <span class="grid h-7 w-7 place-items-center rounded border border-cyan/40 bg-cyan-soft">
+              <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>
+            </span>
+            02 · BRING YOUR OWN KEY
+          </div>
+          <h3 class="mt-4 text-lg font-bold text-ink">8 LLM providers, validated</h3>
+          <p class="mt-2 text-sm text-inkdim">OpenAI, Anthropic, OpenRouter, Gemini, DeepSeek, xAI, NVIDIA, or any OpenAI-compatible endpoint. The Add-Bot flow pings your key before saving — no silent misconfig.</p>
+        </div>
+
+        <div class="bg-panel p-7 hover:bg-panel2">
+          <div class="mono flex items-center gap-2 text-[11px] tracking-wider2 text-cyan">
+            <span class="grid h-7 w-7 place-items-center rounded border border-cyan/40 bg-cyan-soft">
+              <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
+            </span>
+            03 · MULTI-CHANNEL
+          </div>
+          <h3 class="mt-4 text-lg font-bold text-ink">Telegram · Discord · Slack · Zalo</h3>
+          <p class="mt-2 text-sm text-inkdim">Pick a channel in the Add-Bot flow. Telegram and Zalo persist a 40-message rolling memory window per chat to Room — your bot remembers context.</p>
+        </div>
+
+        <div class="bg-panel p-7 hover:bg-panel2">
+          <div class="mono flex items-center gap-2 text-[11px] tracking-wider2 text-cyan">
+            <span class="grid h-7 w-7 place-items-center rounded border border-cyan/40 bg-cyan-soft">
+              <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/></svg>
+            </span>
+            04 · 24/7 PERSISTENCE
+          </div>
+          <h3 class="mt-4 text-lg font-bold text-ink">Survives screen-off, crash, reboot</h3>
+          <p class="mt-2 text-sm text-inkdim">Foreground service + WakeLock + START_STICKY. Exponential-backoff restart on crash, capped at 120 s. AlarmManager keeps daily schedules; boot receiver restores them.</p>
+        </div>
+
+        <div class="bg-panel p-7 hover:bg-panel2">
+          <div class="mono flex items-center gap-2 text-[11px] tracking-wider2 text-cyan">
+            <span class="grid h-7 w-7 place-items-center rounded border border-cyan/40 bg-cyan-soft">
+              <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6v6H9z"/></svg>
+            </span>
+            05 · OPERATIONAL DASHBOARD
+          </div>
+          <h3 class="mt-4 text-lg font-bold text-ink">Per-provider spend, in real time</h3>
+          <p class="mt-2 text-sm text-inkdim">Sessions, requests, input/output tokens, throughput, estimated cost — aggregated per bot and per provider. Crashlytics on every lifecycle event.</p>
+        </div>
+
+        <div class="bg-panel p-7 hover:bg-panel2">
+          <div class="mono flex items-center gap-2 text-[11px] tracking-wider2 text-cyan">
+            <span class="grid h-7 w-7 place-items-center rounded border border-cyan/40 bg-cyan-soft">
+              <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+            </span>
+            06 · LOCAL-FIRST SECURITY
+          </div>
+          <h3 class="mt-4 text-lg font-bold text-ink">AES-256-GCM, Android Keystore</h3>
+          <p class="mt-2 text-sm text-inkdim">Every secret lives in EncryptedSharedPreferences, keyed per bot. Wiped atomically on delete. Logs and metrics stay on-device — only your LLM calls leave the phone.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how" class="relative border-b border-line">
+    <div class="absolute inset-0 grid-bg opacity-30"></div>
+    <div class="relative mx-auto max-w-7xl px-5 py-20 lg:px-8">
+      <div class="mx-auto max-w-2xl text-center">
+        <p class="mono text-[11px] tracking-wider2 text-cyan">// HOW IT WORKS</p>
+        <h2 class="mt-2 text-3xl font-bold text-ink sm:text-4xl">Zero to running bot, in under 3 minutes.</h2>
+      </div>
+
+      <ol class="mt-14 grid gap-5 md:grid-cols-3">
+        <li class="relative rounded-xl border border-line bg-panel p-7">
+          <div class="mono absolute -top-3 left-6 rounded bg-base px-2 py-0.5 text-[10px] tracking-wider2 text-cyan">STEP 01</div>
+          <div class="mono mt-2 text-4xl font-bold text-cyan">01</div>
+          <h3 class="mt-2 text-lg font-bold text-ink">Install + grant battery exemption</h3>
+          <p class="mt-2 text-sm text-inkdim">One Play install. The app asks for the battery-optimization exemption once so Samsung / Xiaomi / Oppo don't kill your bot at 2am.</p>
+          <pre class="mono mt-4 overflow-x-auto rounded border border-line bg-base p-3 text-[11px] leading-snug text-inkdim"><span class="text-cyan">▸</span> tap "Install"
+<span class="text-cyan">▸</span> tap "Allow battery exemption"
+<span class="text-cyan">▸</span> ready.</pre>
+        </li>
+
+        <li class="relative rounded-xl border border-line bg-panel p-7">
+          <div class="mono absolute -top-3 left-6 rounded bg-base px-2 py-0.5 text-[10px] tracking-wider2 text-cyan">STEP 02</div>
+          <div class="mono mt-2 text-4xl font-bold text-cyan">02</div>
+          <h3 class="mt-2 text-lg font-bold text-ink">Paste a token, paste a key</h3>
+          <p class="mt-2 text-sm text-inkdim">Pick Telegram / Discord / Slack / Zalo. Drop in your bot token + LLM key. Hit "Test connection" — BotDroid pings the provider and confirms.</p>
+          <pre class="mono mt-4 overflow-x-auto rounded border border-line bg-base p-3 text-[11px] leading-snug"><span class="text-inkdim">channel</span>  <span class="text-ink">telegram</span>
+<span class="text-inkdim">model</span>    <span class="text-ink">openai/gpt-4o-mini</span>
+<span class="text-inkdim">test</span>     <span class="text-cyan">200 OK · 412 ms</span></pre>
+        </li>
+
+        <li class="relative rounded-xl border border-line bg-panel p-7">
+          <div class="mono absolute -top-3 left-6 rounded bg-base px-2 py-0.5 text-[10px] tracking-wider2 text-cyan">STEP 03</div>
+          <div class="mono mt-2 text-4xl font-bold text-cyan">03</div>
+          <h3 class="mt-2 text-lg font-bold text-ink">Tap START. Walk away.</h3>
+          <p class="mt-2 text-sm text-inkdim">Foreground service starts. Bot answers in your channel. Lock the phone, leave the room — uptime ticker keeps counting. Live logs are always one tap away.</p>
+          <pre class="mono mt-4 overflow-x-auto rounded border border-line bg-base p-3 text-[11px] leading-snug"><span class="text-cyan">[INFO]</span> bot=support · RUNNING
+<span class="text-cyan">[INFO]</span> uptime 04:17:32
+<span class="text-amber">[WARN]</span> retry backoff=8s · recovered</pre>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- COMPARISON -->
+  <section id="compare" class="border-b border-line">
+    <div class="mx-auto max-w-7xl px-5 py-20 lg:px-8">
+      <div class="mx-auto max-w-2xl text-center">
+        <p class="mono text-[11px] tracking-wider2 text-cyan">// COMPARE</p>
+        <h2 class="mt-2 text-3xl font-bold text-ink sm:text-4xl">VPS vs. Pi vs. BotDroid</h2>
+        <p class="mt-4 text-inkdim">For a side-project bot serving &lt; 10k messages/day.</p>
+      </div>
+
+      <div class="mono mt-12 overflow-hidden rounded-2xl border border-line">
+        <div class="grid grid-cols-4 border-b border-line bg-panel2 text-[11px] tracking-wider2">
+          <div class="p-4 text-inkdim"></div>
+          <div class="p-4 text-inkdim">$5&nbsp;VPS</div>
+          <div class="p-4 text-inkdim">RASPBERRY&nbsp;PI</div>
+          <div class="p-4 text-cyan">BOTDROID</div>
+        </div>
+        <div class="divide-y divide-line bg-panel">
+          <div class="grid grid-cols-4 items-center text-sm">
+            <div class="p-4 text-inkdim">Setup time</div>
+            <div class="p-4 text-ink">~2–4 hrs</div>
+            <div class="p-4 text-ink">~1–2 hrs + hardware</div>
+            <div class="p-4 text-cyan">3 minutes</div>
+          </div>
+          <div class="grid grid-cols-4 items-center text-sm">
+            <div class="p-4 text-inkdim">Monthly cost</div>
+            <div class="p-4 text-ink">$5–15</div>
+            <div class="p-4 text-ink">$0 (after ~$60 buy-in)</div>
+            <div class="p-4 text-cyan">$0</div>
+          </div>
+          <div class="grid grid-cols-4 items-center text-sm">
+            <div class="p-4 text-inkdim">Linux required</div>
+            <div class="p-4 text-ink">Yes</div>
+            <div class="p-4 text-ink">Yes</div>
+            <div class="p-4 text-cyan">No</div>
+          </div>
+          <div class="grid grid-cols-4 items-center text-sm">
+            <div class="p-4 text-inkdim">Crash auto-restart</div>
+            <div class="p-4 text-ink">systemd / pm2 (DIY)</div>
+            <div class="p-4 text-ink">systemd (DIY)</div>
+            <div class="p-4 text-cyan">Built-in · backoff</div>
+          </div>
+          <div class="grid grid-cols-4 items-center text-sm">
+            <div class="p-4 text-inkdim">Reboot recovery</div>
+            <div class="p-4 text-ink">DIY</div>
+            <div class="p-4 text-ink">DIY</div>
+            <div class="p-4 text-cyan">Built-in</div>
+          </div>
+          <div class="grid grid-cols-4 items-center text-sm">
+            <div class="p-4 text-inkdim">Cost dashboard</div>
+            <div class="p-4 text-ink">—</div>
+            <div class="p-4 text-ink">—</div>
+            <div class="p-4 text-cyan">Per-bot · per-provider</div>
+          </div>
+          <div class="grid grid-cols-4 items-center text-sm">
+            <div class="p-4 text-inkdim">Encrypted secrets</div>
+            <div class="p-4 text-ink">DIY (vault / env)</div>
+            <div class="p-4 text-ink">DIY</div>
+            <div class="p-4 text-cyan">Keystore + AES-256-GCM</div>
+          </div>
+        </div>
+      </div>
+      <p class="mono mt-4 text-center text-[11px] tracking-wider2 text-inkdim">// COMPARISON&nbsp;TARGETS&nbsp;TYPICAL&nbsp;DIY&nbsp;DEPLOY · YOUR&nbsp;MILEAGE&nbsp;MAY&nbsp;VARY</p>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section id="pricing" class="border-b border-line">
+    <div class="mx-auto max-w-7xl px-5 py-20 lg:px-8">
+      <div class="mx-auto max-w-2xl text-center">
+        <p class="mono text-[11px] tracking-wider2 text-cyan">// PRICING</p>
+        <h2 class="mt-2 text-3xl font-bold text-ink sm:text-4xl">Free to run one bot, forever.</h2>
+        <p class="mt-4 text-inkdim">Pro is for users running a fleet. Both tiers use your own LLM keys — we never proxy your API traffic.</p>
+      </div>
+
+      <div class="mt-12 grid gap-5 lg:grid-cols-2">
+        <!-- Free -->
+        <div class="rounded-2xl border border-line bg-panel p-8">
+          <div class="mono text-[11px] tracking-wider2 text-inkdim">// FREE</div>
+          <div class="mt-2 flex items-baseline gap-2">
+            <span class="text-5xl font-bold text-ink">$0</span>
+            <span class="mono text-sm text-inkdim">forever</span>
+          </div>
+          <p class="mt-3 text-sm text-inkdim">Everything you need to ship one production bot.</p>
+          <ul class="mono mt-6 space-y-2.5 text-sm text-ink">
+            <li class="flex items-start gap-2.5"><span class="mt-1 text-cyan">▸</span> 1 active bot</li>
+            <li class="flex items-start gap-2.5"><span class="mt-1 text-cyan">▸</span> All 8 LLM providers</li>
+            <li class="flex items-start gap-2.5"><span class="mt-1 text-cyan">▸</span> Telegram · Discord · Slack · Zalo</li>
+            <li class="flex items-start gap-2.5"><span class="mt-1 text-cyan">▸</span> Crash auto-restart · boot restore</li>
+            <li class="flex items-start gap-2.5"><span class="mt-1 text-cyan">▸</span> Daily schedule</li>
+            <li class="flex items-start gap-2.5"><span class="mt-1 text-cyan">▸</span> Live logs · spend dashboard</li>
+          </ul>
+          <a href="#cta" class="mono mt-8 inline-flex w-full items-center justify-center gap-2 rounded-md border border-line bg-base px-5 py-3 text-sm font-bold tracking-wider2 text-ink hover:border-cyan">
+            INSTALL FREE
+          </a>
+        </div>
+
+        <!-- Pro -->
+        <div class="relative rounded-2xl border border-cyan bg-panel p-8 glow">
+          <div class="mono absolute -top-3 right-6 rounded-full bg-cyan px-3 py-1 text-[10px] tracking-wider2 text-base">RECOMMENDED</div>
+          <div class="mono text-[11px] tracking-wider2 text-cyan">// PRO</div>
+          <div class="mt-2 flex items-baseline gap-2">
+            <span class="text-5xl font-bold text-ink">$4.99</span>
+            <span class="mono text-sm text-inkdim">/ month</span>
+          </div>
+          <p class="mono mt-1 text-sm tracking-wider2 text-amber">OR $19.99 LIFETIME</p>
+          <p class="mt-3 text-sm text-inkdim">Run a fleet. One purchase. No recurring server bill, ever.</p>
+          <ul class="mono mt-6 space-y-2.5 text-sm text-ink">
+            <li class="flex items-start gap-2.5"><span class="mt-1 text-cyan">▸</span> <span class="text-cyan font-bold">Unlimited</span> active bots</li>
+            <li class="flex items-start gap-2.5"><span class="mt-1 text-cyan">▸</span> Everything in Free</li>
+            <li class="flex items-start gap-2.5"><span class="mt-1 text-cyan">▸</span> Priority bug-fix lane</li>
+            <li class="flex items-start gap-2.5"><span class="mt-1 text-cyan">▸</span> Early access to new channels</li>
+            <li class="flex items-start gap-2.5"><span class="mt-1 text-cyan">▸</span> Support the project</li>
+          </ul>
+          <a href="#cta" class="mono mt-8 inline-flex w-full items-center justify-center gap-2 rounded-md bg-cyan px-5 py-3 text-sm font-bold tracking-wider2 text-base hover:bg-ink">
+            GO PRO
+          </a>
+        </div>
+      </div>
+
+      <p class="mono mt-6 text-center text-[11px] tracking-wider2 text-inkdim">
+        // LLM&nbsp;USAGE&nbsp;IS&nbsp;BILLED&nbsp;DIRECTLY&nbsp;BY&nbsp;YOUR&nbsp;PROVIDER · NOT&nbsp;BY&nbsp;BOTDROID
+      </p>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="border-b border-line">
+    <div class="mx-auto max-w-3xl px-5 py-20 lg:px-8">
+      <div class="text-center">
+        <p class="mono text-[11px] tracking-wider2 text-cyan">// FAQ</p>
+        <h2 class="mt-2 text-3xl font-bold text-ink sm:text-4xl">Common questions.</h2>
+      </div>
+
+      <div class="mt-10 divide-y divide-line overflow-hidden rounded-2xl border border-line bg-panel">
+        <details class="group p-5">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 text-ink">
+            <span class="font-semibold">Will my bot really run 24/7 on a phone?</span>
+            <svg viewBox="0 0 24 24" class="chev h-4 w-4 shrink-0 text-inkdim" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6" stroke-linecap="round"/></svg>
+          </summary>
+          <p class="mt-3 text-sm text-inkdim">Yes — provided you grant the battery-optimization exemption. BotDroid uses Android's foreground-service primitive (same one music players use) plus a partial WakeLock. We tested on aggressive OEMs (Samsung One UI, Xiaomi MIUI). Some manufacturers add extra restrictions on top of stock Android; the in-app Settings screen walks you through them.</p>
+        </details>
+
+        <details class="group p-5">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 text-ink">
+            <span class="font-semibold">Where are my tokens and API keys stored?</span>
+            <svg viewBox="0 0 24 24" class="chev h-4 w-4 shrink-0 text-inkdim" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6" stroke-linecap="round"/></svg>
+          </summary>
+          <p class="mt-3 text-sm text-inkdim">In <span class="mono text-ink">EncryptedSharedPreferences</span> backed by AES-256-GCM keys in the Android Keystore. Per-bot, atomic delete. Never logged, never sent to any BotDroid server — we don't run servers. Outbound traffic only goes from your phone to the LLM provider you configured.</p>
+        </details>
+
+        <details class="group p-5">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 text-ink">
+            <span class="font-semibold">Do I have to know Python to use this?</span>
+            <svg viewBox="0 0 24 24" class="chev h-4 w-4 shrink-0 text-inkdim" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6" stroke-linecap="round"/></svg>
+          </summary>
+          <p class="mt-3 text-sm text-inkdim">No. For an AI bot, pick "Picobot agent," drop in a Telegram token + LLM key, and you're done. Python is only needed if you want full control over the bot's behavior — and even then, paste a script (or import one from a GitHub URL) and BotDroid handles the rest.</p>
+        </details>
+
+        <details class="group p-5">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 text-ink">
+            <span class="font-semibold">Which devices are supported?</span>
+            <svg viewBox="0 0 24 24" class="chev h-4 w-4 shrink-0 text-inkdim" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6" stroke-linecap="round"/></svg>
+          </summary>
+          <p class="mt-3 text-sm text-inkdim">Android 10+ (API 29), ARM64. That's any phone made since ~2019. ARM32 and x86 are not currently supported.</p>
+        </details>
+
+        <details class="group p-5">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 text-ink">
+            <span class="font-semibold">Does BotDroid charge for LLM usage?</span>
+            <svg viewBox="0 0 24 24" class="chev h-4 w-4 shrink-0 text-inkdim" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6" stroke-linecap="round"/></svg>
+          </summary>
+          <p class="mt-3 text-sm text-inkdim">No. You bring your own provider key (OpenAI, Anthropic, OpenRouter, etc.) and your provider bills you directly. BotDroid's in-app dashboard estimates spend so you can see it in one place — we never sit between you and your LLM.</p>
+        </details>
+
+        <details class="group p-5">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 text-ink">
+            <span class="font-semibold">What happens to my bots when I reboot the phone?</span>
+            <svg viewBox="0 0 24 24" class="chev h-4 w-4 shrink-0 text-inkdim" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6" stroke-linecap="round"/></svg>
+          </summary>
+          <p class="mt-3 text-sm text-inkdim">A boot receiver re-starts every bot that was running, and restores active daily schedules. Crash counts and uptime tickers reset; conversation memory (Telegram + Zalo) persists across reboots via Room.</p>
+        </details>
+
+        <details class="group p-5">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 text-ink">
+            <span class="font-semibold">Is the source code available?</span>
+            <svg viewBox="0 0 24 24" class="chev h-4 w-4 shrink-0 text-inkdim" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6" stroke-linecap="round"/></svg>
+          </summary>
+          <p class="mt-3 text-sm text-inkdim">The app is closed-source today. The embedded AI agent runtime (<span class="mono text-ink">picobot</span>) is open source and bundled via its own Apache-licensed binary.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="cta" class="relative overflow-hidden border-b border-line">
+    <div class="absolute inset-0 grid-bg opacity-50"></div>
+    <div class="absolute -top-40 left-1/2 h-[36rem] w-[36rem] -translate-x-1/2 rounded-full bg-cyan/15 blur-3xl"></div>
+    <div class="relative mx-auto max-w-3xl px-5 py-20 text-center lg:px-8">
+      <div class="mono inline-flex items-center gap-2 rounded-full border border-cyan/30 bg-cyan-soft px-3 py-1 text-[11px] tracking-wider2 text-cyan">
+        <span class="led inline-block h-1.5 w-1.5 rounded-full bg-cyan text-cyan"></span>
+        READY&nbsp;TO&nbsp;DEPLOY
+      </div>
+      <h2 class="mt-5 text-3xl font-bold text-ink sm:text-5xl">Your next bot doesn't need a server.</h2>
+      <p class="mx-auto mt-5 max-w-xl text-inkdim">Install BotDroid, plug in your keys, and ship in three minutes. If you can paste a token, you can run a 24/7 bot.</p>
+      <div class="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+        <a href="#" class="mono inline-flex items-center justify-center gap-2 rounded-md bg-cyan px-6 py-4 text-sm font-bold tracking-wider2 text-base hover:bg-ink">
+          <svg viewBox="0 0 24 24" class="h-4 w-4" fill="currentColor"><path d="M3.6 2.2c-.4.3-.6.7-.6 1.3v17c0 .6.2 1 .6 1.3l9.3-9.6L3.6 2.2zm10.5 9.2 2.7 2.8-9 5.2 6.3-8zm0-1.4-6.3-8 9 5.2-2.7 2.8zm5.6-1.4 2.4 1.4c.9.5.9 1.7 0 2.2l-2.4 1.4-3-3 3-3z"/></svg>
+          GET ON GOOGLE PLAY
+        </a>
+        <a href="https://github.com/" class="mono inline-flex items-center justify-center gap-2 rounded-md border border-line bg-panel px-6 py-4 text-sm font-bold tracking-wider2 text-ink hover:border-cyan">
+          <svg viewBox="0 0 24 24" class="h-4 w-4" fill="currentColor"><path d="M12 .5A12 12 0 0 0 .5 12.5c0 5.3 3.4 9.8 8.2 11.4.6.1.8-.3.8-.6v-2c-3.3.7-4-1.4-4-1.4-.6-1.4-1.4-1.7-1.4-1.7-1.1-.8.1-.8.1-.8 1.2.1 1.9 1.3 1.9 1.3 1.1 1.9 2.9 1.3 3.6 1 .1-.8.4-1.3.8-1.6-2.6-.3-5.4-1.3-5.4-6 0-1.3.5-2.4 1.2-3.3-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.3a11.4 11.4 0 0 1 6 0c2.3-1.6 3.3-1.3 3.3-1.3.7 1.7.3 2.9.1 3.2.8.9 1.2 2 1.2 3.3 0 4.7-2.9 5.7-5.6 6 .5.4.9 1.2.9 2.4v3.6c0 .3.2.7.8.6 4.8-1.6 8.2-6.1 8.2-11.4A12 12 0 0 0 12 .5"/></svg>
+          OPEN SOURCE NOTES
+        </a>
+      </div>
+      <p class="mono mt-6 text-[11px] tracking-wider2 text-inkdim">FREE&nbsp;FOREVER · 1&nbsp;BOT · NO&nbsp;CREDIT&nbsp;CARD</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-base">
+    <div class="mx-auto grid max-w-7xl gap-10 px-5 py-12 lg:grid-cols-12 lg:px-8">
+      <div class="lg:col-span-5">
+        <a href="#" class="flex items-center gap-2.5">
+          <span class="grid h-8 w-8 place-items-center rounded-md border border-cyan/40 bg-cyan-soft">
+            <svg viewBox="0 0 64 64" class="h-5 w-5" fill="none" stroke="#00E5C8" stroke-width="4">
+              <rect x="14" y="22" width="36" height="22" rx="2" />
+              <circle cx="26" cy="33" r="2.4" fill="#00E5C8" stroke="none" />
+              <circle cx="38" cy="33" r="2.4" fill="#00E5C8" stroke="none" />
+              <path d="M32 14v8M22 44v6M42 44v6" stroke-linecap="round" />
+            </svg>
+          </span>
+          <span class="mono text-sm font-bold tracking-wider2">BOTDROID</span>
+        </a>
+        <p class="mt-3 max-w-sm text-sm text-inkdim">Run AI bots 24/7 from your Android phone. No VPS. No SSH. No cloud bill.</p>
+        <p class="mono mt-5 text-[11px] tracking-wider2 text-inkdim">© 2026 BOTDROID · MIT (PICOBOT) · ALL OTHER RIGHTS RESERVED</p>
+      </div>
+
+      <div class="grid gap-8 sm:grid-cols-3 lg:col-span-7">
+        <div>
+          <h3 class="mono text-[11px] tracking-wider2 text-cyan">PRODUCT</h3>
+          <ul class="mt-4 space-y-2 text-sm text-inkdim">
+            <li><a href="#features" class="hover:text-ink">Features</a></li>
+            <li><a href="#how" class="hover:text-ink">How it works</a></li>
+            <li><a href="#pricing" class="hover:text-ink">Pricing</a></li>
+            <li><a href="#faq" class="hover:text-ink">FAQ</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="mono text-[11px] tracking-wider2 text-cyan">RESOURCES</h3>
+          <ul class="mt-4 space-y-2 text-sm text-inkdim">
+            <li><a href="#" class="hover:text-ink">Changelog</a></li>
+            <li><a href="#" class="hover:text-ink">Bot templates</a></li>
+            <li><a href="./privacy.html" class="hover:text-ink">Privacy policy</a></li>
+            <li><a href="#" class="hover:text-ink">Support</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="mono text-[11px] tracking-wider2 text-cyan">CONNECT</h3>
+          <ul class="mt-4 space-y-2 text-sm text-inkdim">
+            <li><a href="#" class="hover:text-ink">X / Twitter</a></li>
+            <li><a href="#" class="hover:text-ink">Reddit</a></li>
+            <li><a href="#" class="hover:text-ink">GitHub</a></li>
+            <li><a href="mailto:support@botdroid.app" class="hover:text-ink">support@botdroid.app</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="border-t border-line">
+      <div class="mono mx-auto flex max-w-7xl flex-col items-center justify-between gap-2 px-5 py-5 text-[10px] tracking-wider2 text-inkdim sm:flex-row lg:px-8">
+        <span>BUILD&nbsp;v0.4.0&nbsp;PUBLIC&nbsp;BETA · COMPILED&nbsp;FOR&nbsp;ARM64</span>
+        <span class="flex items-center gap-2"><span class="led inline-block h-1.5 w-1.5 rounded-full bg-cyan text-cyan"></span>SYSTEM&nbsp;ONLINE</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
