@@ -96,6 +96,7 @@
       <nav class="hidden items-center gap-7 text-sm text-inkdim md:flex">
         <a href="#features" class="hover:text-ink">Features</a>
         <a href="#how" class="hover:text-ink">How it works</a>
+        <a href="#marketplace" class="hover:text-ink">Marketplace</a>
         <a href="#compare" class="hover:text-ink">Compare</a>
         <a href="#pricing" class="hover:text-ink">Pricing</a>
         <a href="#faq" class="hover:text-ink">FAQ</a>
@@ -125,7 +126,7 @@
         </h1>
 
         <p class="mt-6 max-w-xl text-lg text-inkdim">
-          Paste a token, paste an LLM key, tap <span class="mono text-cyan">START</span>. Your bot runs as a foreground service — surviving screen-off, reboots, and OEM battery killers. <span class="text-ink">No VPS. No SSH. No cloud bill.</span>
+          Paste a token, paste an LLM key, tap <span class="mono text-cyan">START</span>. Your bot runs as a foreground service — surviving screen-off, reboots, and OEM battery killers. <span class="text-ink">Free to start. No server required.</span>
         </p>
 
         <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -142,15 +143,15 @@
         <!-- proof strip -->
         <dl class="mono mt-10 grid max-w-xl grid-cols-3 gap-px overflow-hidden rounded-lg border border-line bg-line text-center">
           <div class="bg-panel p-4">
-            <dt class="text-[10px] tracking-wider2 text-inkdim">UPTIME</dt>
-            <dd class="mt-1 text-xl font-bold text-cyan">24/7</dd>
+            <dt class="text-[10px] tracking-wider2 text-inkdim">SETUP</dt>
+            <dd class="mt-1 text-xl font-bold text-cyan">3 MIN</dd>
           </div>
           <div class="bg-panel p-4">
             <dt class="text-[10px] tracking-wider2 text-inkdim">PROVIDERS</dt>
-            <dd class="mt-1 text-xl font-bold text-cyan">8</dd>
+            <dd class="mt-1 text-xl font-bold text-cyan">9</dd>
           </div>
           <div class="bg-panel p-4">
-            <dt class="text-[10px] tracking-wider2 text-inkdim">VPS COST</dt>
+            <dt class="text-[10px] tracking-wider2 text-inkdim">FREE TIER</dt>
             <dd class="mt-1 text-xl font-bold text-amber">$0</dd>
           </div>
         </dl>
@@ -281,6 +282,8 @@
         <span>DEEPSEEK</span><span class="text-line">·</span>
         <span>xAI</span><span class="text-line">·</span>
         <span>NVIDIA</span><span class="text-line">·</span>
+        <span>GROQ</span><span class="text-line">·</span>
+        <span>CLOUDFLARE</span><span class="text-line">·</span>
         <span class="text-cyan">+ ANY OPENAI-COMPATIBLE</span>
       </div>
     </div>
@@ -364,8 +367,8 @@
             </span>
             01 · TWO BOT TYPES
           </div>
-          <h3 class="mt-4 text-lg font-bold text-ink">Picobot agent + Python script</h3>
-          <p class="mt-2 text-sm text-inkdim">A bundled AI agent runtime ships in the APK. Or paste raw Python and import from any GitHub URL — BotDroid downloads CPython 3.15 ARM64 once and SHA-256–verifies it.</p>
+          <h3 class="mt-4 text-lg font-bold text-ink">PicoClaw agent + Python script</h3>
+          <p class="mt-2 text-sm text-inkdim">A bundled AI agent runtime (picoclaw) ships in the APK. Or paste raw Python and import from any GitHub URL — BotDroid downloads CPython 3.15 ARM64 once and SHA-256–verifies it.</p>
         </div>
 
         <div class="bg-panel p-7 hover:bg-panel2">
@@ -375,8 +378,8 @@
             </span>
             02 · BRING YOUR OWN KEY
           </div>
-          <h3 class="mt-4 text-lg font-bold text-ink">8 LLM providers, validated</h3>
-          <p class="mt-2 text-sm text-inkdim">OpenAI, Anthropic, OpenRouter, Gemini, DeepSeek, xAI, NVIDIA, or any OpenAI-compatible endpoint. The Add-Bot flow pings your key before saving — no silent misconfig.</p>
+          <h3 class="mt-4 text-lg font-bold text-ink">9 LLM providers, validated</h3>
+          <p class="mt-2 text-sm text-inkdim">OpenAI, Anthropic, OpenRouter, Gemini, DeepSeek, xAI, NVIDIA, Groq, Cloudflare Workers AI — or any OpenAI-compatible endpoint. The Add-Bot flow pings your key before saving — no silent misconfig.</p>
         </div>
 
         <div class="bg-panel p-7 hover:bg-panel2">
@@ -386,8 +389,8 @@
             </span>
             03 · MULTI-CHANNEL
           </div>
-          <h3 class="mt-4 text-lg font-bold text-ink">Telegram · Discord · Slack · Zalo</h3>
-          <p class="mt-2 text-sm text-inkdim">Pick a channel in the Add-Bot flow. Telegram and Zalo persist a 40-message rolling memory window per chat to Room — your bot remembers context.</p>
+          <h3 class="mt-4 text-lg font-bold text-ink">8 chat channels, one tap</h3>
+          <p class="mt-2 text-sm text-inkdim">Telegram, Discord, Slack, Zalo, LINE, DingTalk, Feishu/Lark, WeCom. Telegram and Zalo are the verified first-class paths and persist a 40-message rolling memory window per chat to Room; the rest run via the picoclaw gateway and carry a BETA badge.</p>
         </div>
 
         <div class="bg-panel p-7 hover:bg-panel2">
@@ -426,6 +429,51 @@
     </div>
   </section>
 
+  <!-- MARKETPLACE -->
+  <section id="marketplace" class="border-b border-line">
+    <div class="mx-auto max-w-7xl px-5 py-20 lg:px-8">
+      <div class="mx-auto max-w-2xl text-center">
+        <p class="mono text-[11px] tracking-wider2 text-amber">// MARKETPLACE · COMING SOON</p>
+        <h2 class="mt-2 text-3xl font-bold text-ink sm:text-4xl">Deploy a bot in one tap. No coding needed.</h2>
+        <p class="mt-4 text-inkdim">On the roadmap: ready-to-deploy bot templates from the community. Each template will include the script, setup instructions, and recommended LLM config. Tap install, and it's running.</p>
+      </div>
+
+      <div class="mt-12 grid gap-5 md:grid-cols-3">
+        <div class="rounded-xl border border-line bg-panel p-6">
+          <div class="mono inline-flex items-center gap-2 text-[11px] tracking-wider2 text-amber">
+            <span class="led inline-block h-1.5 w-1.5 rounded-full bg-amber text-amber"></span>
+            AI&nbsp;ASSISTANT
+          </div>
+          <h3 class="mt-4 text-lg font-bold text-ink">Multi-language FAQ bot</h3>
+          <p class="mt-2 text-sm text-inkdim">Handles customer questions in 5+ languages. Remembers conversation history. Integrates with your knowledge base.</p>
+          <p class="mono mt-3 text-sm text-amber">PLANNED</p>
+        </div>
+        <div class="rounded-xl border border-line bg-panel p-6">
+          <div class="mono inline-flex items-center gap-2 text-[11px] tracking-wider2 text-amber">
+            <span class="led inline-block h-1.5 w-1.5 rounded-full bg-amber text-amber"></span>
+            TRADING
+          </div>
+          <h3 class="mt-4 text-lg font-bold text-ink">Crypto signal bot</h3>
+          <p class="mt-2 text-sm text-inkdim">Monitors price feeds, generates alerts with chart analysis. Customizable thresholds. Multi-exchange support.</p>
+          <p class="mono mt-3 text-sm text-amber">PLANNED</p>
+        </div>
+        <div class="rounded-xl border border-line bg-panel p-6">
+          <div class="mono inline-flex items-center gap-2 text-[11px] tracking-wider2 text-amber">
+            <span class="led inline-block h-1.5 w-1.5 rounded-full bg-amber text-amber"></span>
+            AUTOMATION
+          </div>
+          <h3 class="mt-4 text-lg font-bold text-ink">Daily digest bot</h3>
+          <p class="mt-2 text-sm text-inkdim">Aggregates news, RSS feeds, or calendar events. Sends a formatted summary to your Telegram every morning.</p>
+          <p class="mono mt-3 text-sm text-amber">PLANNED</p>
+        </div>
+      </div>
+
+      <div class="mt-10 text-center">
+        <p class="mono text-[11px] tracking-wider2 text-inkdim">CREATORS: 70% REVENUE SHARE PLANNED · JOIN THE WAITLIST VIA EMAIL</p>
+      </div>
+    </div>
+  </section>
+
   <!-- HOW IT WORKS -->
   <section id="how" class="relative border-b border-line">
     <div class="absolute inset-0 grid-bg opacity-30"></div>
@@ -449,8 +497,8 @@
         <li class="relative rounded-xl border border-line bg-panel p-7">
           <div class="mono absolute -top-3 left-6 rounded bg-base px-2 py-0.5 text-[10px] tracking-wider2 text-cyan">STEP 02</div>
           <div class="mono mt-2 text-4xl font-bold text-cyan">02</div>
-          <h3 class="mt-2 text-lg font-bold text-ink">Paste a token, paste a key</h3>
-          <p class="mt-2 text-sm text-inkdim">Pick Telegram / Discord / Slack / Zalo. Drop in your bot token + LLM key. Hit "Test connection" — BotDroid pings the provider and confirms.</p>
+          <h3 class="mt-2 text-lg font-bold text-ink">Paste a token, paste a key — or pick a template</h3>
+          <p class="mt-2 text-sm text-inkdim">Pick from 8 channels — Telegram, Discord, Slack, Zalo and more. Drop in your bot token + LLM key. Hit "Test connection" — BotDroid pings the provider and confirms.</p>
           <pre class="mono mt-4 overflow-x-auto rounded border border-line bg-base p-3 text-[11px] leading-snug"><span class="text-inkdim">channel</span>  <span class="text-ink">telegram</span>
 <span class="text-inkdim">model</span>    <span class="text-ink">openai/gpt-4o-mini</span>
 <span class="text-inkdim">test</span>     <span class="text-cyan">200 OK · 412 ms</span></pre>
@@ -496,7 +544,7 @@
             <div class="p-4 text-inkdim">Monthly cost</div>
             <div class="p-4 text-ink">$5–15</div>
             <div class="p-4 text-ink">$0 (after ~$60 buy-in)</div>
-            <div class="p-4 text-cyan">$0</div>
+            <div class="p-4 text-cyan">$0 · Pro $4.99 optional</div>
           </div>
           <div class="grid grid-cols-4 items-center text-sm">
             <div class="p-4 text-inkdim">Linux required</div>
@@ -539,51 +587,71 @@
     <div class="mx-auto max-w-7xl px-5 py-20 lg:px-8">
       <div class="mx-auto max-w-2xl text-center">
         <p class="mono text-[11px] tracking-wider2 text-cyan">// PRICING</p>
-        <h2 class="mt-2 text-3xl font-bold text-ink sm:text-4xl">Free to run one bot, forever.</h2>
-        <p class="mt-4 text-inkdim">Pro is for users running a fleet. Both tiers use your own LLM keys — we never proxy your API traffic.</p>
+        <h2 class="mt-2 text-3xl font-bold text-ink sm:text-4xl">Start free. Go Pro when you grow.</h2>
+        <p class="mt-4 text-inkdim">Run your first bot free, forever. Upgrade once to run a whole fleet — monthly or a single lifetime purchase.</p>
       </div>
 
-      <div class="mt-12 grid gap-5 lg:grid-cols-2">
+      <div class="mt-12 grid gap-5 lg:grid-cols-3">
         <!-- Free -->
         <div class="rounded-2xl border border-line bg-panel p-8">
-          <div class="mono text-[11px] tracking-wider2 text-inkdim">// FREE</div>
+          <div class="mono text-[11px] tracking-wider2 text-cyan">// FREE</div>
           <div class="mt-2 flex items-baseline gap-2">
             <span class="text-5xl font-bold text-ink">$0</span>
             <span class="mono text-sm text-inkdim">forever</span>
           </div>
-          <p class="mt-3 text-sm text-inkdim">Everything you need to ship one production bot.</p>
+          <p class="mt-3 text-sm text-inkdim">Everything you need to run one production bot 24/7. No trial clock, no credit card.</p>
           <ul class="mono mt-6 space-y-2.5 text-sm text-ink">
             <li class="flex items-start gap-2.5"><span class="mt-1 text-cyan">▸</span> 1 active bot</li>
-            <li class="flex items-start gap-2.5"><span class="mt-1 text-cyan">▸</span> All 8 LLM providers</li>
-            <li class="flex items-start gap-2.5"><span class="mt-1 text-cyan">▸</span> Telegram · Discord · Slack · Zalo</li>
+            <li class="flex items-start gap-2.5"><span class="mt-1 text-cyan">▸</span> All 9 LLM providers</li>
+            <li class="flex items-start gap-2.5"><span class="mt-1 text-cyan">▸</span> All 8 chat channels</li>
             <li class="flex items-start gap-2.5"><span class="mt-1 text-cyan">▸</span> Crash auto-restart · boot restore</li>
-            <li class="flex items-start gap-2.5"><span class="mt-1 text-cyan">▸</span> Daily schedule</li>
+            <li class="flex items-start gap-2.5"><span class="mt-1 text-cyan">▸</span> Daily schedule · scheduled tasks</li>
             <li class="flex items-start gap-2.5"><span class="mt-1 text-cyan">▸</span> Live logs · spend dashboard</li>
           </ul>
           <a href="#cta" class="mono mt-8 inline-flex w-full items-center justify-center gap-2 rounded-md border border-line bg-base px-5 py-3 text-sm font-bold tracking-wider2 text-ink hover:border-cyan">
-            INSTALL FREE
+            GET IT FREE
           </a>
         </div>
 
         <!-- Pro -->
         <div class="relative rounded-2xl border border-cyan bg-panel p-8 glow">
-          <div class="mono absolute -top-3 right-6 rounded-full bg-cyan px-3 py-1 text-[10px] tracking-wider2 text-base">RECOMMENDED</div>
+          <div class="mono absolute -top-3 right-6 rounded-full bg-cyan px-3 py-1 text-[10px] tracking-wider2 text-base">RUN A FLEET</div>
           <div class="mono text-[11px] tracking-wider2 text-cyan">// PRO</div>
           <div class="mt-2 flex items-baseline gap-2">
             <span class="text-5xl font-bold text-ink">$4.99</span>
             <span class="mono text-sm text-inkdim">/ month</span>
           </div>
-          <p class="mono mt-1 text-sm tracking-wider2 text-amber">OR $19.99 LIFETIME</p>
-          <p class="mt-3 text-sm text-inkdim">Run a fleet. One purchase. No recurring server bill, ever.</p>
+          <p class="mt-3 text-sm text-inkdim">Or <span class="text-amber font-semibold">$19.99 once</span> — lifetime, no subscription. Everything in Free, without the bot limit.</p>
           <ul class="mono mt-6 space-y-2.5 text-sm text-ink">
             <li class="flex items-start gap-2.5"><span class="mt-1 text-cyan">▸</span> <span class="text-cyan font-bold">Unlimited</span> active bots</li>
-            <li class="flex items-start gap-2.5"><span class="mt-1 text-cyan">▸</span> Everything in Free</li>
-            <li class="flex items-start gap-2.5"><span class="mt-1 text-cyan">▸</span> Priority bug-fix lane</li>
-            <li class="flex items-start gap-2.5"><span class="mt-1 text-cyan">▸</span> Early access to new channels</li>
-            <li class="flex items-start gap-2.5"><span class="mt-1 text-cyan">▸</span> Support the project</li>
+            <li class="flex items-start gap-2.5"><span class="mt-1 text-cyan">▸</span> Run fleets side-by-side</li>
+            <li class="flex items-start gap-2.5"><span class="mt-1 text-cyan">▸</span> All Free features included</li>
+            <li class="flex items-start gap-2.5"><span class="mt-1 text-cyan">▸</span> Lifetime option · pay once</li>
+            <li class="flex items-start gap-2.5"><span class="mt-1 text-cyan">▸</span> Cancel anytime via Google Play</li>
+            <li class="flex items-start gap-2.5"><span class="mt-1 text-cyan">▸</span> Supports ongoing development</li>
           </ul>
           <a href="#cta" class="mono mt-8 inline-flex w-full items-center justify-center gap-2 rounded-md bg-cyan px-5 py-3 text-sm font-bold tracking-wider2 text-base hover:bg-ink">
             GO PRO
+          </a>
+        </div>
+
+        <!-- Cloud -->
+        <div class="rounded-2xl border border-line bg-panel p-8">
+          <div class="mono text-[11px] tracking-wider2 text-amber">// BOTDROID CLOUD · COMING SOON</div>
+          <div class="mt-2 flex items-baseline gap-2">
+            <span class="text-5xl font-bold text-ink">TBA</span>
+          </div>
+          <p class="mt-3 text-sm text-inkdim">On the roadmap: sync bots across devices, web dashboard, team sharing. The app works great without it.</p>
+          <ul class="mono mt-6 space-y-2.5 text-sm text-ink">
+            <li class="flex items-start gap-2.5"><span class="mt-1 text-amber">▸</span> Bot config sync</li>
+            <li class="flex items-start gap-2.5"><span class="mt-1 text-amber">▸</span> Web dashboard</li>
+            <li class="flex items-start gap-2.5"><span class="mt-1 text-amber">▸</span> Log history</li>
+            <li class="flex items-start gap-2.5"><span class="mt-1 text-amber">▸</span> Team sharing</li>
+            <li class="flex items-start gap-2.5"><span class="mt-1 text-amber">▸</span> API access</li>
+            <li class="flex items-start gap-2.5"><span class="mt-1 text-amber">▸</span> Priority support</li>
+          </ul>
+          <a href="#cta" class="mono mt-8 inline-flex w-full items-center justify-center gap-2 rounded-md border border-line bg-base px-5 py-3 text-sm font-bold tracking-wider2 text-ink hover:border-amber">
+            COMING SOON
           </a>
         </div>
       </div>
@@ -605,6 +673,22 @@
       <div class="mt-10 divide-y divide-line overflow-hidden rounded-2xl border border-line bg-panel">
         <details class="group p-5">
           <summary class="flex cursor-pointer items-center justify-between gap-4 text-ink">
+            <span class="font-semibold">What does the free tier include?</span>
+            <svg viewBox="0 0 24 24" class="chev h-4 w-4 shrink-0 text-inkdim" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6" stroke-linecap="round"/></svg>
+          </summary>
+          <p class="mt-3 text-sm text-inkdim">One active bot, free forever — with every feature included: all 9 LLM providers, all 8 channels, 24/7 persistence, schedules, logs, and the spend dashboard. Pro ($4.99/mo, or $19.99 once for lifetime) removes the bot limit so you can run a whole fleet.</p>
+        </details>
+
+        <details class="group p-5">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 text-ink">
+            <span class="font-semibold">What is the bot template marketplace?</span>
+            <svg viewBox="0 0 24 24" class="chev h-4 w-4 shrink-0 text-inkdim" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6" stroke-linecap="round"/></svg>
+          </summary>
+          <p class="mt-3 text-sm text-inkdim">A planned curated store of pre-built bot templates inside the app: a ready-to-run script, setup instructions, and recommended LLM config, deployed in one tap. It's not in the current beta yet — creators will earn 70% of each sale when it ships.</p>
+        </details>
+
+        <details class="group p-5">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 text-ink">
             <span class="font-semibold">Will my bot really run 24/7 on a phone?</span>
             <svg viewBox="0 0 24 24" class="chev h-4 w-4 shrink-0 text-inkdim" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6" stroke-linecap="round"/></svg>
           </summary>
@@ -624,7 +708,7 @@
             <span class="font-semibold">Do I have to know Python to use this?</span>
             <svg viewBox="0 0 24 24" class="chev h-4 w-4 shrink-0 text-inkdim" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6" stroke-linecap="round"/></svg>
           </summary>
-          <p class="mt-3 text-sm text-inkdim">No. For an AI bot, pick "Picobot agent," drop in a Telegram token + LLM key, and you're done. Python is only needed if you want full control over the bot's behavior — and even then, paste a script (or import one from a GitHub URL) and BotDroid handles the rest.</p>
+          <p class="mt-3 text-sm text-inkdim">No. For an AI bot, pick "PicoClaw agent," drop in a Telegram token + LLM key, and you're done. Python is only needed if you want full control over the bot's behavior — and even then, paste a script (or import one from a GitHub URL) and BotDroid handles the rest.</p>
         </details>
 
         <details class="group p-5">
@@ -656,7 +740,7 @@
             <span class="font-semibold">Is the source code available?</span>
             <svg viewBox="0 0 24 24" class="chev h-4 w-4 shrink-0 text-inkdim" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6" stroke-linecap="round"/></svg>
           </summary>
-          <p class="mt-3 text-sm text-inkdim">The app is closed-source today. The embedded AI agent runtime (<span class="mono text-ink">picobot</span>) is open source and bundled via its own Apache-licensed binary.</p>
+          <p class="mt-3 text-sm text-inkdim">The app is closed-source today. The embedded AI agent runtime (<span class="mono text-ink">picoclaw</span>) is open source and bundled via its own MIT-licensed binary.</p>
         </details>
       </div>
     </div>
@@ -672,7 +756,7 @@
         READY&nbsp;TO&nbsp;DEPLOY
       </div>
       <h2 class="mt-5 text-3xl font-bold text-ink sm:text-5xl">Your next bot doesn't need a server.</h2>
-      <p class="mx-auto mt-5 max-w-xl text-inkdim">Install BotDroid, plug in your keys, and ship in three minutes. If you can paste a token, you can run a 24/7 bot.</p>
+      <p class="mx-auto mt-5 max-w-xl text-inkdim">Install BotDroid, plug in your keys, and ship in three minutes. Your first bot is free forever. If you can paste a token, you can run a 24/7 bot.</p>
       <div class="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
         <a href="#" class="mono inline-flex items-center justify-center gap-2 rounded-md bg-cyan px-6 py-4 text-sm font-bold tracking-wider2 text-base hover:bg-ink">
           <svg viewBox="0 0 24 24" class="h-4 w-4" fill="currentColor"><path d="M3.6 2.2c-.4.3-.6.7-.6 1.3v17c0 .6.2 1 .6 1.3l9.3-9.6L3.6 2.2zm10.5 9.2 2.7 2.8-9 5.2 6.3-8zm0-1.4-6.3-8 9 5.2-2.7 2.8zm5.6-1.4 2.4 1.4c.9.5.9 1.7 0 2.2l-2.4 1.4-3-3 3-3z"/></svg>
@@ -683,7 +767,7 @@
           OPEN SOURCE NOTES
         </a>
       </div>
-      <p class="mono mt-6 text-[11px] tracking-wider2 text-inkdim">FREE&nbsp;FOREVER · 1&nbsp;BOT · NO&nbsp;CREDIT&nbsp;CARD</p>
+      <p class="mono mt-6 text-[11px] tracking-wider2 text-inkdim">FIRST&nbsp;BOT&nbsp;FREE&nbsp;FOREVER · PRO&nbsp;$4.99/MO&nbsp;OR&nbsp;$19.99&nbsp;LIFETIME · NO&nbsp;CREDIT&nbsp;CARD&nbsp;TO&nbsp;START</p>
     </div>
   </section>
 
@@ -703,7 +787,7 @@
           <span class="mono text-sm font-bold tracking-wider2">BOTDROID</span>
         </a>
         <p class="mt-3 max-w-sm text-sm text-inkdim">Run AI bots 24/7 from your Android phone. No VPS. No SSH. No cloud bill.</p>
-        <p class="mono mt-5 text-[11px] tracking-wider2 text-inkdim">© 2026 BOTDROID · MIT (PICOBOT) · ALL OTHER RIGHTS RESERVED</p>
+        <p class="mono mt-5 text-[11px] tracking-wider2 text-inkdim">© 2026 BOTDROID · MIT (PICOCLAW) · ALL OTHER RIGHTS RESERVED</p>
       </div>
 
       <div class="grid gap-8 sm:grid-cols-3 lg:col-span-7">
@@ -731,7 +815,7 @@
             <li><a href="#" class="hover:text-ink">X / Twitter</a></li>
             <li><a href="#" class="hover:text-ink">Reddit</a></li>
             <li><a href="#" class="hover:text-ink">GitHub</a></li>
-            <li><a href="mailto:support@botdroid.app" class="hover:text-ink">support@botdroid.app</a></li>
+            <li><a href="mailto:treatmaster5277@gmail.com" class="hover:text-ink">treatmaster5277@gmail.com</a></li>
           </ul>
         </div>
       </div>
