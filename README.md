@@ -2,9 +2,15 @@
 
 Single-file marketing page for BotDroid v0.4.0 Public Beta.
 
+**Live:** https://botdroid-landing.kaitodroid.workers.dev (Cloudflare Worker `botdroid-landing`)
+
 ## Files
 
 - `index.html` — self-contained landing page (Tailwind via CDN, Google Fonts, inline SVG icon).
+- `privacy.html` — privacy policy (canonical URL: `/privacy`, the `.html` form redirects).
+- `worker.js` — Cloudflare Worker: serves static assets + `POST /api/waitlist` (stores signups in Workers KV).
+- `wrangler.jsonc` — Worker config (assets binding + `WAITLIST` KV namespace).
+- `.assetsignore` — files excluded from the asset upload.
 
 ## Stack
 
@@ -34,11 +40,23 @@ python3 -m http.server 4567
 # open http://localhost:4567
 ```
 
-## Deploy
+## Deploy (Cloudflare Workers)
 
-- **GitHub Pages:** point Pages at `landing-page/` on the deploy branch.
-- **Vercel:** `vercel --prod` from this directory (auto-detects static).
-- **Netlify:** drag-drop the folder.
+```bash
+cd landing-page
+wrangler deploy          # ships static assets + worker.js
+```
+
+Deploys to `https://botdroid-landing.kaitodroid.workers.dev`. Requires `wrangler` authenticated to the Cloudflare account (already set up via OAuth).
+
+### Waitlist
+
+`POST /api/waitlist` accepts `{ email, source }` (`source`: `marketplace` | `cloud`), validates the email, silently drops honeypot submissions (`company` field filled), and stores one KV key per email in the `WAITLIST` namespace.
+
+```bash
+wrangler kv key list --binding WAITLIST --remote                 # export signups
+wrangler kv key get "email:<addr>" --binding WAITLIST --remote   # inspect one
+```
 
 ## Honesty guardrails (from `marketing/plan.md`)
 

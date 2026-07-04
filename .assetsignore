@@ -1,0 +1,7 @@
+.git/
+.gemini/
+.wrangler/
+*.md
+wrangler.jsonc
+worker.js
+.assetsignore
