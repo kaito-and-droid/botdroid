@@ -1,6 +1,6 @@
 # BotDroid — Landing Page
 
-Single-file marketing page for BotDroid v0.4.0 Public Beta.
+Single-file marketing page for BotDroid v0.5.0 Public Beta.
 
 **Live:** https://botdroid-landing.kaitodroid.workers.dev (Cloudflare Worker `botdroid-landing`)
 
