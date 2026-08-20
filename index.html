@@ -20,6 +20,9 @@
   <meta name="twitter:card" content="summary_large_image" />
 
   <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+  <script type="importmap">
+    { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js" } }
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
@@ -138,6 +141,48 @@
     .chev {
       transition: transform 0.2s ease;
     }
+
+    @keyframes grid-drift {
+      to {
+        background-position: 48px 48px, 48px 48px;
+      }
+    }
+
+    .grid-bg {
+      animation: grid-drift 20s linear infinite;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    #robot-canvas {
+      display: none;
+    }
+
+    @media (min-width: 1024px) {
+      #robot-canvas.is-active {
+        display: block;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      .reveal,
+      .grid-bg {
+        animation: none;
+        transition: none;
+        opacity: 1;
+        transform: none;
+      }
+    }
   </style>
 </head>
 
@@ -157,7 +202,7 @@
         </span>
         <span class="mono text-sm font-bold tracking-wider2">BOTDROID</span>
         <span
-          class="mono ml-1 hidden rounded border border-cyan/30 px-1.5 py-0.5 text-[10px] tracking-wider2 text-cyan sm:inline">v0.5.5
+          class="mono ml-1 hidden rounded border border-cyan/30 px-1.5 py-0.5 text-[10px] tracking-wider2 text-cyan sm:inline">v0.6.0
           BETA</span>
       </a>
       <nav class="hidden items-center gap-7 text-sm text-inkdim md:flex">
@@ -183,13 +228,14 @@
   <section class="relative overflow-hidden border-b border-line">
     <div class="absolute inset-0 grid-bg opacity-60"></div>
     <div class="absolute -top-40 left-1/2 h-[40rem] w-[40rem] -translate-x-1/2 rounded-full bg-cyan/10 blur-3xl"></div>
+    <canvas id="robot-canvas" class="pointer-events-none absolute inset-0 h-full w-full" aria-hidden="true"></canvas>
     <div class="relative mx-auto max-w-7xl px-5 pb-20 pt-14 lg:grid lg:grid-cols-12 lg:gap-10 lg:px-8 lg:pt-20">
 
       <div class="lg:col-span-7">
         <div
           class="mono inline-flex items-center gap-2 rounded-full border border-cyan/30 bg-cyan-soft px-3 py-1 text-[11px] tracking-wider2 text-cyan">
           <span class="led inline-block h-1.5 w-1.5 rounded-full bg-cyan text-cyan"></span>
-          SYSTEM&nbsp;ONLINE&nbsp;·&nbsp;V0.5.5&nbsp;PUBLIC&nbsp;BETA
+          SYSTEM&nbsp;ONLINE&nbsp;·&nbsp;V0.6.0&nbsp;PUBLIC&nbsp;BETA
         </div>
 
         <h1 class="mt-5 text-4xl font-bold leading-[1.05] tracking-tight text-ink sm:text-5xl lg:text-6xl">
@@ -385,7 +431,7 @@
   <!-- PROBLEM / SOLUTION -->
   <section class="border-b border-line">
     <div class="mx-auto max-w-7xl px-5 py-20 lg:px-8">
-      <div class="mx-auto max-w-2xl text-center">
+      <div class="reveal mx-auto max-w-2xl text-center">
         <p class="mono text-[11px] tracking-wider2 text-cyan">// THE PROBLEM</p>
         <h2 class="mt-2 text-3xl font-bold text-ink sm:text-4xl">
           Running a Telegram or AI bot shouldn't require a server.
@@ -402,24 +448,21 @@
             <span class="led inline-block h-1.5 w-1.5 rounded-full bg-danger text-danger"></span>
             VPS&nbsp;BILL
           </div>
-          <p class="mt-4 text-ink">$60–180/year for compute that's idle 99% of the time. You're paying for the privilege
-            of restarting `systemd` after every kernel update.</p>
+          <p class="mt-4 text-ink">$60–180/year for compute that sits idle 99% of the time.</p>
         </div>
         <div class="rounded-xl border border-line bg-panel p-6">
           <div class="mono inline-flex items-center gap-2 text-[11px] tracking-wider2 text-danger">
             <span class="led inline-block h-1.5 w-1.5 rounded-full bg-danger text-danger"></span>
             SETUP&nbsp;HELL
           </div>
-          <p class="mt-4 text-ink">SSH, firewall, Python, virtualenv, systemd unit, log rotation, secret management,
-            TLS, reverse proxy — before a single message gets answered.</p>
+          <p class="mt-4 text-ink">SSH, systemd, secrets, TLS — all before your bot answers one message.</p>
         </div>
         <div class="rounded-xl border border-line bg-panel p-6">
           <div class="mono inline-flex items-center gap-2 text-[11px] tracking-wider2 text-danger">
             <span class="led inline-block h-1.5 w-1.5 rounded-full bg-danger text-danger"></span>
             BABYSITTING
           </div>
-          <p class="mt-4 text-ink">Process crashed at 3am. Disk full. CVE in your distro. You woke up to 200 unanswered
-            DMs and an angry user.</p>
+          <p class="mt-4 text-ink">Crashed at 3am, disk full — you wake up to 200 unanswered DMs.</p>
         </div>
       </div>
 
@@ -431,9 +474,8 @@
               Your Android phone is a server you're already paying for.
             </h3>
             <p class="mt-3 text-inkdim">
-              BotDroid runs every bot as a foreground OS process with a WakeLock — the same primitive that keeps your
-              music app alive. Survives screen-off, app-swiped, and OEM battery killers. Restarts itself on crash. Comes
-              back after reboot.
+              BotDroid runs each bot as a foreground OS process with a WakeLock — the same trick that keeps your music
+              app alive through screen-off and battery killers.
             </p>
           </div>
           <ul class="mono space-y-2.5 text-sm tracking-wider2 text-ink lg:col-span-5">
@@ -473,7 +515,7 @@
       <div
         class="mt-12 grid gap-px overflow-hidden rounded-2xl border border-line bg-line md:grid-cols-2 lg:grid-cols-3">
         <!-- card -->
-        <div class="group bg-panel p-7 hover:bg-panel2">
+        <div class="group reveal bg-panel p-7 hover:bg-panel2 hover:-translate-y-0.5">
           <div class="mono flex items-center gap-2 text-[11px] tracking-wider2 text-cyan">
             <span class="grid h-7 w-7 place-items-center rounded border border-cyan/40 bg-cyan-soft">
               <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2">
@@ -484,12 +526,11 @@
             01 · TWO BOT TYPES
           </div>
           <h3 class="mt-4 text-lg font-bold text-ink">PicoClaw agent + Python script</h3>
-          <p class="mt-2 text-sm text-inkdim">A bundled AI agent runtime (picoclaw) ships in the APK. Or paste raw
-            Python and import from any GitHub URL — BotDroid downloads CPython 3.15 ARM64 once and SHA-256–verifies it.
-          </p>
+          <p class="mt-2 text-sm text-inkdim">A bundled AI agent, or paste raw Python and import from any GitHub URL —
+            BotDroid handles the runtime.</p>
         </div>
 
-        <div class="bg-panel p-7 hover:bg-panel2">
+        <div class="reveal bg-panel p-7 hover:bg-panel2 hover:-translate-y-0.5">
           <div class="mono flex items-center gap-2 text-[11px] tracking-wider2 text-cyan">
             <span class="grid h-7 w-7 place-items-center rounded border border-cyan/40 bg-cyan-soft">
               <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2">
@@ -500,12 +541,11 @@
             02 · BRING YOUR OWN KEY
           </div>
           <h3 class="mt-4 text-lg font-bold text-ink">6 LLM providers, validated</h3>
-          <p class="mt-2 text-sm text-inkdim">OpenRouter, OpenAI, NVIDIA, Gemini, Groq, Cloudflare Workers AI built in —
-            or any OpenAI-compatible endpoint (DeepSeek, xAI, …) via Custom, plus Anthropic Claude through OpenRouter.
-            The Add-Bot flow pings your key before saving — no silent misconfig.</p>
+          <p class="mt-2 text-sm text-inkdim">6 built-in providers plus any OpenAI-compatible endpoint. We test-ping
+            your key before saving — no silent misconfig.</p>
         </div>
 
-        <div class="bg-panel p-7 hover:bg-panel2">
+        <div class="reveal bg-panel p-7 hover:bg-panel2 hover:-translate-y-0.5">
           <div class="mono flex items-center gap-2 text-[11px] tracking-wider2 text-cyan">
             <span class="grid h-7 w-7 place-items-center rounded border border-cyan/40 bg-cyan-soft">
               <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2">
@@ -516,11 +556,10 @@
           </div>
           <h3 class="mt-4 text-lg font-bold text-ink">8 chat channels, one tap</h3>
           <p class="mt-2 text-sm text-inkdim">Telegram, Discord, Slack, Zalo, LINE, DingTalk, Feishu/Lark, WeCom.
-            Telegram and Zalo are the verified first-class paths and persist a 40-message rolling memory window per chat
-            to Room; the rest run via the picoclaw gateway and carry a BETA badge.</p>
+            Telegram and Zalo are first-class with persistent memory; the rest are BETA.</p>
         </div>
 
-        <div class="bg-panel p-7 hover:bg-panel2">
+        <div class="reveal bg-panel p-7 hover:bg-panel2 hover:-translate-y-0.5">
           <div class="mono flex items-center gap-2 text-[11px] tracking-wider2 text-cyan">
             <span class="grid h-7 w-7 place-items-center rounded border border-cyan/40 bg-cyan-soft">
               <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2">
@@ -531,11 +570,11 @@
             04 · 24/7 PERSISTENCE
           </div>
           <h3 class="mt-4 text-lg font-bold text-ink">Survives screen-off, crash, reboot</h3>
-          <p class="mt-2 text-sm text-inkdim">Foreground service + WakeLock + START_STICKY. Exponential-backoff restart
-            on crash, capped at 120 s. AlarmManager keeps daily schedules; boot receiver restores them.</p>
+          <p class="mt-2 text-sm text-inkdim">Foreground service + WakeLock. Auto-restarts on crash, survives reboot,
+            keeps daily schedules.</p>
         </div>
 
-        <div class="bg-panel p-7 hover:bg-panel2">
+        <div class="reveal bg-panel p-7 hover:bg-panel2 hover:-translate-y-0.5">
           <div class="mono flex items-center gap-2 text-[11px] tracking-wider2 text-cyan">
             <span class="grid h-7 w-7 place-items-center rounded border border-cyan/40 bg-cyan-soft">
               <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2">
@@ -546,11 +585,11 @@
             05 · OPERATIONAL DASHBOARD
           </div>
           <h3 class="mt-4 text-lg font-bold text-ink">Per-provider spend, in real time</h3>
-          <p class="mt-2 text-sm text-inkdim">Sessions, requests, input/output tokens, throughput, estimated cost —
-            aggregated per bot and per provider. Crashlytics on every lifecycle event.</p>
+          <p class="mt-2 text-sm text-inkdim">Requests, tokens, and estimated cost — tracked per bot, per
+            provider.</p>
         </div>
 
-        <div class="bg-panel p-7 hover:bg-panel2">
+        <div class="reveal bg-panel p-7 hover:bg-panel2 hover:-translate-y-0.5">
           <div class="mono flex items-center gap-2 text-[11px] tracking-wider2 text-cyan">
             <span class="grid h-7 w-7 place-items-center rounded border border-cyan/40 bg-cyan-soft">
               <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2">
@@ -561,8 +600,8 @@
             06 · LOCAL-FIRST SECURITY
           </div>
           <h3 class="mt-4 text-lg font-bold text-ink">AES-256-GCM, Android Keystore</h3>
-          <p class="mt-2 text-sm text-inkdim">Every secret lives in EncryptedSharedPreferences, keyed per bot. Wiped
-            atomically on delete. Logs and metrics stay on-device — only your LLM calls leave the phone.</p>
+          <p class="mt-2 text-sm text-inkdim">Secrets encrypted per-bot in the Keystore. Only your LLM calls ever leave
+            the phone.</p>
         </div>
       </div>
     </div>
@@ -571,44 +610,18 @@
   <!-- MARKETPLACE -->
   <section id="marketplace" class="border-b border-line">
     <div class="mx-auto max-w-7xl px-5 py-20 lg:px-8">
-      <div class="mx-auto max-w-2xl text-center">
+      <div class="reveal mx-auto max-w-2xl text-center">
         <p class="mono text-[11px] tracking-wider2 text-amber">// MARKETPLACE · COMING SOON</p>
         <h2 class="mt-2 text-3xl font-bold text-ink sm:text-4xl">Deploy a bot in one tap. No coding needed.</h2>
-        <p class="mt-4 text-inkdim">On the roadmap: ready-to-deploy bot templates from the community. Each template will
-          include the script, setup instructions, and recommended LLM config. Tap install, and it's running.</p>
+        <p class="mt-4 text-inkdim">Ready-to-deploy bot templates from the community. Tap install, and it's
+          running.</p>
       </div>
 
-      <div class="mt-12 grid gap-5 md:grid-cols-3">
-        <div class="rounded-xl border border-line bg-panel p-6">
-          <div class="mono inline-flex items-center gap-2 text-[11px] tracking-wider2 text-amber">
-            <span class="led inline-block h-1.5 w-1.5 rounded-full bg-amber text-amber"></span>
-            AI&nbsp;ASSISTANT
-          </div>
-          <h3 class="mt-4 text-lg font-bold text-ink">Multi-language FAQ bot</h3>
-          <p class="mt-2 text-sm text-inkdim">Handles customer questions in 5+ languages. Remembers conversation
-            history. Integrates with your knowledge base.</p>
-          <p class="mono mt-3 text-sm text-amber">PLANNED</p>
-        </div>
-        <div class="rounded-xl border border-line bg-panel p-6">
-          <div class="mono inline-flex items-center gap-2 text-[11px] tracking-wider2 text-amber">
-            <span class="led inline-block h-1.5 w-1.5 rounded-full bg-amber text-amber"></span>
-            TRADING
-          </div>
-          <h3 class="mt-4 text-lg font-bold text-ink">Crypto signal bot</h3>
-          <p class="mt-2 text-sm text-inkdim">Monitors price feeds, generates alerts with chart analysis. Customizable
-            thresholds. Multi-exchange support.</p>
-          <p class="mono mt-3 text-sm text-amber">PLANNED</p>
-        </div>
-        <div class="rounded-xl border border-line bg-panel p-6">
-          <div class="mono inline-flex items-center gap-2 text-[11px] tracking-wider2 text-amber">
-            <span class="led inline-block h-1.5 w-1.5 rounded-full bg-amber text-amber"></span>
-            AUTOMATION
-          </div>
-          <h3 class="mt-4 text-lg font-bold text-ink">Daily digest bot</h3>
-          <p class="mt-2 text-sm text-inkdim">Aggregates news, RSS feeds, or calendar events. Sends a formatted summary
-            to your Telegram every morning.</p>
-          <p class="mono mt-3 text-sm text-amber">PLANNED</p>
-        </div>
+      <div class="mono mt-10 flex flex-wrap items-center justify-center gap-3 text-xs tracking-wider2">
+        <span class="rounded-full border border-amber/30 bg-amber-soft px-3.5 py-1.5 text-amber">FAQ ASSISTANT</span>
+        <span class="rounded-full border border-amber/30 bg-amber-soft px-3.5 py-1.5 text-amber">CRYPTO SIGNAL BOT</span>
+        <span class="rounded-full border border-amber/30 bg-amber-soft px-3.5 py-1.5 text-amber">DAILY DIGEST BOT</span>
+        <span class="rounded-full border border-line px-3.5 py-1.5 text-inkdim">+ MORE PLANNED</span>
       </div>
 
       <div id="waitlist" class="mt-10 text-center">
@@ -632,7 +645,7 @@
   <section id="how" class="relative border-b border-line">
     <div class="absolute inset-0 grid-bg opacity-30"></div>
     <div class="relative mx-auto max-w-7xl px-5 py-20 lg:px-8">
-      <div class="mx-auto max-w-2xl text-center">
+      <div class="reveal mx-auto max-w-2xl text-center">
         <p class="mono text-[11px] tracking-wider2 text-cyan">// HOW IT WORKS</p>
         <h2 class="mt-2 text-3xl font-bold text-ink sm:text-4xl">Zero to running bot, in under 3 minutes.</h2>
       </div>
@@ -681,7 +694,7 @@
   <!-- COMPARISON -->
   <section id="compare" class="border-b border-line">
     <div class="mx-auto max-w-7xl px-5 py-20 lg:px-8">
-      <div class="mx-auto max-w-2xl text-center">
+      <div class="reveal mx-auto max-w-2xl text-center">
         <p class="mono text-[11px] tracking-wider2 text-cyan">// COMPARE</p>
         <h2 class="mt-2 text-3xl font-bold text-ink sm:text-4xl">VPS vs. Pi vs. BotDroid</h2>
         <p class="mt-4 text-inkdim">For a side-project bot serving &lt; 10k messages/day.</p>
@@ -747,7 +760,7 @@
   <!-- PRICING -->
   <section id="pricing" class="border-b border-line">
     <div class="mx-auto max-w-7xl px-5 py-20 lg:px-8">
-      <div class="mx-auto max-w-2xl text-center">
+      <div class="reveal mx-auto max-w-2xl text-center">
         <p class="mono text-[11px] tracking-wider2 text-cyan">// PRICING</p>
         <h2 class="mt-2 text-3xl font-bold text-ink sm:text-4xl">Start free. Go Pro when you grow.</h2>
         <p class="mt-4 text-inkdim">Run your first bot free, forever. Upgrade once to run a whole fleet — monthly or a
@@ -756,7 +769,7 @@
 
       <div class="mt-12 grid gap-5 lg:grid-cols-3">
         <!-- Free -->
-        <div class="rounded-2xl border border-line bg-panel p-8">
+        <div class="reveal rounded-2xl border border-line bg-panel p-8">
           <div class="mono text-[11px] tracking-wider2 text-cyan">// FREE</div>
           <div class="mt-2 flex items-baseline gap-2">
             <span class="text-5xl font-bold text-ink">$0</span>
@@ -781,7 +794,7 @@
         </div>
 
         <!-- Pro -->
-        <div class="relative rounded-2xl border border-cyan bg-panel p-8 glow">
+        <div class="reveal relative rounded-2xl border border-cyan bg-panel p-8 glow">
           <div
             class="mono absolute -top-3 right-6 rounded-full bg-cyan px-3 py-1 text-[10px] tracking-wider2 text-base">
             RUN A FLEET</div>
@@ -810,7 +823,7 @@
         </div>
 
         <!-- Cloud -->
-        <div class="rounded-2xl border border-line bg-panel p-8">
+        <div class="reveal rounded-2xl border border-line bg-panel p-8">
           <div class="mono text-[11px] tracking-wider2 text-amber">// BOTDROID CLOUD · COMING SOON</div>
           <div class="mt-2 flex items-baseline gap-2">
             <span class="text-5xl font-bold text-ink">TBA</span>
@@ -846,13 +859,13 @@
   <!-- FAQ -->
   <section id="faq" class="border-b border-line">
     <div class="mx-auto max-w-3xl px-5 py-20 lg:px-8">
-      <div class="text-center">
+      <div class="reveal text-center">
         <p class="mono text-[11px] tracking-wider2 text-cyan">// FAQ</p>
         <h2 class="mt-2 text-3xl font-bold text-ink sm:text-4xl">Common questions.</h2>
       </div>
 
       <div class="mt-10 divide-y divide-line overflow-hidden rounded-2xl border border-line bg-panel">
-        <details class="group p-5">
+        <details class="group reveal p-5">
           <summary class="flex cursor-pointer items-center justify-between gap-4 text-ink">
             <span class="font-semibold">What does the free tier include?</span>
             <svg viewBox="0 0 24 24" class="chev h-4 w-4 shrink-0 text-inkdim" fill="none" stroke="currentColor"
@@ -860,13 +873,11 @@
               <path d="M6 9l6 6 6-6" stroke-linecap="round" />
             </svg>
           </summary>
-          <p class="mt-3 text-sm text-inkdim">One bot, free forever — all 6 built-in LLM providers (plus any
-            OpenAI-compatible endpoint), all 8 channels, 24/7 persistence, daily start/stop schedule, logs, and the
-            spend dashboard. Pro ($4.99/mo, or $19.99 once for lifetime) removes the bot limit and adds scheduled
-            agent tasks.</p>
+          <p class="mt-3 text-sm text-inkdim">One bot, free forever — every provider, every channel, 24/7 persistence,
+            logs, and the spend dashboard. Pro removes the bot limit and adds scheduled tasks.</p>
         </details>
 
-        <details class="group p-5">
+        <details class="group reveal p-5">
           <summary class="flex cursor-pointer items-center justify-between gap-4 text-ink">
             <span class="font-semibold">Is there a free trial or promo code?</span>
             <svg viewBox="0 0 24 24" class="chev h-4 w-4 shrink-0 text-inkdim" fill="none" stroke="currentColor"
@@ -874,13 +885,11 @@
               <path d="M6 9l6 6 6-6" stroke-linecap="round" />
             </svg>
           </summary>
-          <p class="mt-3 text-sm text-inkdim">The free tier is genuinely free forever (1 bot) — no trial clock on it.
-            Separately, at launch we'll run promo codes that unlock a <span class="text-ink">30-day full-Pro trial</span>:
-            open Settings, enter your email or the promo code you were given, and unlimited bots + scheduled tasks unlock
-            for the month. No card, cancel-nothing — it simply reverts to Free when the 30 days are up.</p>
+          <p class="mt-3 text-sm text-inkdim">The free tier has no trial clock. At launch, promo codes unlock a
+            <span class="text-ink">30-day full-Pro trial</span> in Settings — no card, reverts to Free after.</p>
         </details>
 
-        <details class="group p-5">
+        <details class="group reveal p-5">
           <summary class="flex cursor-pointer items-center justify-between gap-4 text-ink">
             <span class="font-semibold">What is the bot template marketplace?</span>
             <svg viewBox="0 0 24 24" class="chev h-4 w-4 shrink-0 text-inkdim" fill="none" stroke="currentColor"
@@ -888,12 +897,11 @@
               <path d="M6 9l6 6 6-6" stroke-linecap="round" />
             </svg>
           </summary>
-          <p class="mt-3 text-sm text-inkdim">A planned curated store of pre-built bot templates inside the app: a
-            ready-to-run script, setup instructions, and recommended LLM config, deployed in one tap. It's not in the
-            current beta yet — creators will earn 70% of each sale when it ships.</p>
+          <p class="mt-3 text-sm text-inkdim">A planned in-app store of pre-built bot templates — deployed in one tap.
+            Not live in the current beta yet; creators will earn 70% of each sale when it ships.</p>
         </details>
 
-        <details class="group p-5">
+        <details class="group reveal p-5">
           <summary class="flex cursor-pointer items-center justify-between gap-4 text-ink">
             <span class="font-semibold">Will my bot really run 24/7 on a phone?</span>
             <svg viewBox="0 0 24 24" class="chev h-4 w-4 shrink-0 text-inkdim" fill="none" stroke="currentColor"
@@ -901,13 +909,12 @@
               <path d="M6 9l6 6 6-6" stroke-linecap="round" />
             </svg>
           </summary>
-          <p class="mt-3 text-sm text-inkdim">Yes — provided you grant the battery-optimization exemption. BotDroid uses
-            Android's foreground-service primitive (same one music players use) plus a partial WakeLock. We tested on
-            aggressive OEMs (Samsung One UI, Xiaomi MIUI). Some manufacturers add extra restrictions on top of stock
-            Android; the in-app Settings screen walks you through them.</p>
+          <p class="mt-3 text-sm text-inkdim">Yes — grant the battery-optimization exemption and it uses the same
+            foreground-service primitive as music players. Tested on aggressive OEMs (Samsung, Xiaomi); the in-app
+            Settings screen walks you through any extra restrictions.</p>
         </details>
 
-        <details class="group p-5">
+        <details class="group reveal p-5">
           <summary class="flex cursor-pointer items-center justify-between gap-4 text-ink">
             <span class="font-semibold">Where are my tokens and API keys stored?</span>
             <svg viewBox="0 0 24 24" class="chev h-4 w-4 shrink-0 text-inkdim" fill="none" stroke="currentColor"
@@ -915,13 +922,11 @@
               <path d="M6 9l6 6 6-6" stroke-linecap="round" />
             </svg>
           </summary>
-          <p class="mt-3 text-sm text-inkdim">In <span class="mono text-ink">EncryptedSharedPreferences</span> backed by
-            AES-256-GCM keys in the Android Keystore. Per-bot, atomic delete. Never logged, never sent to any BotDroid
-            server — we don't run servers. Outbound traffic only goes from your phone to the LLM provider you
-            configured.</p>
+          <p class="mt-3 text-sm text-inkdim">AES-256-GCM encrypted in the Android Keystore, per-bot. Never logged,
+            never sent to any BotDroid server — we don't run any. Traffic only goes to your configured LLM provider.</p>
         </details>
 
-        <details class="group p-5">
+        <details class="group reveal p-5">
           <summary class="flex cursor-pointer items-center justify-between gap-4 text-ink">
             <span class="font-semibold">Do I have to know Python to use this?</span>
             <svg viewBox="0 0 24 24" class="chev h-4 w-4 shrink-0 text-inkdim" fill="none" stroke="currentColor"
@@ -929,12 +934,11 @@
               <path d="M6 9l6 6 6-6" stroke-linecap="round" />
             </svg>
           </summary>
-          <p class="mt-3 text-sm text-inkdim">No. For an AI bot, pick "PicoClaw agent," drop in a Telegram token + LLM
-            key, and you're done. Python is only needed if you want full control over the bot's behavior — and even
-            then, paste a script (or import one from a GitHub URL) and BotDroid handles the rest.</p>
+          <p class="mt-3 text-sm text-inkdim">No. Pick "PicoClaw agent," drop in a token + LLM key, and you're done.
+            Python is only for full control over the bot's behavior.</p>
         </details>
 
-        <details class="group p-5">
+        <details class="group reveal p-5">
           <summary class="flex cursor-pointer items-center justify-between gap-4 text-ink">
             <span class="font-semibold">Which devices are supported?</span>
             <svg viewBox="0 0 24 24" class="chev h-4 w-4 shrink-0 text-inkdim" fill="none" stroke="currentColor"
@@ -946,7 +950,7 @@
             x86 are not currently supported.</p>
         </details>
 
-        <details class="group p-5">
+        <details class="group reveal p-5">
           <summary class="flex cursor-pointer items-center justify-between gap-4 text-ink">
             <span class="font-semibold">Can I install it without Google Play?</span>
             <svg viewBox="0 0 24 24" class="chev h-4 w-4 shrink-0 text-inkdim" fill="none" stroke="currentColor"
@@ -954,13 +958,12 @@
               <path d="M6 9l6 6 6-6" stroke-linecap="round" />
             </svg>
           </summary>
-          <p class="mt-3 text-sm text-inkdim">Yes. Besides Google Play, BotDroid is also distributed as a direct-download
-            APK for anyone who can't use the Play Store. On the direct build, Pro is a one-time
-            <span class="text-ink">$19.99 lifetime license key</span> (same app, same features), and the app checks for
-            its own updates. The download link goes live alongside the public release.</p>
+          <p class="mt-3 text-sm text-inkdim">Yes — a direct-download APK, same app and features. Pro is a one-time
+            <span class="text-ink">$19.99 lifetime license key</span> on that build. Link goes live at public
+            release.</p>
         </details>
 
-        <details class="group p-5">
+        <details class="group reveal p-5">
           <summary class="flex cursor-pointer items-center justify-between gap-4 text-ink">
             <span class="font-semibold">Does BotDroid charge for LLM usage?</span>
             <svg viewBox="0 0 24 24" class="chev h-4 w-4 shrink-0 text-inkdim" fill="none" stroke="currentColor"
@@ -968,13 +971,11 @@
               <path d="M6 9l6 6 6-6" stroke-linecap="round" />
             </svg>
           </summary>
-          <p class="mt-3 text-sm text-inkdim">No. You bring your own provider key (OpenRouter, OpenAI, Groq, or any
-            OpenAI-compatible endpoint)
-            and your provider bills you directly. BotDroid's in-app dashboard estimates spend so you can see it in one
-            place — we never sit between you and your LLM.</p>
+          <p class="mt-3 text-sm text-inkdim">No. You bring your own provider key and it bills you directly — the
+            in-app dashboard just estimates spend so you can see it in one place.</p>
         </details>
 
-        <details class="group p-5">
+        <details class="group reveal p-5">
           <summary class="flex cursor-pointer items-center justify-between gap-4 text-ink">
             <span class="font-semibold">Can my bot run fully offline, without any API key?</span>
             <svg viewBox="0 0 24 24" class="chev h-4 w-4 shrink-0 text-inkdim" fill="none" stroke="currentColor"
@@ -982,14 +983,13 @@
               <path d="M6 9l6 6 6-6" stroke-linecap="round" />
             </svg>
           </summary>
-          <p class="mt-3 text-sm text-inkdim"><span class="text-amber font-semibold">Coming soon.</span> We're testing
-            an on-device model option (currently internal builds only) that runs a small local LLM directly on your
-            phone — zero API key, zero LLM cost, works with no internet connection. It's not in the public build yet;
-            follow <a href="https://www.reddit.com/r/BotDroid/" target="_blank" rel="noopener noreferrer"
+          <p class="mt-3 text-sm text-inkdim"><span class="text-amber font-semibold">Coming soon.</span> A local
+            on-device model — zero API key, zero cost, no internet needed. Not in the public build yet; follow
+            <a href="https://www.reddit.com/r/BotDroid/" target="_blank" rel="noopener noreferrer"
               class="text-cyan hover:underline">r/BotDroid</a> for when it ships.</p>
         </details>
 
-        <details class="group p-5">
+        <details class="group reveal p-5">
           <summary class="flex cursor-pointer items-center justify-between gap-4 text-ink">
             <span class="font-semibold">What happens to my bots when I reboot the phone?</span>
             <svg viewBox="0 0 24 24" class="chev h-4 w-4 shrink-0 text-inkdim" fill="none" stroke="currentColor"
@@ -997,12 +997,11 @@
               <path d="M6 9l6 6 6-6" stroke-linecap="round" />
             </svg>
           </summary>
-          <p class="mt-3 text-sm text-inkdim">A boot receiver re-starts every bot that was running, and restores active
-            daily schedules. Crash counts and uptime tickers reset; conversation memory (Telegram + Zalo) persists
-            across reboots via Room.</p>
+          <p class="mt-3 text-sm text-inkdim">A boot receiver restarts every bot that was running and restores active
+            schedules. Conversation memory (Telegram + Zalo) persists across reboots.</p>
         </details>
 
-        <details class="group p-5">
+        <details class="group reveal p-5">
           <summary class="flex cursor-pointer items-center justify-between gap-4 text-ink">
             <span class="font-semibold">Is the source code available?</span>
             <svg viewBox="0 0 24 24" class="chev h-4 w-4 shrink-0 text-inkdim" fill="none" stroke="currentColor"
@@ -1014,7 +1013,7 @@
               class="mono text-ink">picoclaw</span>) is open source and bundled via its own MIT-licensed binary.</p>
         </details>
 
-        <details class="group p-5">
+        <details class="group reveal p-5">
           <summary class="flex cursor-pointer items-center justify-between gap-4 text-ink">
             <span class="font-semibold">How do I get support or report a bug?</span>
             <svg viewBox="0 0 24 24" class="chev h-4 w-4 shrink-0 text-inkdim" fill="none" stroke="currentColor"
@@ -1023,10 +1022,9 @@
             </svg>
           </summary>
           <p class="mt-3 text-sm text-inkdim">Email <a href="mailto:kaiteam@proton.me" class="text-cyan hover:underline">kaiteam@proton.me</a>
-            — that's a real inbox we read, not a ticket queue. For quicker back-and-forth, or to see what other users
-            are hitting, post in <a href="https://www.reddit.com/r/BotDroid/" target="_blank" rel="noopener noreferrer"
-              class="text-cyan hover:underline">r/BotDroid</a>. If a specific bot is misbehaving, grab its live logs
-            (bot detail → Logs) before you write in — it makes diagnosis much faster.</p>
+            — a real inbox, not a ticket queue — or post in <a href="https://www.reddit.com/r/BotDroid/" target="_blank"
+              rel="noopener noreferrer" class="text-cyan hover:underline">r/BotDroid</a>. Grab the bot's live logs first
+            for faster diagnosis.</p>
         </details>
       </div>
     </div>
@@ -1036,7 +1034,7 @@
   <section id="cta" class="relative overflow-hidden border-b border-line">
     <div class="absolute inset-0 grid-bg opacity-50"></div>
     <div class="absolute -top-40 left-1/2 h-[36rem] w-[36rem] -translate-x-1/2 rounded-full bg-cyan/15 blur-3xl"></div>
-    <div class="relative mx-auto max-w-3xl px-5 py-20 text-center lg:px-8">
+    <div class="reveal relative mx-auto max-w-3xl px-5 py-20 text-center lg:px-8">
       <div
         class="mono inline-flex items-center gap-2 rounded-full border border-cyan/30 bg-cyan-soft px-3 py-1 text-[11px] tracking-wider2 text-cyan">
         <span class="led inline-block h-1.5 w-1.5 rounded-full bg-cyan text-cyan"></span>
@@ -1130,7 +1128,7 @@
     <div class="border-t border-line">
       <div
         class="mono mx-auto flex max-w-7xl flex-col items-center justify-between gap-2 px-5 py-5 text-[10px] tracking-wider2 text-inkdim sm:flex-row lg:px-8">
-        <span>BUILD&nbsp;v0.5.5&nbsp;PUBLIC&nbsp;BETA · COMPILED&nbsp;FOR&nbsp;ARM64</span>
+        <span>BUILD&nbsp;v0.6.0&nbsp;PUBLIC&nbsp;BETA · COMPILED&nbsp;FOR&nbsp;ARM64</span>
         <span class="flex items-center gap-2"><span
             class="led inline-block h-1.5 w-1.5 rounded-full bg-cyan text-cyan"></span>SYSTEM&nbsp;ONLINE</span>
       </div>
@@ -1174,6 +1172,246 @@
         }
       });
     });
+  </script>
+
+  <!-- SCROLL-REVEAL -->
+  <script>
+    (function () {
+      const targets = document.querySelectorAll(".reveal");
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      if (reduceMotion || !("IntersectionObserver" in window)) {
+        targets.forEach((el) => el.classList.add("is-visible"));
+        return;
+      }
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              observer.unobserve(entry.target);
+            }
+          }
+        },
+        { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
+      );
+
+      targets.forEach((el) => observer.observe(el));
+    })();
+  </script>
+
+  <!-- HERO ROBOT (THREE.JS) -->
+  <script type="module">
+    const canvas = document.getElementById("robot-canvas");
+    const heroSection = canvas ? canvas.closest("section") : null;
+
+    const supportsWebGL = (() => {
+      try {
+        const test = document.createElement("canvas");
+        return !!(window.WebGLRenderingContext &&
+          (test.getContext("webgl2") || test.getContext("webgl")));
+      } catch {
+        return false;
+      }
+    })();
+
+    const isDesktopViewport = window.matchMedia("(min-width: 1024px)").matches;
+
+    if (!canvas || !heroSection || !supportsWebGL || !isDesktopViewport) {
+      // No canvas, no WebGL support, or a viewport too small for the hero's
+      // two-column layout — the existing grid-bg/glow background is the fallback.
+    } else {
+      const start = () => initRobotScene(canvas, heroSection);
+      if ("requestIdleCallback" in window) {
+        requestIdleCallback(start, { timeout: 2000 });
+      } else {
+        setTimeout(start, 200);
+      }
+    }
+
+    async function initRobotScene(canvas, heroSection) {
+      const THREE = await import("three");
+
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const isFinePointer = window.matchMedia("(pointer: fine)").matches;
+
+      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: "low-power" });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 50);
+      camera.position.set(0, 0, 6);
+
+      function sizeToSection() {
+        const w = heroSection.clientWidth;
+        const h = heroSection.clientHeight;
+        renderer.setSize(w, h, false);
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+      }
+      sizeToSection();
+      window.addEventListener("resize", sizeToSection);
+
+      // Robot group — echoes the brand mark: a stroke-only rect head,
+      // two circle eyes, three antenna/leg lines (see nav + footer SVG icon).
+      const robot = new THREE.Group();
+      robot.position.set(1.15, 0.2, 0); // biased right, toward the phone mockup's negative space
+
+      const cyan = 0x00e5c8;
+      const amber = 0xffb830;
+
+      const headGeo = new THREE.BoxGeometry(1.6, 1.0, 0.9);
+      const headFill = new THREE.Mesh(
+        headGeo,
+        new THREE.MeshBasicMaterial({ color: 0x0c1612, transparent: true, opacity: 0.35 })
+      );
+      robot.add(headFill);
+
+      const headEdges = new THREE.LineSegments(
+        new THREE.EdgesGeometry(headGeo),
+        new THREE.LineBasicMaterial({ color: cyan, transparent: true, opacity: 0.9 })
+      );
+      robot.add(headEdges);
+
+      const eyeGeo = new THREE.SphereGeometry(0.12, 12, 12);
+      const eyeMat = new THREE.MeshStandardMaterial({
+        color: cyan,
+        emissive: cyan,
+        emissiveIntensity: 1.2,
+        toneMapped: false,
+      });
+      const eyeL = new THREE.Mesh(eyeGeo, eyeMat);
+      const eyeR = new THREE.Mesh(eyeGeo, eyeMat.clone());
+      eyeL.position.set(-0.36, 0.05, 0.46);
+      eyeR.position.set(0.36, 0.05, 0.46);
+      robot.add(eyeL, eyeR);
+
+      const eyeLightL = new THREE.PointLight(cyan, 0.6, 2);
+      const eyeLightR = new THREE.PointLight(cyan, 0.6, 2);
+      eyeLightL.position.copy(eyeL.position);
+      eyeLightR.position.copy(eyeR.position);
+      robot.add(eyeLightL, eyeLightR);
+
+      function antenna(x, y, z, ry, rz, length, color) {
+        const geo = new THREE.CylinderGeometry(0.015, 0.015, length, 6);
+        const mat = new THREE.LineBasicMaterial({ color });
+        const mesh = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.9 }));
+        mesh.position.set(x, y, z);
+        mesh.rotation.set(0, ry, rz);
+        return mesh;
+      }
+      robot.add(antenna(0, 0.75, 0, 0, 0, 0.4, amber));
+      robot.add(antenna(-0.55, -0.65, 0, 0, 0, 0.35, cyan));
+      robot.add(antenna(0.55, -0.65, 0, 0, 0, 0.35, cyan));
+
+      scene.add(robot);
+
+      // Ambient particle field for depth.
+      const particleCount = 300;
+      const positions = new Float32Array(particleCount * 3);
+      for (let i = 0; i < particleCount; i++) {
+        positions[i * 3] = (Math.random() - 0.5) * 8;
+        positions[i * 3 + 1] = (Math.random() - 0.5) * 6;
+        positions[i * 3 + 2] = (Math.random() - 0.5) * 6 - 2;
+      }
+      const particleGeo = new THREE.BufferGeometry();
+      particleGeo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+      const particles = new THREE.Points(
+        particleGeo,
+        new THREE.PointsMaterial({ color: cyan, size: 0.02, transparent: true, opacity: 0.4, sizeAttenuation: true })
+      );
+      scene.add(particles);
+
+      scene.add(new THREE.AmbientLight(0x0c1612, 0.6));
+      const dirLight = new THREE.DirectionalLight(cyan, 0.4);
+      dirLight.position.set(1, 2, 3);
+      scene.add(dirLight);
+
+      const baseY = robot.position.y;
+      const target = { x: 0, z: 0 };
+      const current = { x: 0, z: 0 };
+
+      if (isFinePointer) {
+        window.addEventListener("pointermove", (event) => {
+          if (event.pointerType && event.pointerType !== "mouse") return;
+          const nx = (event.clientX / window.innerWidth) * 2 - 1;
+          const ny = (event.clientY / window.innerHeight) * 2 - 1;
+          target.x = ny * 0.12;
+          target.z = -nx * 0.12;
+        });
+      }
+
+      let isHeroVisible = true;
+      const io = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) isHeroVisible = entry.isIntersecting;
+          ensureRunning();
+        },
+        { threshold: 0.05 }
+      );
+      io.observe(heroSection);
+
+      let rafId = null;
+      let nextBlinkAt = performance.now() + 3000 + Math.random() * 3000;
+
+      function ensureRunning() {
+        if (reduceMotion) return;
+        const shouldRun = !document.hidden && isHeroVisible;
+        if (shouldRun && rafId === null) {
+          rafId = requestAnimationFrame(animate);
+        } else if (!shouldRun && rafId !== null) {
+          cancelAnimationFrame(rafId);
+          rafId = null;
+        }
+      }
+
+      function animate(now) {
+        if (document.hidden || !isHeroVisible) {
+          rafId = null;
+          return;
+        }
+        rafId = requestAnimationFrame(animate);
+
+        const elapsed = now / 1000;
+
+        robot.position.y = baseY + Math.sin(elapsed * 0.6) * 0.08;
+        robot.rotation.y = elapsed * 0.15;
+
+        current.x += (target.x - current.x) * 0.06;
+        current.z += (target.z - current.z) * 0.06;
+        robot.rotation.x = current.x;
+        robot.rotation.z = current.z;
+
+        const pulse = 1.0 + Math.sin(elapsed * 2) * 0.3;
+        eyeMat.emissiveIntensity = pulse;
+        eyeR.material.emissiveIntensity = pulse;
+        eyeLightL.intensity = 0.5 + pulse * 0.15;
+        eyeLightR.intensity = 0.5 + pulse * 0.15;
+
+        if (now >= nextBlinkAt) {
+          eyeL.scale.y = 0.12;
+          eyeR.scale.y = 0.12;
+          setTimeout(() => {
+            eyeL.scale.y = 1;
+            eyeR.scale.y = 1;
+          }, 120);
+          nextBlinkAt = now + 4000 + Math.random() * 2000;
+        }
+
+        renderer.render(scene, camera);
+      }
+
+      document.addEventListener("visibilitychange", ensureRunning);
+
+      canvas.classList.add("is-active");
+
+      if (reduceMotion) {
+        renderer.render(scene, camera);
+      } else {
+        ensureRunning();
+      }
+    }
   </script>
 </body>
 
