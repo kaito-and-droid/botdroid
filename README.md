@@ -27,7 +27,7 @@ Single-file marketing page for BotDroid v0.5.0 Public Beta.
 5. Features grid — 6 cards covering bot types, BYOK, channels, persistence, dashboard, security
 6. How it works — 3 numbered steps with terminal-style snippets
 7. Comparison — VPS vs Pi vs BotDroid table
-8. Pricing — Free vs Pro ($4.99/mo or $19.99 lifetime)
+8. Pricing — Free vs Pro ($4.99/mo or $29.99 lifetime)
 9. FAQ — 7 questions covering uptime, secrets, Python, ABI, billing, reboot, source
 10. CTA — primary Play Store + secondary source notes
 11. Footer with product / resources / connect columns
