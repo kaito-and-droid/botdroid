@@ -1,6 +1,6 @@
 {
-  "versionCode": 13,
-  "versionName": "0.6.0",
+  "versionCode": 25,
+  "versionName": "1.6.0",
   "apkUrl": "https://github.com/kaito-and-droid/botdroid/releases/latest/download/app-direct-release.apk",
-  "notes": "Public beta."
+  "notes": "Public beta. Three bot types (PicoClaw agent, on-device model, Python script), 8 chat channels (Telegram device-verified, others best-effort), 8 LLM providers + custom endpoints, 7-day free trial on Pro monthly."
 }

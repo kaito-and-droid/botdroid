@@ -6,13 +6,6 @@
   "assets": {
     "directory": ".",
     "binding": "ASSETS",
-    "not_found_handling": "404-page",
-    "run_worker_first": ["/api/*"]
-  },
-  "kv_namespaces": [
-    {
-      "binding": "WAITLIST",
-      "id": "53348a58774140d98c0f2e5e5745551d"
-    }
-  ]
+    "not_found_handling": "404-page"
+  }
 }
