@@ -1,0 +1,41 @@
+---
+title: Bot types
+description: AI agent, Python script, or on-device assistant — which one to choose.
+---
+
+import { Card, CardGrid, Badge } from '@astrojs/starlight/components';
+
+Every bot is one of three types. Each bot shows its **execution mode**, so you always know where messages go.
+
+<CardGrid>
+	<Card title="AI agent" icon="comment">
+		<Badge text="All 9 channels" variant="success" /> <Badge text="Needs AI key" variant="caution" />
+
+		An LLM agent built on open-source [PicoClaw](https://github.com/sipeed/picoclaw). Memory, [MCP tools](/setup/mcp-tools/), scheduled tasks, and several channels per bot.
+
+		**Best for:** assistants, support, Q&A, expense tracking, market data.
+	</Card>
+	<Card title="Python script" icon="seti:python">
+		<Badge text="Telegram" variant="note" /> <Badge text="No key" variant="success" />
+
+		A script that runs on the phone, with `telebot` and `requests` built in. Settings are a form on the **Config** tab, no code.
+
+		**Best for:** alerts, reminders, polls, RSS, weather.
+	</Card>
+	<Card title="On-device assistant" icon="padlock">
+		<Badge text="Telegram" variant="note" /> <Badge text="Offline" variant="success" />
+
+		A small model that replies from the phone itself. Nothing goes to a cloud AI. [Models & requirements →](/setup/on-device/)
+
+		**Best for:** private notes, rewriting, simple chat.
+	</Card>
+</CardGrid>
+
+## Execution modes at a glance
+
+| Mode | Where the reply comes from |
+|---|---|
+| **Cloud** | Your AI provider |
+| **Hybrid** | Agent runs on the phone, messages go to your AI provider |
+| **Script** | A Python script on the phone |
+| **On-device** | A model on the phone |

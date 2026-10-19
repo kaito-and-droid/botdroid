@@ -1,0 +1,49 @@
+---
+title: Bắt đầu
+description: Cài BotDroid và chạy bot đầu tiên trong vài phút.
+---
+
+import { Steps, Aside, LinkCard, CardGrid, LinkButton } from '@astrojs/starlight/components';
+
+Khoảng **5 phút** từ lúc cài đến khi bot trả lời. Hãy bắt đầu với một mẫu Telegram: ít bước nhất.
+
+<Steps>
+
+1. **Cài BotDroid**
+
+   Điện thoại Android chip 64-bit (ARM64), gần như mọi máy gần đây.
+
+   <LinkButton href="https://play.google.com/store/apps/details?id=com.kaito.botdroid" icon="external" target="_blank">Tải trên Google Play</LinkButton>
+
+2. **Cho phép chạy nền**
+
+   Khi được hỏi, bỏ tối ưu pin cho BotDroid. Với Xiaomi, Samsung, Oppo, Vivo hay Huawei, hãy cho phép thêm **OEM Autostart** trong Settings. [Danh sách kiểm tra →](/vi/guide/keep-bots-running/)
+
+3. **Nhấn Add bot và chọn một mẫu**
+
+   Thử **Weather Bot** (không cần key AI) hoặc **Q&A Assistant** (AI). [Xem cả 26 mẫu →](/vi/templates/)
+
+4. **Dán token bot**
+
+   Telegram: mở [@BotFather](https://t.me/BotFather), gửi `/newbot`, sao chép token. [Ứng dụng khác →](/vi/setup/channels/)
+
+5. **Bot AI: thêm key nhà cung cấp**
+
+   Chọn nhà cung cấp, dán key, chọn model. Hoặc chọn **On-Device** để không cần key. [Nhà cung cấp →](/vi/setup/ai-providers/)
+
+6. **Lưu và nhấn Start** 🎉
+
+   Nhắn tin cho bot. Không thấy trả lời? Mở **View logs** ở tab Overview.
+
+</Steps>
+
+<Aside type="tip" title="Bot không trả lời?">
+[Công cụ khắc phục sự cố](/vi/help/troubleshooting/) tìm ra cách sửa chỉ với hai lần nhấn.
+</Aside>
+
+## Tiếp theo
+
+<CardGrid>
+	<LinkCard title="Các loại bot" description="Agent AI, script Python hay trợ lý offline?" href="/vi/guide/bot-types/" />
+	<LinkCard title="Quản lý bot" description="Kênh, bộ nhớ, công cụ, tác vụ và sao lưu." href="/vi/guide/managing-bots/" />
+</CardGrid>

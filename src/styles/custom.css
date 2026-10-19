@@ -1,0 +1,40 @@
+/* Brand colors match the app: cyan #00E5C8, amber #FFB830, base #060C09. */
+:root {
+	--sl-font: 'Inter', system-ui, sans-serif;
+	--sl-font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+:root[data-theme='dark'] {
+	--sl-color-accent-low: #06332d;
+	--sl-color-accent: #00b8a0;
+	--sl-color-accent-high: #8ff5e6;
+	--sl-color-black: #060c09;
+	--sl-color-gray-6: #0f1a16;
+	--sl-color-gray-5: #1e2b26;
+}
+:root[data-theme='light'] {
+	--sl-color-accent-low: #c9f7f0;
+	--sl-color-accent: #00796a;
+	--sl-color-accent-high: #003d35;
+}
+.site-title img { width: 2rem; height: 2rem; }
+.hero .tagline { max-width: 36rem; }
+.amber { color: #ffb830; }
+
+/* FAQ accordions */
+.faq details {
+	margin-block: 0.6rem; border: 1px solid var(--sl-color-gray-5); border-radius: 0.9rem;
+	background: var(--sl-color-gray-6); transition: border-color 0.15s;
+}
+.faq details[open] { border-color: var(--sl-color-accent); }
+.faq summary {
+	list-style: none; cursor: pointer; padding: 0.9rem 1.1rem; font-weight: 600; color: var(--sl-color-white);
+	display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: '+'; font-size: 1.3rem; line-height: 1; color: var(--sl-color-accent-high); transition: transform 0.2s; }
+.faq details[open] summary::after { transform: rotate(45deg); }
+.faq details > :not(summary) { padding: 0 1.1rem 1rem; margin: 0; color: var(--sl-color-gray-2); }
+
+/* Home: the components render their own hero, so hide Starlight's page title there. */
+.main-pane:has(.bd-home) .content-panel:has(h1#_top) { display: none; }
+.main-pane:has(.bd-home) .content-panel { border-top: 0; }

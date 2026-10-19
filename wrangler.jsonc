@@ -1,11 +1,16 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "botdroid-landing",
-  "main": "worker.js",
   "compatibility_date": "2026-07-04",
+  // Assets-only Worker serving the Astro build. The *.workers.dev URL stays enabled so the
+  // privacy URL baked into shipped app builds (…workers.dev/privacy) keeps working.
+  "workers_dev": true,
+  "routes": [
+    { "pattern": "botdroid.app", "custom_domain": true },
+    { "pattern": "www.botdroid.app", "custom_domain": true }
+  ],
   "assets": {
-    "directory": ".",
-    "binding": "ASSETS",
+    "directory": "./dist",
     "not_found_handling": "404-page"
   }
 }

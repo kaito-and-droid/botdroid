@@ -1,0 +1,56 @@
+---
+title: MCP tools
+description: Give AI agents real data and actions through MCP tool servers.
+---
+
+import { Card, CardGrid, Steps, Aside, Badge, Tabs, TabItem } from '@astrojs/starlight/components';
+
+**MCP** servers give an AI agent tools: live prices, search, blockchain data and more. The agent calls them when it needs real data for an answer.
+
+<Aside type="caution">An MCP server receives the questions the agent sends it. Only add servers you trust.</Aside>
+
+## Ready-made templates
+
+<CardGrid>
+	<Card title="Crypto Assistant" icon="analytics">
+		<Badge text="CoinGecko" /> <Badge text="No sign-in" variant="success" />
+
+		Prices, market caps, trending coins, DeFi and NFT data.
+	</Card>
+	<Card title="On-chain Explorer" icon="magnifier">
+		<Badge text="Etherscan" /> <Badge text="No sign-in" variant="success" />
+
+		Wallets, transactions, contracts and gas. Read-only.
+	</Card>
+	<Card title="Binance Assistant" icon="random">
+		<Badge text="Binance" /> <Badge text="Sign-in for trading" variant="caution" />
+
+		Market data works right away. Trading and balances need a Binance sign-in.
+	</Card>
+	<Card title="Travel Assistant" icon="rocket">
+		<Badge text="Gondola" /> <Badge text="Sign-in required" variant="caution" />
+
+		Hotel and flight search in plain language.
+	</Card>
+</CardGrid>
+
+## How to
+
+<Tabs>
+	<TabItem label="Sign in to a server" icon="padlock">
+		<Steps>
+		1. Open the bot → **Tools** tab.
+		2. Edit the server, for example `gondola`.
+		3. Tap **Connect**. The sign-in page opens inside the app.
+		4. Sign in and approve.
+		</Steps>
+	</TabItem>
+	<TabItem label="Add your own server" icon="add-document">
+		<Steps>
+		1. Open an AI agent bot → **Tools** tab → **Add server**.
+		2. Enter a name and the server URL (HTTP or SSE).
+		3. If it needs OAuth, tap **Connect**.
+		4. If the bot was running, restart it to load the new tools.
+		</Steps>
+	</TabItem>
+</Tabs>

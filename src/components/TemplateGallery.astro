@@ -1,0 +1,180 @@
+---
+// Searchable, filterable catalog of the templates synced from the app (scripts/sync-templates.mjs).
+import templates from '../data/templates.json';
+import vi from '../data/templates.vi.json';
+
+interface Props { lang?: 'en' | 'vi' }
+const { lang = 'en' } = Astro.props;
+
+const emoji: Record<string, string> = {
+	'python-hello-world': '👋', 'python-echo': '🔁', 'python-daily-reporter': '📅', 'python-btc-price': '₿',
+	'python-reminder': '⏰', 'python-weather': '⛅', 'python-poll': '📊', 'python-rss-watcher': '📰',
+	'python-web-summarizer': '🔗', 'python-price-alert': '🚨', 'python-sale-tracker': '🏷️', 'python-medicine-reminder': '💊', 'picoclaw-telegram-qa': '💬',
+	'picoclaw-telegram-expense-tracker': '💸', 'picoclaw-telegram-news': '🗞️', 'picoclaw-telegram-assistant': '🧠',
+	'picoclaw-telegram-faq': '❓', 'picoclaw-telegram-crypto-assistant': '📈', 'picoclaw-telegram-travel-assistant': '✈️',
+	'picoclaw-telegram-binance-assistant': '🟡', 'picoclaw-telegram-etherscan-assistant': '⛓️',
+	'picoclaw-discord-helper': '🛟', 'picoclaw-discord-moderator': '🛡️', 'picoclaw-slack-standup': '🧍',
+	'picoclaw-zalo-support': '🎧', 'local-llm-offline-assistant': '🔒',
+};
+
+const t = {
+	en: {
+		search: 'Search templates…', all: 'All', noKey: 'No API key', mcp: 'Live data (MCP)', more: 'More', less: 'Less',
+		empty: 'No template matches. Try clearing a filter.', count: (n: number) => `${n} templates`,
+		types: { PYTHON_SCRIPT: 'Python script', PICOCLAW: 'AI agent', LOCAL_LLM: 'On-device AI' },
+		needsKey: 'Needs AI key', free: 'No key needed',
+	},
+	vi: {
+		search: 'Tìm mẫu…', all: 'Tất cả', noKey: 'Không cần API key', mcp: 'Dữ liệu thật (MCP)', more: 'Thêm', less: 'Thu gọn',
+		empty: 'Không có mẫu phù hợp. Hãy bỏ bớt bộ lọc.', count: (n: number) => `${n} mẫu`,
+		types: { PYTHON_SCRIPT: 'Script Python', PICOCLAW: 'Agent AI', LOCAL_LLM: 'AI trên máy' },
+		needsKey: 'Cần key AI', free: 'Không cần key',
+	},
+}[lang];
+type BotType = keyof typeof t.types;
+const channels = [...new Set(templates.flatMap((x) => x.channels))];
+const desc = (x: (typeof templates)[number]) =>
+	lang === 'vi' ? ((vi as Record<string, string>)[x.id] ?? x.description) : x.description;
+---
+
+<div class="gallery not-content" data-gallery>
+	<div class="bar">
+		<input type="search" placeholder={t.search} aria-label={t.search} data-q />
+		<span class="count" data-count aria-live="polite">{t.count(templates.length)}</span>
+	</div>
+	<div class="chips">
+		<button type="button" class="chip" aria-pressed="true" data-type="">{t.all}</button>
+		{(Object.keys(t.types) as BotType[]).map((k) => <button type="button" class="chip" aria-pressed="false" data-type={k}>{t.types[k]}</button>)}
+		<span class="sep"></span>
+		{channels.map((c) => <button type="button" class="chip" aria-pressed="false" data-channel={c}>{c}</button>)}
+		<span class="sep"></span>
+		<button type="button" class="chip toggle" aria-pressed="false" data-flag="nokey">{t.noKey}</button>
+		<button type="button" class="chip toggle" aria-pressed="false" data-flag="mcp">{t.mcp}</button>
+	</div>
+	<ul class="grid">
+		{templates.map((x) => (
+			<li class="card" data-card data-type={x.botType} data-channels={x.channels.join(',')}
+				data-nokey={String(!x.needsKey)} data-mcp={String(x.mcp.length > 0)}
+				data-text={`${x.name} ${desc(x)} ${x.category}`.toLowerCase()}>
+				<div class="top">
+					<span class="emoji" aria-hidden="true">{emoji[x.id] ?? '🤖'}</span>
+					<div>
+						<h3>{x.name}</h3>
+						<span class={`type t-${x.botType}`}>{t.types[x.botType as BotType]}</span>
+					</div>
+					{x.beta && <span class="beta">BETA</span>}
+				</div>
+				<p class="desc">{desc(x)}</p>
+				<button type="button" class="toggle-desc" data-more={t.more} data-less={t.less}>{t.more}</button>
+				<div class="meta">
+					{x.channels.map((c) => <span class="tag">{c}</span>)}
+					<span class={`tag ${x.needsKey ? 'warn' : 'ok'}`}>{x.needsKey ? t.needsKey : t.free}</span>
+					{x.mcp.length > 0 && <span class="tag mcp">MCP · {x.mcp.join(', ')}</span>}
+				</div>
+			</li>
+		))}
+	</ul>
+	<p class="empty" data-empty hidden>{t.empty}</p>
+</div>
+
+<style>
+	.gallery { margin-top: 1.5rem; }
+	.bar { display: flex; gap: 1rem; align-items: center; }
+	input {
+		flex: 1; font: inherit; padding: 0.7rem 1rem; border-radius: 0.75rem; border: 1px solid var(--sl-color-gray-5);
+		background: var(--sl-color-gray-6); color: var(--sl-color-white);
+	}
+	input:focus { outline: 2px solid var(--sl-color-accent); outline-offset: 1px; }
+	.count { font-size: var(--sl-text-sm); color: var(--sl-color-gray-3); white-space: nowrap; }
+	.chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-block: 0.9rem 1.25rem; align-items: center; }
+	.sep { width: 1px; height: 1.2rem; background: var(--sl-color-gray-5); margin-inline: 0.25rem; }
+	.chip {
+		font: inherit; font-size: var(--sl-text-xs); padding: 0.3rem 0.8rem; border-radius: 999px; cursor: pointer;
+		border: 1px solid var(--sl-color-gray-5); background: transparent; color: var(--sl-color-gray-2);
+	}
+	.chip[aria-pressed='true'] { background: var(--sl-color-accent); border-color: var(--sl-color-accent); color: var(--sl-color-black); }
+	.grid { list-style: none; padding: 0; margin: 0; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr)); }
+	.card {
+		display: flex; flex-direction: column; gap: 0.6rem; margin: 0; padding: 1.1rem; border-radius: 1rem;
+		border: 1px solid var(--sl-color-gray-5); background: var(--sl-color-gray-6); transition: transform 0.15s, border-color 0.15s;
+	}
+	.card:hover { transform: translateY(-3px); border-color: var(--sl-color-accent); }
+	.card[hidden] { display: none; }
+	.top { display: flex; gap: 0.75rem; align-items: center; }
+	.beta { margin-left: auto; align-self: flex-start; font-family: var(--sl-font-mono); font-size: 0.65rem; letter-spacing: 0.08em; padding: 0.1rem 0.45rem; border-radius: 0.3rem; background: rgb(180 167 255 / 0.15); color: #b4a7ff; }
+	:root[data-theme='light'] .beta { color: #5a46d6; }
+	.emoji { display: grid; place-items: center; width: 2.75rem; height: 2.75rem; flex: none; font-size: 1.4rem; border-radius: 0.8rem; background: var(--sl-color-gray-5); }
+	h3 { margin: 0; font-size: var(--sl-text-base); color: var(--sl-color-white); }
+	.type { font-family: var(--sl-font-mono); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; }
+	.t-PYTHON_SCRIPT { color: #ffb830; }
+	.t-PICOCLAW { color: var(--sl-color-accent-high); }
+	.t-LOCAL_LLM { color: #b4a7ff; }
+	.desc { margin: 0; font-size: var(--sl-text-sm); color: var(--sl-color-gray-2); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+	.card.open .desc { -webkit-line-clamp: unset; }
+	.toggle-desc { align-self: flex-start; font: inherit; font-size: var(--sl-text-xs); background: none; border: 0; padding: 0; color: var(--sl-color-accent-high); cursor: pointer; }
+	.meta { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: auto; }
+	.tag { font-size: 0.7rem; padding: 0.15rem 0.55rem; border-radius: 999px; background: var(--sl-color-gray-5); color: var(--sl-color-gray-2); }
+	.tag.ok { background: rgb(0 229 200 / 0.12); color: var(--sl-color-accent-high); }
+	.tag.warn { background: rgb(255 184 48 / 0.12); color: #ffb830; }
+	.tag.mcp { background: rgb(180 167 255 / 0.15); color: #b4a7ff; }
+	.empty { text-align: center; color: var(--sl-color-gray-3); padding: 2rem; }
+	:root[data-theme='light'] .t-PYTHON_SCRIPT, :root[data-theme='light'] .tag.warn { color: #9a6300; }
+	:root[data-theme='light'] .t-LOCAL_LLM, :root[data-theme='light'] .tag.mcp { color: #5a46d6; }
+</style>
+
+<script>
+	document.querySelectorAll<HTMLElement>('[data-gallery]').forEach((root) => {
+		const q = root.querySelector<HTMLInputElement>('[data-q]')!;
+		const cards = [...root.querySelectorAll<HTMLElement>('[data-card]')];
+		const typeChips = [...root.querySelectorAll<HTMLButtonElement>('[data-type]')].filter((b) => b.tagName === 'BUTTON');
+		const channelChips = [...root.querySelectorAll<HTMLButtonElement>('button[data-channel]')];
+		const flagChips = [...root.querySelectorAll<HTMLButtonElement>('button[data-flag]')];
+		const count = root.querySelector<HTMLElement>('[data-count]')!;
+		const empty = root.querySelector<HTMLElement>('[data-empty]')!;
+		const label = count.textContent!.replace(/\d+/, '#');
+		const state = { type: '', channel: '', flags: new Set<string>() };
+
+		function apply() {
+			const text = q.value.trim().toLowerCase();
+			let shown = 0;
+			cards.forEach((c) => {
+				const ok = (!state.type || c.dataset.type === state.type)
+					&& (!state.channel || c.dataset.channels!.split(',').includes(state.channel))
+					&& [...state.flags].every((f) => c.dataset[f] === 'true')
+					&& (!text || c.dataset.text!.includes(text));
+				c.hidden = !ok;
+				if (ok) shown++;
+			});
+			count.textContent = label.replace('#', String(shown));
+			empty.hidden = shown > 0;
+		}
+
+		typeChips.forEach((b) => b.addEventListener('click', () => {
+			state.type = b.dataset.type!;
+			typeChips.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+			apply();
+		}));
+		channelChips.forEach((b) => b.addEventListener('click', () => {
+			state.channel = state.channel === b.dataset.channel ? '' : b.dataset.channel!;
+			channelChips.forEach((x) => x.setAttribute('aria-pressed', String(x.dataset.channel === state.channel)));
+			apply();
+		}));
+		flagChips.forEach((b) => b.addEventListener('click', () => {
+			const f = b.dataset.flag!;
+			state.flags.has(f) ? state.flags.delete(f) : state.flags.add(f);
+			b.setAttribute('aria-pressed', String(state.flags.has(f)));
+			apply();
+		}));
+		q.addEventListener('input', apply);
+		root.querySelectorAll<HTMLButtonElement>('.toggle-desc').forEach((b) => {
+			const card = b.closest<HTMLElement>('.card')!;
+			const d = card.querySelector<HTMLElement>('.desc')!;
+			// Only offer "More" when the description is actually clamped.
+			requestAnimationFrame(() => { if (d.scrollHeight <= d.clientHeight + 2) b.hidden = true; });
+			b.addEventListener('click', () => {
+				const open = card.classList.toggle('open');
+				b.textContent = open ? b.dataset.less! : b.dataset.more!;
+			});
+		});
+	});
+</script>

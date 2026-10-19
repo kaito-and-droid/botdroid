@@ -1,0 +1,146 @@
+---
+// Pick a symptom, see only its fix. Deep-linkable: /help/troubleshooting/#fix-<id>.
+interface Props { lang?: 'en' | 'vi' }
+const { lang = 'en' } = Astro.props;
+const b = lang === 'vi' ? '/vi' : '';
+
+type Fix = { id: string; emoji: string; title: string; steps: string[] };
+const data: Record<'en' | 'vi', { ask: string; fixes: Fix[] }> = {
+	en: {
+		ask: 'What’s going wrong?',
+		fixes: [
+			{ id: 'stops', emoji: '🔋', title: 'Bot stops when the screen is off', steps: [
+				'Exempt BotDroid from battery optimization (<b>Settings → Battery Optimization</b>).',
+				'Allow autostart if your phone shows the <b>OEM Autostart</b> card.',
+				'Set Android <b>Settings → Apps → BotDroid → Battery</b> to <b>Unrestricted</b>.',
+				`Run <b>Settings → Diagnostics</b> to confirm. Full guide: <a href="${b}/guide/keep-bots-running/">Keep bots running</a>.`] },
+			{ id: 'silent', emoji: '🤐', title: 'Running, but no reply', steps: [
+				'Make sure you message the right bot (the <code>@username</code> BotFather gave you).',
+				'A Telegram token works for only one running bot. Stop any other copy that uses it.',
+				'Discord: enable <b>Message Content Intent</b> and give the bot read and send permissions.',
+				'Feishu / Lark: create a version and publish the app; settings apply only after that.',
+				'Check the phone has internet, then open <b>View logs</b> on the bot.'] },
+			{ id: 'token', emoji: '🔑', title: 'Token rejected', steps: [
+				'Copy the whole token. Telegram tokens include a colon (<code>123456:ABC…</code>).',
+				'Slack needs the <b>Bot User OAuth Token</b> starting with <code>xoxb-</code>.',
+				`Regenerated the token? Paste the new one on the bot’s <b>Channels</b> tab. Token steps: <a href="${b}/setup/channels/">Chat channels</a>.`] },
+			{ id: 'ai', emoji: '🤖', title: 'AI provider error (401, 402, 404, 429)', steps: [
+				'<b>401</b>: the key is wrong or revoked. Paste a new key and tap <b>Test LLM Connection</b>.',
+				'<b>402</b>: no credit left. Top up with the provider, or pick a free model.',
+				'<b>404</b>: the model name doesn’t exist. Pick one from the list.',
+				'<b>429</b>: rate limited. Wait, upgrade with the provider, or switch model.',
+				`Custom endpoint? Check the base URL ends in <code>/v1</code>. See <a href="${b}/setup/ai-providers/">AI providers</a>.`] },
+			{ id: 'context', emoji: '📏', title: '“Context too long”', steps: [
+				'Small models (about 8K tokens) can’t hold long conversations.',
+				'Pick a larger model, or set <b>Clear memory after</b> on the bot’s <b>Config</b> tab.'] },
+			{ id: 'mcp', emoji: '🧩', title: 'MCP tool not working', steps: [
+				'Open the bot’s <b>Tools</b> tab.',
+				'If the server needs sign-in (Gondola, Binance trading), tap <b>Connect</b> and sign in again. Sign-ins can expire.',
+				`More in <a href="${b}/setup/mcp-tools/">MCP tools</a>.`] },
+			{ id: 'whatsapp', emoji: '📱', title: 'WhatsApp won’t pair', steps: [
+				'Stop the bot before pairing.',
+				'Request a new pairing code if the old one expired.',
+				'WhatsApp support is in beta.'] },
+			{ id: 'reboot', emoji: '🔄', title: 'Bots gone after a reboot', steps: [
+				'BotDroid restarts bots after the phone boots.',
+				`If they don’t come back, open the app once and check <a href="${b}/guide/keep-bots-running/">Keep bots running</a>.`] },
+		],
+	},
+	vi: {
+		ask: 'Bạn đang gặp vấn đề gì?',
+		fixes: [
+			{ id: 'stops', emoji: '🔋', title: 'Bot dừng khi tắt màn hình', steps: [
+				'Bỏ tối ưu pin cho BotDroid (<b>Settings → Battery Optimization</b>).',
+				'Cho phép tự khởi động nếu máy hiện thẻ <b>OEM Autostart</b>.',
+				'Đặt <b>Cài đặt → Ứng dụng → BotDroid → Pin</b> của Android thành <b>Không hạn chế</b>.',
+				`Chạy <b>Settings → Diagnostics</b> để kiểm tra. Hướng dẫn đầy đủ: <a href="${b}/guide/keep-bots-running/">Giữ bot luôn chạy</a>.`] },
+			{ id: 'silent', emoji: '🤐', title: 'Đang chạy nhưng không trả lời', steps: [
+				'Kiểm tra bạn nhắn đúng bot (<code>@username</code> BotFather đã cấp).',
+				'Một token Telegram chỉ dùng cho một bot đang chạy. Dừng bản khác đang dùng cùng token.',
+				'Discord: bật <b>Message Content Intent</b> và cấp quyền đọc, gửi tin cho bot.',
+				'Feishu / Lark: tạo phiên bản và phát hành app; cài đặt chỉ có hiệu lực sau đó.',
+				'Kiểm tra điện thoại có mạng, rồi mở <b>View logs</b> của bot.'] },
+			{ id: 'token', emoji: '🔑', title: 'Token bị từ chối', steps: [
+				'Sao chép toàn bộ token. Token Telegram có dấu hai chấm (<code>123456:ABC…</code>).',
+				'Slack cần <b>Bot User OAuth Token</b> bắt đầu bằng <code>xoxb-</code>.',
+				`Đã tạo lại token? Dán token mới ở tab <b>Channels</b> của bot. Cách lấy token: <a href="${b}/setup/channels/">Kênh chat</a>.`] },
+			{ id: 'ai', emoji: '🤖', title: 'Lỗi nhà cung cấp AI (401, 402, 404, 429)', steps: [
+				'<b>401</b>: key sai hoặc đã bị thu hồi. Dán key mới và nhấn <b>Test LLM Connection</b>.',
+				'<b>402</b>: hết số dư. Nạp thêm ở nhà cung cấp, hoặc chọn model miễn phí.',
+				'<b>404</b>: tên model không tồn tại. Chọn trong danh sách.',
+				'<b>429</b>: bị giới hạn tốc độ. Chờ, nâng gói, hoặc đổi model.',
+				`Endpoint tuỳ chỉnh? Kiểm tra base URL kết thúc bằng <code>/v1</code>. Xem <a href="${b}/setup/ai-providers/">Nhà cung cấp AI</a>.`] },
+			{ id: 'context', emoji: '📏', title: '“Ngữ cảnh quá dài”', steps: [
+				'Model nhỏ (khoảng 8K token) không giữ được cuộc trò chuyện dài.',
+				'Chọn model lớn hơn, hoặc đặt <b>Clear memory after</b> ở tab <b>Config</b> của bot.'] },
+			{ id: 'mcp', emoji: '🧩', title: 'Công cụ MCP không chạy', steps: [
+				'Mở tab <b>Tools</b> của bot.',
+				'Nếu máy chủ cần đăng nhập (Gondola, giao dịch Binance), nhấn <b>Connect</b> và đăng nhập lại. Phiên đăng nhập có thể hết hạn.',
+				`Xem thêm ở <a href="${b}/setup/mcp-tools/">Công cụ MCP</a>.`] },
+			{ id: 'whatsapp', emoji: '📱', title: 'WhatsApp không ghép nối được', steps: [
+				'Dừng bot trước khi ghép nối.',
+				'Yêu cầu mã mới nếu mã cũ đã hết hạn.',
+				'Hỗ trợ WhatsApp đang ở bản beta.'] },
+			{ id: 'reboot', emoji: '🔄', title: 'Mất bot sau khi khởi động lại máy', steps: [
+				'BotDroid tự chạy lại bot sau khi máy khởi động.',
+				`Nếu bot không chạy lại, mở app một lần và xem <a href="${b}/guide/keep-bots-running/">Giữ bot luôn chạy</a>.`] },
+		],
+	},
+};
+const d = data[lang];
+---
+
+<div class="ts not-content" data-ts>
+	<p class="ask">{d.ask}</p>
+	<div class="symptoms">
+		{d.fixes.map((f, i) => (
+			<button type="button" aria-pressed={i === 0 ? 'true' : 'false'} data-sym={f.id}>
+				<span class="e" aria-hidden="true">{f.emoji}</span>{f.title}
+			</button>
+		))}
+	</div>
+	{d.fixes.map((f, i) => (
+		<section class="fix" id={`fix-${f.id}`} data-fix={f.id} hidden={i !== 0}>
+			<h3><span aria-hidden="true">{f.emoji}</span> {f.title}</h3>
+			<ol>{f.steps.map((s) => <li set:html={s} />)}</ol>
+		</section>
+	))}
+</div>
+
+<style>
+	.ts { margin-block: 1.5rem; }
+	.ask { font-weight: 700; color: var(--sl-color-white); font-size: var(--sl-text-lg); margin: 0 0 0.75rem; }
+	.symptoms { display: grid; gap: 0.5rem; grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr)); }
+	.symptoms button {
+		display: flex; align-items: center; gap: 0.6rem; text-align: left; font: inherit; font-size: var(--sl-text-sm);
+		padding: 0.7rem 0.9rem; border-radius: 0.8rem; cursor: pointer; border: 1px solid var(--sl-color-gray-5);
+		background: var(--sl-color-gray-6); color: var(--sl-color-gray-1); transition: border-color 0.15s, transform 0.15s;
+	}
+	.symptoms button:hover { transform: translateY(-1px); border-color: var(--sl-color-gray-4); }
+	.symptoms button[aria-pressed='true'] { border-color: #00e5c8; box-shadow: 0 0 0 1px #00e5c8; color: var(--sl-color-white); }
+	.e { font-size: 1.2rem; }
+	.fix {
+		margin-top: 1rem; padding: 1.25rem 1.5rem; border-radius: 1rem; border: 1px solid var(--sl-color-gray-5);
+		background: linear-gradient(135deg, var(--sl-color-accent-low), transparent 60%); animation: fade 0.25s ease-out;
+	}
+	.fix[hidden] { display: none; }
+	h3 { margin: 0 0 0.6rem; color: var(--sl-color-white); font-size: var(--sl-text-lg); }
+	ol { margin: 0; padding-left: 1.25rem; display: grid; gap: 0.45rem; color: var(--sl-color-gray-2); }
+	li :global(a) { color: var(--sl-color-accent-high); }
+	li :global(code) { font-size: 0.85em; }
+	@keyframes fade { from { opacity: 0; transform: translateY(4px); } }
+</style>
+
+<script>
+	document.querySelectorAll<HTMLElement>('[data-ts]').forEach((root) => {
+		const btns = [...root.querySelectorAll<HTMLButtonElement>('[data-sym]')];
+		const fixes = [...root.querySelectorAll<HTMLElement>('[data-fix]')];
+		const show = (id: string) => {
+			btns.forEach((x) => x.setAttribute('aria-pressed', String(x.dataset.sym === id)));
+			fixes.forEach((f) => (f.hidden = f.dataset.fix !== id));
+		};
+		btns.forEach((x) => x.addEventListener('click', () => { show(x.dataset.sym!); history.replaceState(null, '', `#fix-${x.dataset.sym}`); }));
+		const hash = location.hash.replace('#fix-', '');
+		if (hash && fixes.some((f) => f.dataset.fix === hash)) show(hash);
+	});
+</script>

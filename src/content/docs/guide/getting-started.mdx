@@ -1,0 +1,49 @@
+---
+title: Getting started
+description: Install BotDroid and run your first bot in a few minutes.
+---
+
+import { Steps, Aside, LinkCard, CardGrid, LinkButton } from '@astrojs/starlight/components';
+
+About **5 minutes** from install to a bot that answers. Start with a Telegram template: it has the fewest steps.
+
+<Steps>
+
+1. **Install BotDroid**
+
+   Any Android phone with a 64-bit (ARM64) chip, which covers almost every recent phone.
+
+   <LinkButton href="https://play.google.com/store/apps/details?id=com.kaito.botdroid" icon="external" target="_blank">Get it on Google Play</LinkButton>
+
+2. **Allow background running**
+
+   When onboarding asks, exempt BotDroid from battery optimization. On Xiaomi, Samsung, Oppo, Vivo or Huawei, also allow **OEM Autostart** in Settings. [Checklist →](/guide/keep-bots-running/)
+
+3. **Tap Add bot and pick a template**
+
+   Try **Weather Bot** (no AI key) or **Q&A Assistant** (AI). [Browse all 26 →](/templates/)
+
+4. **Paste your bot token**
+
+   Telegram: open [@BotFather](https://t.me/BotFather), send `/newbot`, copy the token. [Other apps →](/setup/channels/)
+
+5. **AI bots: add a provider key**
+
+   Pick a provider, paste your key, choose a model. Or pick **On-Device** for no key at all. [Providers →](/setup/ai-providers/)
+
+6. **Save and tap Start** 🎉
+
+   Send your bot a message. Nothing back? Open **View logs** on the bot's Overview tab.
+
+</Steps>
+
+<Aside type="tip" title="No reply?">
+The [troubleshooter](/help/troubleshooting/) finds the fix in two clicks.
+</Aside>
+
+## Keep going
+
+<CardGrid>
+	<LinkCard title="Bot types" description="AI agent, Python script, or offline assistant?" href="/guide/bot-types/" />
+	<LinkCard title="Managing bots" description="Channels, memory, tools, tasks and backups." href="/guide/managing-bots/" />
+</CardGrid>

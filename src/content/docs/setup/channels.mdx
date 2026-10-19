@@ -1,0 +1,94 @@
+---
+title: Chat channels
+description: How to get a bot token for each messaging app BotDroid supports.
+---
+
+import { Tabs, TabItem, Steps, Aside, LinkButton, Badge } from '@astrojs/starlight/components';
+
+Pick your app. Python and on-device bots use **Telegram**; AI agents can use any of these, and several at once. The same steps appear in the app next to each token field.
+
+<Tabs syncKey="channel">
+	<TabItem label="Telegram" icon="telegram">
+		<Steps>
+		1. Open @BotFather in Telegram.
+		2. Send `/newbot` and follow the prompts.
+		3. Copy the complete token BotFather sends, **including the colon**.
+		4. Paste it into **Telegram Bot Token**.
+		</Steps>
+		<LinkButton href="https://t.me/BotFather" icon="external" target="_blank">Open BotFather</LinkButton>
+	</TabItem>
+	<TabItem label="Discord" icon="discord">
+		<Steps>
+		1. Create a new application in the Discord Developer Portal.
+		2. Enable **Message Content Intent** and **Server Members Intent**.
+		3. Copy the Bot Token into **Discord Bot Token**.
+		4. Invite the bot with **Send Messages** and **Read Message History**.
+		</Steps>
+		<LinkButton href="https://discord.com/developers/applications" icon="external" target="_blank">Open Developer Portal</LinkButton>
+	</TabItem>
+	<TabItem label="Slack" icon="slack">
+		<Steps>
+		1. Create a new Slack app on the Slack API site.
+		2. Add Bot Token Scopes, e.g. `chat:write` and `im:history`.
+		3. Install to your workspace and copy the **Bot User OAuth Token** (`xoxb-…`).
+		4. Paste it into **Slack Bot Token**.
+		</Steps>
+		<LinkButton href="https://api.slack.com/" icon="external" target="_blank">Open Slack API</LinkButton>
+	</TabItem>
+	<TabItem label="WhatsApp" icon="whatsApp">
+		<Badge text="BETA" variant="caution" /> No token: BotDroid links as a WhatsApp linked device. Stop the bot first.
+		<Steps>
+		1. Accept the risk notice and enter the WhatsApp number to link.
+		2. Tap **Get pairing code**.
+		3. In WhatsApp: **Linked devices → Link with phone number**, then type the code.
+		</Steps>
+		<Aside type="caution">WhatsApp doesn't officially support bots on personal accounts. Use a number you can afford to lose.</Aside>
+	</TabItem>
+	<TabItem label="Zalo">
+		<Badge text="BETA" variant="caution" />
+		<Steps>
+		1. Create a Zalo bot and copy its Bot Token.
+		2. Paste it into **Zalo Bot Token**.
+		3. Webhook URL is optional. Leave it blank to use polling.
+		</Steps>
+	</TabItem>
+	<TabItem label="LINE">
+		<Steps>
+		1. Create a provider and a Messaging API channel in the LINE Developers Console.
+		2. Copy the **Channel Access Token** into **LINE Channel Access Token**.
+		3. Copy the **Channel Secret** into **LINE Channel Secret**.
+		</Steps>
+		<LinkButton href="https://developers.line.biz/console/" icon="external" target="_blank">Open LINE Console</LinkButton>
+	</TabItem>
+	<TabItem label="DingTalk">
+		<Steps>
+		1. Create an internal enterprise application on the DingTalk Open Platform.
+		2. Copy the **Client ID** into **DingTalk Client ID**.
+		3. Copy the **Client Secret** into **DingTalk Client Secret**.
+		</Steps>
+		<LinkButton href="https://open.dingtalk.com/" icon="external" target="_blank">Open DingTalk</LinkButton>
+	</TabItem>
+	<TabItem label="Feishu / Lark">
+		<Steps>
+		1. Create an application on the Feishu Open Platform.
+		2. Enable the **Bot** capability.
+		3. Create a version and **publish** the app. Settings apply only after publishing.
+		4. Copy the **App ID** (`cli_…`) into **Feishu App ID**.
+		5. Copy the **App Secret** into **Feishu App Secret**.
+		</Steps>
+		<LinkButton href="https://open.feishu.cn/" icon="external" target="_blank">Open Feishu</LinkButton>
+	</TabItem>
+	<TabItem label="WeCom">
+		<Steps>
+		1. Get the Bot ID and Secret of your WeCom AI Bot from the WeCom AI Bot platform.
+		2. Paste the Bot ID into **WeCom Bot ID**.
+		3. Paste the Secret into **WeCom Secret**.
+		</Steps>
+	</TabItem>
+</Tabs>
+
+<Aside type="tip" title="One bot, many apps">
+AI agents can answer on several channels. Open the bot → **Channels** tab → **Add channel**. [More →](/guide/managing-bots/)
+</Aside>
+
+Tokens are stored encrypted on your phone and never included in backups.

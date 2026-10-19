@@ -1,0 +1,37 @@
+---
+title: AI trên máy
+description: Chạy trợ lý riêng tư hoàn toàn trên điện thoại, không cần đám mây hay API key.
+---
+
+import { Card, CardGrid, Steps, Aside } from '@astrojs/starlight/components';
+
+Mẫu **Offline Assistant** và nhà cung cấp **On-Device** tạo câu trả lời ngay trên điện thoại. Không AI đám mây, không key. Bot vẫn cần internet để nhận và gửi tin nhắn chat.
+
+## Chọn model
+
+<CardGrid>
+	<Card title="Qwen2.5 0.5B" icon="rocket">
+		**Từ 4 GB RAM** · tải khoảng 550 MB
+
+		Trả lời nhanh hơn. Tốt cho câu trả lời ngắn và viết lại nhanh.
+	</Card>
+	<Card title="Qwen2.5 1.5B" icon="star">
+		**Từ 6 GB RAM** · tải khoảng 1,6 GB
+
+		Trả lời tốt hơn, chậm hơn một chút.
+	</Card>
+</CardGrid>
+
+App chỉ hiện các model máy bạn chạy được.
+
+## Thiết lập
+
+<Steps>
+1. Nhấn **Add bot** và chọn **Offline Assistant**.
+2. Chọn model và tải một lần, qua Wi-Fi.
+3. Dán token bot Telegram và nhấn **Start**.
+</Steps>
+
+<Aside>
+Model nhỏ trò chuyện và viết lại tốt nhưng kém chính xác hơn model lớn trên đám mây. Tạo câu trả lời tốn CPU và pin, nên cắm sạc nếu máy chạy cả ngày.
+</Aside>

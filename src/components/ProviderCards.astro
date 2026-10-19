@@ -1,0 +1,67 @@
+---
+// One card per AI provider preset in the app (LlmConfigSection.kt), with copy-to-clipboard.
+import { Icon } from '@astrojs/starlight/components';
+
+interface Props { lang?: 'en' | 'vi' }
+const { lang = 'en' } = Astro.props;
+const t = lang === 'vi'
+	? { getKey: 'Lấy key', copy: 'Sao chép', copied: 'Đã chép', base: 'API base (app tự điền)', tips: { openrouter: 'Một key, model của nhiều hãng, có model miễn phí', groq: 'Có gói miễn phí', gemini: 'Có gói miễn phí', cloudflare: 'Thay <ACCOUNT_ID> bằng account ID của bạn' } }
+	: { getKey: 'Get key', copy: 'Copy', copied: 'Copied', base: 'API base (filled in by the app)', tips: { openrouter: 'One key, models from many vendors, free models', groq: 'Free tier available', gemini: 'Free tier available', cloudflare: 'Replace <ACCOUNT_ID> with your account ID' } };
+
+const providers = [
+	{ id: 'openrouter', name: 'OpenRouter', base: 'https://openrouter.ai/api/v1', key: 'https://openrouter.ai/keys' },
+	{ id: 'openai', name: 'OpenAI', base: 'https://api.openai.com/v1', key: 'https://platform.openai.com/api-keys' },
+	{ id: 'gemini', name: 'Gemini', base: 'https://generativelanguage.googleapis.com/v1beta/openai', key: 'https://aistudio.google.com/apikey' },
+	{ id: 'groq', name: 'Groq', base: 'https://api.groq.com/openai/v1', key: 'https://console.groq.com/keys' },
+	{ id: 'nvidia', name: 'NVIDIA', base: 'https://integrate.api.nvidia.com/v1', key: 'https://build.nvidia.com/' },
+	{ id: 'deepseek', name: 'DeepSeek', base: 'https://api.deepseek.com', key: 'https://platform.deepseek.com/' },
+	{ id: 'xai', name: 'xAI', base: 'https://api.x.ai/v1', key: 'https://console.x.ai/' },
+	{ id: 'cloudflare', name: 'Cloudflare Workers AI', base: 'https://api.cloudflare.com/client/v4/accounts/<ACCOUNT_ID>/ai/v1', key: 'https://dash.cloudflare.com/' },
+];
+---
+
+<div class="providers not-content">
+	{providers.map((p) => (
+		<article class:list={['card', { featured: p.id === 'openrouter' }]}>
+			<div class="head">
+				<span class="mono">{p.name.slice(0, 2).toUpperCase()}</span>
+				<h3>{p.name}</h3>
+			</div>
+			{(t.tips as Record<string, string>)[p.id] && <p class="tip">{(t.tips as Record<string, string>)[p.id]}</p>}
+			<span class="label">{t.base}</span>
+			<div class="base">
+				<code>{p.base}</code>
+				<button type="button" data-copy={p.base} data-label={t.copy} data-done={t.copied} aria-label={`${t.copy} ${p.name}`}>
+					<Icon name="document" size="0.9rem" /><span>{t.copy}</span>
+				</button>
+			</div>
+			<a class="key" href={p.key} target="_blank" rel="noopener">{t.getKey} <Icon name="external" size="0.85rem" /></a>
+		</article>
+	))}
+</div>
+
+<style>
+	.providers { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr)); margin-block: 1.5rem; }
+	.card { display: flex; flex-direction: column; gap: 0.5rem; padding: 1.1rem; border-radius: 1rem; border: 1px solid var(--sl-color-gray-5); background: var(--sl-color-gray-6); }
+	.card.featured { border-color: #00e5c8; box-shadow: 0 10px 30px -18px rgb(0 229 200 / 0.8); }
+	.head { display: flex; align-items: center; gap: 0.65rem; }
+	.mono { display: grid; place-items: center; width: 2.3rem; height: 2.3rem; border-radius: 0.65rem; background: var(--sl-color-accent-low); color: var(--sl-color-accent-high); font-family: var(--sl-font-mono); font-weight: 700; font-size: 0.8rem; }
+	h3 { margin: 0; font-size: var(--sl-text-base); color: var(--sl-color-white); }
+	.tip { margin: 0; font-size: var(--sl-text-xs); color: #ffb830; }
+	.label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--sl-color-gray-3); }
+	.base { display: flex; gap: 0.4rem; align-items: stretch; }
+	code { flex: 1; min-width: 0; overflow-x: auto; white-space: nowrap; font-size: 0.72rem; padding: 0.4rem 0.55rem; border-radius: 0.5rem; background: var(--sl-color-black); color: var(--sl-color-gray-1); }
+	button { display: inline-flex; align-items: center; gap: 0.3rem; font: inherit; font-size: var(--sl-text-xs); padding: 0 0.6rem; border-radius: 0.5rem; cursor: pointer; border: 1px solid var(--sl-color-gray-4); background: transparent; color: var(--sl-color-gray-1); }
+	button.ok { border-color: #00e5c8; color: var(--sl-color-accent-high); }
+	.key { margin-top: auto; align-self: flex-start; display: inline-flex; align-items: center; gap: 0.3rem; font-weight: 600; font-size: var(--sl-text-sm); color: var(--sl-color-accent-high); }
+</style>
+
+<script>
+	document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach((b) => b.addEventListener('click', async () => {
+		try { await navigator.clipboard.writeText(b.dataset.copy!); } catch { return; }
+		const span = b.querySelector('span')!;
+		span.textContent = b.dataset.done!;
+		b.classList.add('ok');
+		setTimeout(() => { span.textContent = b.dataset.label!; b.classList.remove('ok'); }, 1500);
+	}));
+</script>

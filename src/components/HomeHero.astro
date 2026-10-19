@@ -1,0 +1,99 @@
+---
+import { Icon } from '@astrojs/starlight/components';
+import ChatDemo from './ChatDemo.astro';
+
+interface Props { lang?: 'en' | 'vi' }
+const { lang = 'en' } = Astro.props;
+const base = lang === 'vi' ? '/vi' : '';
+const PLAY = 'https://play.google.com/store/apps/details?id=com.kaito.botdroid';
+
+const t = {
+	en: {
+		eyebrow: 'Now on Google Play',
+		title: ['Your phone is', 'the bot server.'],
+		lead: 'Run AI agents and Python bots on Telegram, Discord, Slack, Zalo, WhatsApp and more, straight from your Android phone. No VPS, no Raspberry Pi, no code required.',
+		start: 'Get started', play: 'Get it on Google Play',
+		proof: ['9 chat channels', '26 ready-made templates', 'Keys stay on your phone'],
+	},
+	vi: {
+		eyebrow: 'Đã có trên Google Play',
+		title: ['Điện thoại của bạn', 'là máy chủ bot.'],
+		lead: 'Chạy agent AI và bot Python trên Telegram, Discord, Slack, Zalo, WhatsApp và nhiều nền tảng khác, ngay từ điện thoại Android. Không VPS, không Raspberry Pi, không cần code.',
+		start: 'Bắt đầu', play: 'Tải trên Google Play',
+		proof: ['9 kênh chat', '26 mẫu dựng sẵn', 'Key chỉ lưu trên máy'],
+	},
+}[lang];
+
+const channels: { name: string; icon: 'telegram' | 'discord' | 'slack' | 'whatsApp' | 'comment' }[] = [
+	{ name: 'Telegram', icon: 'telegram' }, { name: 'Discord', icon: 'discord' }, { name: 'Slack', icon: 'slack' },
+	{ name: 'WhatsApp', icon: 'whatsApp' }, { name: 'Zalo', icon: 'comment' }, { name: 'LINE', icon: 'comment' },
+	{ name: 'DingTalk', icon: 'comment' }, { name: 'Feishu / Lark', icon: 'comment' }, { name: 'WeCom', icon: 'comment' },
+];
+---
+
+<section class="bd-home hero-wrap">
+	<div class="glow" aria-hidden="true"></div>
+	<div class="grid">
+		<div class="copy">
+			<span class="eyebrow"><span class="dot"></span>{t.eyebrow}</span>
+			<h1>{t.title[0]}<br /><span class="grad">{t.title[1]}</span></h1>
+			<p class="lead">{t.lead}</p>
+			<div class="ctas">
+				<a class="btn primary" href={`${base}/guide/getting-started/`}>{t.start}<Icon name="right-arrow" /></a>
+				<a class="btn ghost" href={PLAY} target="_blank" rel="noopener"><Icon name="mobile-android" />{t.play}</a>
+			</div>
+			<ul class="proof">{t.proof.map((p) => <li><Icon name="approve-check-circle" />{p}</li>)}</ul>
+		</div>
+		<ChatDemo lang={lang} />
+	</div>
+	<div class="marquee" aria-label="Channels">
+		<div class="track">
+			{[...channels, ...channels].map((c, i) => (
+				<span class="pill" aria-hidden={i >= channels.length ? 'true' : undefined}><Icon name={c.icon} />{c.name}</span>
+			))}
+		</div>
+	</div>
+</section>
+
+<style>
+	.hero-wrap { position: relative; padding-block: 1rem 0.5rem; }
+	.glow {
+		position: absolute; inset: -6rem 0 auto; height: 34rem; z-index: -1; pointer-events: none;
+		background:
+			radial-gradient(40% 60% at 75% 40%, rgb(0 229 200 / 0.18), transparent 70%),
+			radial-gradient(30% 40% at 15% 20%, rgb(255 184 48 / 0.10), transparent 70%);
+	}
+	.grid { display: grid; gap: 2.5rem; align-items: center; }
+	/* Bleed into the side margins only where they exist; on narrow screens it would widen the page. */
+	@media (min-width: 60rem) { .grid { grid-template-columns: 1.15fr 1fr; } .glow { inset: -6rem -20vw auto; } }
+	.eyebrow {
+		display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.25rem 0.75rem; border-radius: 999px;
+		border: 1px solid var(--sl-color-accent); color: var(--sl-color-accent-high); font-size: var(--sl-text-xs);
+		font-family: var(--sl-font-mono); letter-spacing: 0.05em; text-transform: uppercase;
+	}
+	.dot { width: 0.45rem; height: 0.45rem; border-radius: 50%; background: #00e5c8; box-shadow: 0 0 0 0 #00e5c8; animation: ping 2s infinite; }
+	h1 { margin-top: 1rem; font-size: clamp(2.3rem, 5.5vw, 3.8rem); line-height: 1.05; font-weight: 800; letter-spacing: -0.02em; color: var(--sl-color-white); }
+	.grad { background: linear-gradient(90deg, #00e5c8, #8ff5e6 45%, #ffb830); -webkit-background-clip: text; background-clip: text; color: transparent; }
+	.lead { font-size: var(--sl-text-lg); color: var(--sl-color-gray-2); max-width: 34rem; }
+	.ctas { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.5rem; }
+	.btn {
+		display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.25rem; border-radius: 0.75rem;
+		font-weight: 600; text-decoration: none; transition: transform 0.15s, box-shadow 0.15s;
+	}
+	.btn:hover { transform: translateY(-2px); }
+	.btn.primary { background: #00e5c8; color: #04231f; box-shadow: 0 10px 30px -10px rgb(0 229 200 / 0.7); }
+	.btn.ghost { border: 1px solid var(--sl-color-gray-4); color: var(--sl-color-white); }
+	.proof { list-style: none; padding: 0; margin-top: 1.5rem; display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; font-size: var(--sl-text-sm); color: var(--sl-color-gray-2); }
+	.proof li { display: inline-flex; align-items: center; gap: 0.35rem; margin: 0; }
+	.proof :global(svg) { color: var(--sl-color-accent); }
+	.marquee { margin-top: 2.5rem; overflow: hidden; mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); }
+	.track { display: flex; gap: 0.75rem; width: max-content; animation: scroll 28s linear infinite; }
+	.marquee:hover .track { animation-play-state: paused; }
+	.pill {
+		display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.45rem 0.95rem; border-radius: 999px; white-space: nowrap;
+		border: 1px solid var(--sl-color-gray-5); background: var(--sl-color-gray-6); color: var(--sl-color-gray-1); font-size: var(--sl-text-sm);
+	}
+	@keyframes scroll { to { transform: translateX(calc(-50% - 0.375rem)); } }
+	@keyframes ping { 70% { box-shadow: 0 0 0 0.5rem rgb(0 229 200 / 0); } 100% { box-shadow: 0 0 0 0 rgb(0 229 200 / 0); } }
+	@media (prefers-reduced-motion: reduce) { .track, .dot { animation: none; } .marquee { overflow-x: auto; } }
+</style>

@@ -1,0 +1,353 @@
+[
+  {
+    "id": "python-hello-world",
+    "name": "Hello World",
+    "description": "A minimal Python bot that replies to every message. Great starting point.",
+    "category": "Python Scripts",
+    "botType": "PYTHON_SCRIPT",
+    "mcp": [],
+    "channels": [
+      "Telegram"
+    ],
+    "needsKey": false,
+    "beta": false
+  },
+  {
+    "id": "python-echo",
+    "name": "Echo Bot",
+    "description": "Echoes every message back to the sender. Useful for testing connectivity.",
+    "category": "Python Scripts",
+    "botType": "PYTHON_SCRIPT",
+    "mcp": [],
+    "channels": [
+      "Telegram"
+    ],
+    "needsKey": false,
+    "beta": false
+  },
+  {
+    "id": "python-daily-reporter",
+    "name": "Daily Reporter",
+    "description": "Sends a message to a chat at the same time every day. Set the chat, send time, and message text in the bot's settings.",
+    "category": "Python Scripts",
+    "botType": "PYTHON_SCRIPT",
+    "mcp": [],
+    "channels": [
+      "Telegram"
+    ],
+    "needsKey": false,
+    "beta": false
+  },
+  {
+    "id": "python-btc-price",
+    "name": "BTC Price",
+    "description": "Replies with the current Bitcoin price in USD when you send /btc or /price. Uses the free CoinGecko API, no key needed.",
+    "category": "Python Scripts",
+    "botType": "PYTHON_SCRIPT",
+    "mcp": [],
+    "channels": [
+      "Telegram"
+    ],
+    "needsKey": false,
+    "beta": false
+  },
+  {
+    "id": "python-reminder",
+    "name": "Reminder Bot",
+    "description": "Sends one or more reminder messages at fixed times each day. Set the chat and the list of times and messages in the bot's settings.",
+    "category": "Python Scripts",
+    "botType": "PYTHON_SCRIPT",
+    "mcp": [],
+    "channels": [
+      "Telegram"
+    ],
+    "needsKey": false,
+    "beta": false
+  },
+  {
+    "id": "python-weather",
+    "name": "Weather Bot",
+    "description": "Replies with current weather conditions for a city when you send /weather <city>. Uses the free wttr.in API, no key needed.",
+    "category": "Python Scripts",
+    "botType": "PYTHON_SCRIPT",
+    "mcp": [],
+    "channels": [
+      "Telegram"
+    ],
+    "needsKey": false,
+    "beta": false
+  },
+  {
+    "id": "python-poll",
+    "name": "Poll Bot",
+    "description": "Sends a native Telegram poll when you send /poll Question | Option 1 | Option 2 | ...",
+    "category": "Python Scripts",
+    "botType": "PYTHON_SCRIPT",
+    "mcp": [],
+    "channels": [
+      "Telegram"
+    ],
+    "needsKey": false,
+    "beta": false
+  },
+  {
+    "id": "python-rss-watcher",
+    "name": "RSS Watcher",
+    "description": "Polls an RSS/Atom feed and posts new entries to a chat. Set the chat, feed URL, and check interval in the bot's settings.",
+    "category": "Python Scripts",
+    "botType": "PYTHON_SCRIPT",
+    "mcp": [],
+    "channels": [
+      "Telegram"
+    ],
+    "needsKey": false,
+    "beta": false
+  },
+  {
+    "id": "python-web-summarizer",
+    "name": "Web Summarizer",
+    "description": "Fetches a URL and asks your LLM to summarize it when you send 'summary <url>' or 'summarize <url>'. Pick your LLM provider and model in AI Setup.",
+    "category": "Python Scripts",
+    "botType": "PYTHON_SCRIPT",
+    "mcp": [],
+    "channels": [
+      "Telegram"
+    ],
+    "needsKey": true,
+    "beta": false
+  },
+  {
+    "id": "python-price-alert",
+    "name": "Crypto Price Alert",
+    "description": "Alerts you when a crypto price crosses a threshold or moves sharply. No API key needed.",
+    "category": "Python Scripts",
+    "botType": "PYTHON_SCRIPT",
+    "mcp": [],
+    "channels": [
+      "Telegram"
+    ],
+    "needsKey": false,
+    "beta": false
+  },
+  {
+    "id": "python-sale-tracker",
+    "name": "Sale Tracker",
+    "description": "Background tracker you control with chat commands: send a product link from Tiki, Amazon.com (BETA), Lazada VN (BETA) and get alerts. No AI key needed. Prices are read best-effort and may fail or be wrong when a shop changes its pages. Product pages are opened in a hidden in-app browser (no login, no cookies kept). If a shop can't be read on your phone, the product link plus an anonymous app identifier may be sent to BotDroid's remote service, which also sees your device IP and a Play Integrity check. Remote reads are best-effort and alerts may be slower. The non-Play build does not use remote reads. No checkout, no affiliate links.",
+    "category": "Python Scripts",
+    "botType": "PYTHON_SCRIPT",
+    "mcp": [],
+    "channels": [
+      "Telegram"
+    ],
+    "needsKey": false,
+    "beta": true
+  },
+  {
+    "id": "picoclaw-telegram-qa",
+    "name": "Q&A Assistant",
+    "description": "An AI-powered Q&A bot on Telegram or Zalo. Answers questions using your chosen LLM.",
+    "category": "AI Bots — Telegram",
+    "botType": "PICOCLAW",
+    "mcp": [],
+    "channels": [
+      "Telegram",
+      "Zalo"
+    ],
+    "needsKey": true,
+    "beta": false
+  },
+  {
+    "id": "picoclaw-telegram-expense-tracker",
+    "name": "Expense Tracker",
+    "description": "Log expenses and income on Telegram or Zalo in plain language — 'spent $12 on lunch and $30 on gas' or 'got paid $2000 salary' — logging each one with an inferred category in a running ledger that survives app restarts. Say 'undo that' or 'actually that was $15' to correct or remove your most recent entry, or ask 'how much did I spend on food this month?' / 'what's my balance?' for totals computed only from what's logged. Receipt or bill photo scanning is not supported; describe amounts in text.",
+    "category": "AI Bots — Telegram",
+    "botType": "PICOCLAW",
+    "mcp": [],
+    "channels": [
+      "Telegram",
+      "Zalo"
+    ],
+    "needsKey": true,
+    "beta": false
+  },
+  {
+    "id": "picoclaw-telegram-news",
+    "name": "News Digest",
+    "description": "Summarises news or long text pastes on demand. Prompt it with a URL or article text.",
+    "category": "AI Bots — Telegram",
+    "botType": "PICOCLAW",
+    "mcp": [],
+    "channels": [
+      "Telegram"
+    ],
+    "needsKey": true,
+    "beta": false
+  },
+  {
+    "id": "picoclaw-telegram-assistant",
+    "name": "Personal Assistant",
+    "description": "Remembers context across your chat for notes and day-to-day thinking. Pair with Tasks for reminders.",
+    "category": "AI Bots — Telegram",
+    "botType": "PICOCLAW",
+    "mcp": [],
+    "channels": [
+      "Telegram"
+    ],
+    "needsKey": true,
+    "beta": false
+  },
+  {
+    "id": "picoclaw-telegram-faq",
+    "name": "FAQ Responder",
+    "description": "Answers questions using only the FAQ you provide — great for product or community support.",
+    "category": "AI Bots — Telegram",
+    "botType": "PICOCLAW",
+    "mcp": [],
+    "channels": [
+      "Telegram"
+    ],
+    "needsKey": true,
+    "beta": false
+  },
+  {
+    "id": "picoclaw-telegram-crypto-assistant",
+    "name": "Crypto Assistant",
+    "description": "An AI-powered Telegram or Zalo bot for free-form crypto market Q&A — live prices, market caps, trending coins, DeFi/on-chain pool data, and NFT collection stats, powered by CoinGecko. Ships pre-attached to CoinGecko's public MCP tool server, which receives your questions to answer them with real data. Distinct from the Crypto Price Alert template: that one pushes deterministic price-threshold alerts with no AI; this one is a conversational AI assistant and does not send automated alerts.",
+    "category": "AI Bots — Telegram",
+    "botType": "PICOCLAW",
+    "mcp": [
+      "coingecko"
+    ],
+    "channels": [
+      "Telegram",
+      "Zalo"
+    ],
+    "needsKey": true,
+    "beta": true
+  },
+  {
+    "id": "picoclaw-telegram-travel-assistant",
+    "name": "Travel Assistant",
+    "description": "An AI-powered Telegram or Zalo bot for hotel and flight search — ask it in plain language, like 'find hotels in Lisbon next weekend', and it searches live results for you, powered by Gondola. Ships pre-attached to Gondola's MCP tool server, which receives your search queries to answer them with real data. Gondola requires a one-time sign-in to your Gondola account: after creating the bot, open its Tools tab, edit the gondola server, and tap Connect — the Gondola sign-in page opens right in the app. Until you connect, the bot can't run searches.",
+    "category": "AI Bots — Telegram",
+    "botType": "PICOCLAW",
+    "mcp": [
+      "gondola"
+    ],
+    "channels": [
+      "Telegram",
+      "Zalo"
+    ],
+    "needsKey": true,
+    "beta": true
+  },
+  {
+    "id": "picoclaw-telegram-binance-assistant",
+    "name": "Binance Assistant",
+    "description": "An AI-powered Telegram bot for Binance market data and trading. Ships pre-attached to Binance's official Agentic MCP tool server, which receives your questions to answer them with real data. Market-data queries — live prices, order books, candles, and funding rates — work immediately, no sign-in required. Trading, balance, and transfer features require a one-time OAuth sign-in to your Binance account via the bot's Tools tab after creation; until you connect it, this bot can only look up public market data and cannot place trades or move funds.",
+    "category": "AI Bots — Telegram",
+    "botType": "PICOCLAW",
+    "mcp": [
+      "binance"
+    ],
+    "channels": [
+      "Telegram"
+    ],
+    "needsKey": true,
+    "beta": true
+  },
+  {
+    "id": "picoclaw-telegram-etherscan-assistant",
+    "name": "On-chain Explorer",
+    "description": "An AI-powered Telegram or Zalo bot for blockchain explorer Q&A — wallet balances, transaction details and status, token transfers, verified contract source and ABI, event logs, and gas prices across Ethereum and other EVM chains, powered by Etherscan. Ships pre-attached to Etherscan's official keyless MCP tool server, which receives your questions to answer them with real on-chain data. Read-only: it looks up public blockchain data and can never sign, send, or move funds.",
+    "category": "AI Bots — Telegram",
+    "botType": "PICOCLAW",
+    "mcp": [
+      "etherscan"
+    ],
+    "channels": [
+      "Telegram",
+      "Zalo"
+    ],
+    "needsKey": true,
+    "beta": true
+  },
+  {
+    "id": "picoclaw-discord-helper",
+    "name": "Server Helper",
+    "description": "An AI assistant for Discord servers. Answers member questions and moderates tone.",
+    "category": "AI Bots — Discord",
+    "botType": "PICOCLAW",
+    "mcp": [],
+    "channels": [
+      "Discord"
+    ],
+    "needsKey": true,
+    "beta": false
+  },
+  {
+    "id": "picoclaw-discord-moderator",
+    "name": "Group Moderator",
+    "description": "Nudges members on guidelines and flags issues for moderators. Can't ban or kick.",
+    "category": "AI Bots — Discord",
+    "botType": "PICOCLAW",
+    "mcp": [],
+    "channels": [
+      "Discord"
+    ],
+    "needsKey": true,
+    "beta": false
+  },
+  {
+    "id": "picoclaw-slack-standup",
+    "name": "Standup Bot",
+    "description": "Runs daily async standups in Slack. Collect updates from your team automatically.",
+    "category": "AI Bots — Slack",
+    "botType": "PICOCLAW",
+    "mcp": [],
+    "channels": [
+      "Slack"
+    ],
+    "needsKey": true,
+    "beta": false
+  },
+  {
+    "id": "picoclaw-zalo-support",
+    "name": "Customer Support",
+    "description": "AI-powered customer support agent on Zalo. Handles FAQs and escalates to humans.",
+    "category": "AI Bots — Zalo",
+    "botType": "PICOCLAW",
+    "mcp": [],
+    "channels": [
+      "Zalo"
+    ],
+    "needsKey": true,
+    "beta": false
+  },
+  {
+    "id": "local-llm-offline-assistant",
+    "name": "Offline Assistant",
+    "description": "A private assistant that runs entirely on-device — no cloud API, no internet required after the model is downloaded. Pick a model in the next step.",
+    "category": "AI Bots — Offline",
+    "botType": "LOCAL_LLM",
+    "mcp": [],
+    "channels": [
+      "Telegram"
+    ],
+    "needsKey": false,
+    "beta": false
+  },
+  {
+    "id": "python-medicine-reminder",
+    "name": "Medicine Reminder",
+    "description": "Reminds a parent to take their medicine on Telegram at the times you set. Each reminder has a Taken button; if it is not tapped, the bot re-reminds every few minutes up to a limit, then alerts the caregiver. Set both chats and the dose list in the bot's settings. The parent must open this bot's chat and press Start first. Keep BotDroid running (battery unrestricted) so reminders arrive on time.",
+    "category": "Python Scripts",
+    "botType": "PYTHON_SCRIPT",
+    "mcp": [],
+    "channels": [
+      "Telegram"
+    ],
+    "needsKey": false,
+    "beta": true
+  }
+]

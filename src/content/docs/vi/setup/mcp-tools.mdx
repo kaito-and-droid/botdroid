@@ -1,0 +1,56 @@
+---
+title: Công cụ MCP
+description: Cho agent AI dữ liệu và hành động thật qua máy chủ công cụ MCP.
+---
+
+import { Card, CardGrid, Steps, Aside, Badge, Tabs, TabItem } from '@astrojs/starlight/components';
+
+Máy chủ **MCP** cung cấp công cụ cho agent AI: giá trực tiếp, tìm kiếm, dữ liệu blockchain và hơn thế. Agent gọi chúng khi cần dữ liệu thật để trả lời.
+
+<Aside type="caution">Máy chủ MCP nhận các câu hỏi agent gửi tới. Chỉ thêm máy chủ bạn tin tưởng.</Aside>
+
+## Mẫu dựng sẵn
+
+<CardGrid>
+	<Card title="Crypto Assistant" icon="analytics">
+		<Badge text="CoinGecko" /> <Badge text="Không cần đăng nhập" variant="success" />
+
+		Giá, vốn hoá, coin thịnh hành, dữ liệu DeFi và NFT.
+	</Card>
+	<Card title="On-chain Explorer" icon="magnifier">
+		<Badge text="Etherscan" /> <Badge text="Không cần đăng nhập" variant="success" />
+
+		Ví, giao dịch, hợp đồng và phí gas. Chỉ đọc.
+	</Card>
+	<Card title="Binance Assistant" icon="random">
+		<Badge text="Binance" /> <Badge text="Đăng nhập để giao dịch" variant="caution" />
+
+		Dữ liệu thị trường dùng ngay. Giao dịch và số dư cần đăng nhập Binance.
+	</Card>
+	<Card title="Travel Assistant" icon="rocket">
+		<Badge text="Gondola" /> <Badge text="Cần đăng nhập" variant="caution" />
+
+		Tìm khách sạn và chuyến bay bằng ngôn ngữ tự nhiên.
+	</Card>
+</CardGrid>
+
+## Cách làm
+
+<Tabs>
+	<TabItem label="Đăng nhập máy chủ" icon="padlock">
+		<Steps>
+		1. Mở bot → tab **Tools**.
+		2. Sửa máy chủ, ví dụ `gondola`.
+		3. Nhấn **Connect**. Trang đăng nhập mở ngay trong app.
+		4. Đăng nhập và chấp thuận.
+		</Steps>
+	</TabItem>
+	<TabItem label="Thêm máy chủ của bạn" icon="add-document">
+		<Steps>
+		1. Mở một bot agent AI → tab **Tools** → **Add server**.
+		2. Nhập tên và URL máy chủ (HTTP hoặc SSE).
+		3. Nếu cần OAuth, nhấn **Connect**.
+		4. Nếu bot đang chạy, khởi động lại để nhận công cụ mới.
+		</Steps>
+	</TabItem>
+</Tabs>

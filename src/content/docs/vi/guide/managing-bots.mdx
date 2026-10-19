@@ -1,0 +1,48 @@
+---
+title: Quản lý bot
+description: Màn hình chi tiết bot — trạng thái, kênh, cài đặt, tác vụ, công cụ và sao lưu.
+---
+
+import { Tabs, TabItem, Aside } from '@astrojs/starlight/components';
+
+Nhấn vào một bot để mở. Các tab dưới đây giống hệt các tab trong app.
+
+<Tabs>
+	<TabItem label="Overview" icon="analytics">
+		Trạng thái, thời gian chạy, số lần khởi động lại và **execution mode**.
+
+		- **Start** / **Stop** bot
+		- **View logs** để xem bot đang làm gì
+		- Bật thông báo khi bot lỗi và không tự chạy lại được
+	</TabItem>
+	<TabItem label="Channels" icon="comment-alt">
+		Mọi ứng dụng chat đã kết nối kèm trạng thái. Nhấn để sửa, hoặc **Add channel** để kết nối thêm ([lấy token](/vi/setup/channels/)).
+
+		- Một kênh là kênh **chính**. Đổi bằng **Make primary**.
+		- Không thể xoá kênh chính hoặc kênh duy nhất.
+		- Thay đổi khi bot đang chạy sẽ tự khởi động lại bot.
+
+		Bot Python và bot trên máy dùng một kênh Telegram.
+	</TabItem>
+	<TabItem label="Config" icon="setting">
+		Cài đặt mẫu, nhà cung cấp AI và model, và **Conversation memory**.
+
+		**Clear memory after** quyết định một cuộc trò chuyện im lặng được nhớ bao lâu: 15 phút · 30 phút · 1 giờ · 4 giờ · 24 giờ · Never.
+	</TabItem>
+	<TabItem label="Tasks" icon="clock">
+		**Tác vụ định kỳ**: một lời nhắc chạy theo lịch, như bản tóm tắt tin tức buổi sáng gửi vào chat. Tính năng Pro, chỉ cho agent AI.
+	</TabItem>
+	<TabItem label="Tools" icon="puzzle">
+		Gắn [máy chủ MCP](/vi/setup/mcp-tools/) và đăng nhập bằng **Connect**. Chỉ cho agent AI.
+	</TabItem>
+</Tabs>
+
+## Chuyển sang máy mới
+
+**Settings → Backup & Restore** xuất cấu hình bot và lịch ra file, rồi nhập trên máy mới.
+
+<Aside type="caution">
+Bản sao lưu không bao giờ chứa token, webhook secret hay API key. Sau khi nhập, hãy nhập lại chúng trước khi chạy từng bot.
+</Aside>
+
+Xoá bot sẽ xoá vĩnh viễn bot, log và các bí mật đã lưu.

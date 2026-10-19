@@ -1,0 +1,37 @@
+---
+title: Nhà cung cấp AI
+description: Dùng API key của bạn với OpenRouter, OpenAI, Gemini, Groq và nhiều nơi khác.
+---
+
+import ProviderCards from '../../../../components/ProviderCards.astro';
+import { Tabs, TabItem, Aside } from '@astrojs/starlight/components';
+
+Bot AI dùng **key của chính bạn**: bạn trả tiền trực tiếp cho nhà cung cấp, theo giá của họ. BotDroid mã hoá key trên điện thoại và chỉ gửi tới nhà cung cấp đó.
+
+Trong phần AI setup của bot: chọn **Provider** → dán **API key** → chọn **Model** → **Test LLM Connection**.
+
+<Aside type="tip" title="Chưa biết chọn? Bắt đầu với OpenRouter">
+Một key dùng được model của nhiều hãng, kể cả Claude, và có model miễn phí để thử.
+</Aside>
+
+<ProviderCards lang="vi" />
+
+## Lựa chọn khác
+
+<Tabs>
+	<TabItem label="Endpoint tuỳ chỉnh" icon="setting">
+		Bất kỳ API tương thích OpenAI nào (máy chủ tự host, gateway). Nhập:
+
+		- base URL, bắt đầu bằng `http://` hoặc `https://`, thường kết thúc bằng `/v1`
+		- key của bạn
+		- tên model chính xác
+
+		App phát hiện các lỗi thường gặp, như thiếu `/v1`.
+	</TabItem>
+	<TabItem label="Model Claude" icon="star">
+		Dùng **OpenRouter** với model dạng `anthropic/claude-…`.
+	</TabItem>
+	<TabItem label="Không cần key (trên máy)" icon="padlock">
+		Chọn **On-Device** làm nhà cung cấp để chạy model trên điện thoại. [AI trên máy →](/vi/setup/on-device/)
+	</TabItem>
+</Tabs>

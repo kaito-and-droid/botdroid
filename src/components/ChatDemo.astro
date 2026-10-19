@@ -1,0 +1,142 @@
+---
+// Phone mockup that plays short example conversations. Visitors switch scenarios with the
+// chips; it auto-advances otherwise. Reduced-motion users get the full conversation at once.
+import { Icon } from '@astrojs/starlight/components';
+
+interface Props { lang?: 'en' | 'vi' }
+const { lang = 'en' } = Astro.props;
+
+type Msg = { from: 'user' | 'bot'; text: string };
+type Scenario = { label: string; bot: string; channel: string; icon: 'telegram' | 'discord' | 'slack'; note: string; msgs: Msg[] };
+
+const scenarios: Record<'en' | 'vi', Scenario[]> = {
+	en: [
+		{ label: 'Weather', bot: 'Weather Bot', channel: 'Telegram', icon: 'telegram', note: 'Python script · no API key',
+			msgs: [{ from: 'user', text: '/weather Hanoi' }, { from: 'bot', text: 'Hanoi: ⛅ 27°C, feels like 30°C. Humidity 78%, wind 9 km/h.' }] },
+		{ label: 'Expenses', bot: 'Expense Tracker', channel: 'Telegram', icon: 'telegram', note: 'AI agent · your own key',
+			msgs: [{ from: 'user', text: 'spent $12 on lunch and $30 on gas' }, { from: 'bot', text: 'Logged 2 expenses:\n🍜 Food — $12\n⛽ Transport — $30' }, { from: 'user', text: 'how much on food this month?' }, { from: 'bot', text: 'You spent $142 on food this month (9 entries).' }] },
+		{ label: 'Discord', bot: 'Server Helper', channel: 'Discord', icon: 'discord', note: 'AI agent · Discord server',
+			msgs: [{ from: 'user', text: 'how do I get the member role?' }, { from: 'bot', text: 'Read #rules, then react with ✅ on the pinned message. The role appears in a few seconds.' }] },
+		{ label: 'Offline', bot: 'Offline Assistant', channel: 'Telegram', icon: 'telegram', note: 'Runs on the phone · no cloud',
+			msgs: [{ from: 'user', text: 'make this polite: im late, start without me' }, { from: 'bot', text: "Sorry, I'm running a little late. Please go ahead and start without me." }] },
+	],
+	vi: [
+		{ label: 'Thời tiết', bot: 'Weather Bot', channel: 'Telegram', icon: 'telegram', note: 'Script Python · không cần API key',
+			msgs: [{ from: 'user', text: '/weather Hanoi' }, { from: 'bot', text: 'Hanoi: ⛅ 27°C, cảm giác 30°C. Độ ẩm 78%, gió 9 km/h.' }] },
+		{ label: 'Chi tiêu', bot: 'Expense Tracker', channel: 'Telegram', icon: 'telegram', note: 'Agent AI · key của bạn',
+			msgs: [{ from: 'user', text: 'ăn trưa 50k, đổ xăng 100k' }, { from: 'bot', text: 'Đã ghi 2 khoản:\n🍜 Ăn uống — 50.000đ\n⛽ Đi lại — 100.000đ' }, { from: 'user', text: 'tháng này ăn uống hết bao nhiêu?' }, { from: 'bot', text: 'Tháng này bạn chi 1.240.000đ cho ăn uống (17 khoản).' }] },
+		{ label: 'Discord', bot: 'Server Helper', channel: 'Discord', icon: 'discord', note: 'Agent AI · server Discord',
+			msgs: [{ from: 'user', text: 'làm sao để có role member?' }, { from: 'bot', text: 'Đọc #rules rồi bấm ✅ ở tin nhắn được ghim. Role sẽ xuất hiện sau vài giây.' }] },
+		{ label: 'Offline', bot: 'Offline Assistant', channel: 'Telegram', icon: 'telegram', note: 'Chạy trên máy · không dùng đám mây',
+			msgs: [{ from: 'user', text: 'viết lịch sự hơn: tới trễ, cứ họp trước đi' }, { from: 'bot', text: 'Xin lỗi, mình sẽ tới trễ một chút. Mọi người cứ bắt đầu trước nhé.' }] },
+	],
+};
+const list = scenarios[lang];
+const example = lang === 'vi' ? 'Ví dụ minh hoạ' : 'Example conversation';
+---
+
+<div class="chat-demo" data-chat-demo>
+	<div class="phone" aria-live="polite">
+		<div class="notch"></div>
+		{list.map((s, i) => (
+			<div class="screen" data-scenario={i} hidden={i !== 0}>
+				<header>
+					<span class="avatar"><Icon name={s.icon} size="1.1rem" /></span>
+					<span><strong>{s.bot}</strong><small>{s.channel} · online</small></span>
+				</header>
+				<div class="msgs">
+					{s.msgs.map((m) => <p class={`msg ${m.from}`}>{m.text}</p>)}
+					<p class="msg bot typing" aria-hidden="true"><i></i><i></i><i></i></p>
+				</div>
+				<footer>{s.note}</footer>
+			</div>
+		))}
+	</div>
+	<div class="chips" role="tablist" aria-label={example}>
+		{list.map((s, i) => (
+			<button type="button" role="tab" aria-selected={i === 0 ? 'true' : 'false'} data-pick={i}>{s.label}</button>
+		))}
+	</div>
+	<p class="caption">{example}</p>
+</div>
+
+<style>
+	.chat-demo { display: flex; flex-direction: column; align-items: center; gap: 0.9rem; }
+	.phone {
+		position: relative; width: min(19rem, 100%); height: 31rem; border-radius: 2.4rem; padding: 0.7rem;
+		background: linear-gradient(160deg, #1b2a25, #060c09); border: 1px solid #2a3b35;
+		box-shadow: 0 30px 80px -20px rgb(0 229 200 / 0.35), inset 0 0 0 2px #0e1814;
+	}
+	.notch { position: absolute; top: 0.9rem; left: 50%; translate: -50% 0; width: 5rem; height: 1.2rem; border-radius: 1rem; background: #000; z-index: 2; }
+	.screen { height: 100%; border-radius: 1.8rem; background: #0b1512; display: flex; flex-direction: column; overflow: hidden; }
+	.screen[hidden] { display: none; }
+	header { display: flex; align-items: center; gap: 0.6rem; padding: 2.4rem 1rem 0.7rem; border-bottom: 1px solid #1c2a25; color: #e6f2ee; }
+	header small { display: block; font-size: 0.7rem; color: #00e5c8; }
+	header strong { font-size: 0.9rem; }
+	.avatar { display: grid; place-items: center; width: 2rem; height: 2rem; border-radius: 50%; background: #06332d; color: #00e5c8; }
+	.msgs { flex: 1; display: flex; flex-direction: column; gap: 0.5rem; padding: 0.9rem 0.8rem; overflow: hidden; }
+	.msg { margin: 0; max-width: 85%; padding: 0.5rem 0.75rem; border-radius: 1rem; font-size: 0.82rem; line-height: 1.35; white-space: pre-line; animation: pop 0.25s ease-out; }
+	.msg.user { align-self: flex-end; background: #00b8a0; color: #032420; border-bottom-right-radius: 0.3rem; }
+	.msg.bot { align-self: flex-start; background: #17241f; color: #e6f2ee; border-bottom-left-radius: 0.3rem; }
+	.msg[data-off] { display: none; }
+	.typing { display: none; gap: 0.25rem; }
+	.typing.on { display: flex; }
+	.typing i { width: 0.4rem; height: 0.4rem; border-radius: 50%; background: #7fa59a; animation: blink 1s infinite; }
+	.typing i:nth-child(2) { animation-delay: 0.15s; }
+	.typing i:nth-child(3) { animation-delay: 0.3s; }
+	footer { padding: 0.6rem; text-align: center; font-size: 0.7rem; color: #ffb830; border-top: 1px solid #1c2a25; font-family: var(--sl-font-mono); }
+	.chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.4rem; }
+	.chips button {
+		font: inherit; font-size: var(--sl-text-sm); padding: 0.3rem 0.85rem; border-radius: 999px; cursor: pointer;
+		border: 1px solid var(--sl-color-gray-5); background: transparent; color: var(--sl-color-gray-2);
+	}
+	.chips button[aria-selected='true'] { background: var(--sl-color-accent); border-color: var(--sl-color-accent); color: var(--sl-color-black); }
+	.caption { margin: 0; font-size: var(--sl-text-xs); color: var(--sl-color-gray-3); }
+	@keyframes pop { from { opacity: 0; transform: translateY(6px) scale(0.97); } }
+	@keyframes blink { 50% { opacity: 0.3; } }
+</style>
+
+<script>
+	const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+	document.querySelectorAll<HTMLElement>('[data-chat-demo]').forEach((root) => {
+		const screens = [...root.querySelectorAll<HTMLElement>('.screen')];
+		const chips = [...root.querySelectorAll<HTMLButtonElement>('[data-pick]')];
+		let current = 0;
+		let timers: number[] = [];
+		let paused = false;
+		let stalled = false;
+
+		const clear = () => { timers.forEach(clearTimeout); timers = []; };
+		const later = (fn: () => void, ms: number) => timers.push(window.setTimeout(fn, ms));
+
+		function play(i: number) {
+			clear();
+			stalled = false;
+			current = i;
+			screens.forEach((s, j) => (s.hidden = j !== i));
+			chips.forEach((c, j) => c.setAttribute('aria-selected', String(j === i)));
+			const msgs = [...screens[i].querySelectorAll<HTMLElement>('.msg:not(.typing)')];
+			const typing = screens[i].querySelector<HTMLElement>('.typing')!;
+			if (reduce) { msgs.forEach((m) => m.removeAttribute('data-off')); return; }
+			msgs.forEach((m) => m.setAttribute('data-off', ''));
+			let t = 400;
+			msgs.forEach((m) => {
+				if (m.classList.contains('bot')) {
+					later(() => { typing.classList.add('on'); m.before(typing); }, t);
+					t += 1100;
+				}
+				later(() => { typing.classList.remove('on'); m.removeAttribute('data-off'); }, t);
+				t += 900;
+			});
+			later(() => { if (paused) stalled = true; else play((current + 1) % screens.length); }, t + 3500);
+		}
+
+		chips.forEach((c, j) => c.addEventListener('click', () => play(j)));
+		root.addEventListener('mouseenter', () => (paused = true));
+		root.addEventListener('mouseleave', () => {
+			paused = false;
+			if (stalled) { stalled = false; play((current + 1) % screens.length); }
+		});
+		play(0);
+	});
+</script>

@@ -1,0 +1,80 @@
+---
+// Tick-off checklist with a progress bar. Progress is remembered per browser (best effort).
+interface Item { title: string; text: string; href?: string; link?: string }
+interface Props { id: string; items: Item[]; lang?: 'en' | 'vi' }
+const { id, items, lang = 'en' } = Astro.props;
+const t = lang === 'vi'
+	? { done: 'Xong! Bot của bạn sẵn sàng chạy liên tục.', of: 'trên', reset: 'Làm lại' }
+	: { done: 'All set! Your bots are ready to run around the clock.', of: 'of', reset: 'Reset' };
+---
+
+<div class="checklist not-content" data-checklist={id}>
+	<div class="head">
+		<div class="bar"><span data-fill></span></div>
+		<span class="label"><b data-n>0</b> {t.of} {items.length}</span>
+		<button type="button" class="reset" data-reset>{t.reset}</button>
+	</div>
+	<ol>
+		{items.map((it, i) => (
+			<li>
+				<label>
+					<input type="checkbox" data-i={i} />
+					<span class="box" aria-hidden="true"></span>
+					<span class="body">
+						<strong>{it.title}</strong>
+						<span class="text">{it.text}</span>
+						{it.href && <a href={it.href} target={it.href.startsWith('http') ? '_blank' : undefined}>{it.link} →</a>}
+					</span>
+				</label>
+			</li>
+		))}
+	</ol>
+	<p class="done" data-done hidden>🎉 {t.done}</p>
+</div>
+
+<style>
+	.checklist { margin-block: 1.5rem; padding: 1.25rem; border-radius: 1rem; border: 1px solid var(--sl-color-gray-5); background: var(--sl-color-gray-6); }
+	.head { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; }
+	.bar { flex: 1; height: 0.5rem; border-radius: 999px; background: var(--sl-color-gray-5); overflow: hidden; }
+	.bar span { display: block; height: 100%; width: 0; background: linear-gradient(90deg, #00e5c8, #ffb830); transition: width 0.35s ease; }
+	.label { font-size: var(--sl-text-sm); color: var(--sl-color-gray-2); white-space: nowrap; }
+	.reset { font: inherit; font-size: var(--sl-text-xs); background: none; border: 0; color: var(--sl-color-gray-3); cursor: pointer; text-decoration: underline; }
+	ol { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.5rem; }
+	li { margin: 0; }
+	label { position: relative; display: flex; gap: 0.85rem; padding: 0.85rem; border-radius: 0.75rem; cursor: pointer; transition: background 0.15s; }
+	label:hover { background: var(--sl-color-gray-5); }
+	input { position: absolute; opacity: 0; pointer-events: none; }
+	.box { flex: none; width: 1.4rem; height: 1.4rem; margin-top: 0.1rem; border-radius: 0.4rem; border: 2px solid var(--sl-color-gray-4); display: grid; place-items: center; transition: all 0.15s; }
+	input:checked + .box { background: #00e5c8; border-color: #00e5c8; }
+	input:checked + .box::after { content: '✓'; color: #04231f; font-weight: 800; font-size: 0.85rem; }
+	input:focus-visible + .box { outline: 2px solid var(--sl-color-accent); outline-offset: 2px; }
+	.body { display: flex; flex-direction: column; gap: 0.2rem; }
+	strong { color: var(--sl-color-white); }
+	input:checked ~ .body strong { text-decoration: line-through; color: var(--sl-color-gray-3); }
+	.text { font-size: var(--sl-text-sm); color: var(--sl-color-gray-2); }
+	.body a { font-size: var(--sl-text-sm); color: var(--sl-color-accent-high); }
+	.done { margin: 0.75rem 0 0; padding: 0.75rem 1rem; border-radius: 0.75rem; background: var(--sl-color-accent-low); color: var(--sl-color-accent-high); font-weight: 600; }
+</style>
+
+<script>
+	document.querySelectorAll<HTMLElement>('[data-checklist]').forEach((root) => {
+		const key = `bd-check-${root.dataset.checklist}`;
+		const boxes = [...root.querySelectorAll<HTMLInputElement>('input[type=checkbox]')];
+		const fill = root.querySelector<HTMLElement>('[data-fill]')!;
+		const n = root.querySelector<HTMLElement>('[data-n]')!;
+		const done = root.querySelector<HTMLElement>('[data-done]')!;
+		let saved: boolean[] = [];
+		try { saved = JSON.parse(localStorage.getItem(key) ?? '[]'); } catch {}
+		boxes.forEach((b, i) => (b.checked = Boolean(saved[i])));
+		const update = () => {
+			const c = boxes.filter((b) => b.checked).length;
+			fill.style.width = `${(c / boxes.length) * 100}%`;
+			n.textContent = String(c);
+			done.hidden = c !== boxes.length;
+			try { localStorage.setItem(key, JSON.stringify(boxes.map((b) => b.checked))); } catch {}
+		};
+		boxes.forEach((b) => b.addEventListener('change', update));
+		root.querySelector('[data-reset]')!.addEventListener('click', () => { boxes.forEach((b) => (b.checked = false)); update(); });
+		update();
+	});
+</script>

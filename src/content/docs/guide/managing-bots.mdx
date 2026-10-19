@@ -1,0 +1,48 @@
+---
+title: Managing bots
+description: The bot detail screen — status, channels, settings, tasks, tools and backups.
+---
+
+import { Tabs, TabItem, Aside } from '@astrojs/starlight/components';
+
+Tap a bot to open it. The tabs below match the tabs in the app.
+
+<Tabs>
+	<TabItem label="Overview" icon="analytics">
+		Status, uptime, restarts and **execution mode**.
+
+		- **Start** / **Stop** the bot
+		- **View logs** to see what it's doing
+		- Turn on a notification for when it crashes and won't restart
+	</TabItem>
+	<TabItem label="Channels" icon="comment-alt">
+		Every connected chat app with its status. Tap one to edit it, or **Add channel** to connect another ([get tokens](/setup/channels/)).
+
+		- One channel is the **primary**. Change it with **Make primary**.
+		- The primary or the only channel can't be removed.
+		- Changes on a running bot restart it automatically.
+
+		Python and on-device bots use one Telegram channel.
+	</TabItem>
+	<TabItem label="Config" icon="setting">
+		Template settings, AI provider and model, and **Conversation memory**.
+
+		**Clear memory after** decides how long a quiet conversation is remembered: 15 min · 30 min · 1 hour · 4 hours · 24 hours · Never.
+	</TabItem>
+	<TabItem label="Tasks" icon="clock">
+		**Scheduled agent tasks**: a prompt that runs on a schedule, like a morning news summary sent to your chat. Pro feature, AI agents only.
+	</TabItem>
+	<TabItem label="Tools" icon="puzzle">
+		Attach [MCP servers](/setup/mcp-tools/) and sign in to them with **Connect**. AI agents only.
+	</TabItem>
+</Tabs>
+
+## Moving to a new phone
+
+**Settings → Backup & Restore** exports bot configuration and schedules to a file, and imports it on the new phone.
+
+<Aside type="caution">
+Backups never contain tokens, webhook secrets or API keys. After importing, re-enter them before starting each bot.
+</Aside>
+
+Deleting a bot permanently removes the bot, its logs, and its stored secrets.

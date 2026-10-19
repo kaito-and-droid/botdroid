@@ -1,0 +1,20 @@
+---
+title: Keep bots running
+description: Three settings that keep Android from stopping your bots.
+---
+
+import Checklist from '../../../components/Checklist.astro';
+import { Aside } from '@astrojs/starlight/components';
+
+Android and phone makers stop background apps to save battery. Tick these off once and your bots stay online. Your progress is saved in this browser.
+
+<Checklist id="keep-running" lang="en" items={[
+	{ title: 'Exempt from battery optimization', text: 'Onboarding asks for this, or open Settings → Battery Optimization in BotDroid.' },
+	{ title: 'Allow OEM autostart', text: 'Only if BotDroid shows an OEM Autostart card. The setting may be called Autostart, App launch or Background activity.', href: 'https://dontkillmyapp.com/', link: 'Steps for your phone brand' },
+	{ title: 'Set background usage to Unrestricted', text: 'Android Settings → Apps → BotDroid → Battery → Unrestricted.' },
+	{ title: 'Run Diagnostics', text: 'Settings → Diagnostics in BotDroid checks all of the above at once.' },
+]} />
+
+<Aside type="tip" title="Dedicated bot phone?">
+Keep it on a charger and on Wi-Fi. BotDroid restarts your bots after a reboot.
+</Aside>

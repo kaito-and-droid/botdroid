@@ -1,0 +1,41 @@
+---
+title: Các loại bot
+description: Agent AI, script Python hay trợ lý trên máy — nên chọn loại nào.
+---
+
+import { Card, CardGrid, Badge } from '@astrojs/starlight/components';
+
+Mỗi bot thuộc một trong ba loại. Mỗi bot hiển thị **execution mode** để bạn luôn biết tin nhắn đi đâu.
+
+<CardGrid>
+	<Card title="Agent AI" icon="comment">
+		<Badge text="Cả 9 kênh" variant="success" /> <Badge text="Cần key AI" variant="caution" />
+
+		Agent LLM xây trên [PicoClaw](https://github.com/sipeed/picoclaw) mã nguồn mở. Có bộ nhớ, [công cụ MCP](/vi/setup/mcp-tools/), tác vụ định kỳ và nhiều kênh cho mỗi bot.
+
+		**Phù hợp:** trợ lý, chăm sóc khách hàng, hỏi đáp, quản lý chi tiêu, dữ liệu thị trường.
+	</Card>
+	<Card title="Script Python" icon="seti:python">
+		<Badge text="Telegram" variant="note" /> <Badge text="Không cần key" variant="success" />
+
+		Script chạy trên điện thoại, có sẵn `telebot` và `requests`. Cài đặt là biểu mẫu ở tab **Config**, không cần code.
+
+		**Phù hợp:** cảnh báo, nhắc việc, bình chọn, RSS, thời tiết.
+	</Card>
+	<Card title="Trợ lý trên máy" icon="padlock">
+		<Badge text="Telegram" variant="note" /> <Badge text="Offline" variant="success" />
+
+		Model nhỏ trả lời ngay trên điện thoại. Không gửi gì tới AI đám mây. [Model & yêu cầu →](/vi/setup/on-device/)
+
+		**Phù hợp:** ghi chú riêng tư, viết lại câu, trò chuyện đơn giản.
+	</Card>
+</CardGrid>
+
+## Các execution mode
+
+| Mode | Câu trả lời đến từ |
+|---|---|
+| **Cloud** | Nhà cung cấp AI của bạn |
+| **Hybrid** | Agent chạy trên máy, tin nhắn gửi tới nhà cung cấp AI |
+| **Script** | Script Python trên máy |
+| **On-device** | Model trên máy |

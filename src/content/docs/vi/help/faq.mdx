@@ -1,0 +1,76 @@
+---
+title: Câu hỏi thường gặp
+description: Những câu hỏi thường gặp về BotDroid.
+---
+
+Nhấn vào câu hỏi để xem câu trả lời.
+
+<div class="faq">
+
+<details>
+<summary>Điện thoại có cần luôn bật không?</summary>
+
+Có. Điện thoại là máy chủ, nên bot online khi máy bật, có mạng và cho phép BotDroid chạy nền. Một chiếc điện thoại cũ cắm sạc là máy chủ bot rất hợp.
+</details>
+
+<details>
+<summary>Token và API key được lưu ở đâu?</summary>
+
+Trên điện thoại, mã hoá riêng cho từng bot bằng AES-256-GCM trong Android Keystore. Không bao giờ ghi vào log, chỉ gửi tới dịch vụ tương ứng, và không bao giờ nằm trong file sao lưu.
+</details>
+
+<details>
+<summary>BotDroid có đọc tin nhắn của tôi không?</summary>
+
+Không. Tin nhắn đi giữa ứng dụng chat và điện thoại của bạn, và với bot AI thì tới nhà cung cấp bạn chọn. Bot trên máy không gửi nội dung tin nhắn tới dịch vụ AI nào. Xem [chính sách quyền riêng tư](/privacy).
+</details>
+
+<details>
+<summary>Tôi có cần biết lập trình không?</summary>
+
+Không. Các mẫu có biểu mẫu để điền cài đặt. Script Python có sẵn nếu bạn muốn.
+</details>
+
+<details>
+<summary>Điện thoại nào được hỗ trợ?</summary>
+
+Điện thoại Android chip ARM 64-bit (arm64-v8a), gần như mọi máy gần đây. AI trên máy cần từ 4 GB RAM.
+</details>
+
+<details>
+<summary>Dùng được nhà cung cấp AI nào? Có dùng được Claude không?</summary>
+
+OpenRouter, OpenAI, Gemini, Groq, NVIDIA, DeepSeek, xAI, Cloudflare Workers AI và mọi endpoint tương thích OpenAI. Claude dùng qua OpenRouter. [Nhà cung cấp AI →](/vi/setup/ai-providers/)
+</details>
+
+<details>
+<summary>Ai trả tiền cho AI?</summary>
+
+Bạn trả trực tiếp cho nhà cung cấp bằng key của mình. Nhiều nơi có gói hoặc model miễn phí. Bot trên máy không tốn chi phí chạy.
+</details>
+
+<details>
+<summary>Một bot có trả lời trên Telegram và Discord cùng lúc được không?</summary>
+
+Được. Bot agent AI có thể kết nối nhiều kênh. [Quản lý bot →](/vi/guide/managing-bots/)
+</details>
+
+<details>
+<summary>Làm sao chuyển bot sang điện thoại mới?</summary>
+
+**Settings → Backup & Restore**: xuất, rồi nhập trên máy mới. Sau đó nhập lại token và key, vì bản sao lưu không bao giờ chứa bí mật.
+</details>
+
+<details>
+<summary>BotDroid có mã nguồn mở không?</summary>
+
+Runtime agent AI là [PicoClaw](https://github.com/sipeed/picoclaw) mã nguồn mở. Bản thân app BotDroid không mở mã nguồn.
+</details>
+
+<details>
+<summary>Pro gồm những gì?</summary>
+
+Một số mẫu, thêm bot và kênh, và tác vụ định kỳ cần Pro. App đánh dấu các tính năng đó và hiển thị các gói hiện có qua Google Play.
+</details>
+
+</div>

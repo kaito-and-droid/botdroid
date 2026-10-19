@@ -1,0 +1,37 @@
+---
+title: AI providers
+description: Use your own API key with OpenRouter, OpenAI, Gemini, Groq and more.
+---
+
+import ProviderCards from '../../../components/ProviderCards.astro';
+import { Tabs, TabItem, Aside } from '@astrojs/starlight/components';
+
+AI bots use **your own key**: you pay the provider directly, at their prices. BotDroid keeps the key encrypted on the phone and sends it only to that provider.
+
+In the bot's AI setup: pick a **Provider** → paste the **API key** → choose a **Model** → **Test LLM Connection**.
+
+<Aside type="tip" title="Not sure? Start with OpenRouter">
+One key gives you models from many vendors, including Claude, plus free models to try.
+</Aside>
+
+<ProviderCards lang="en" />
+
+## Other options
+
+<Tabs>
+	<TabItem label="Custom endpoint" icon="setting">
+		Any OpenAI-compatible API (self-hosted server, gateway). Enter:
+
+		- the base URL, starting with `http://` or `https://` and usually ending in `/v1`
+		- your key
+		- the exact model name
+
+		The app catches common mistakes, like a missing `/v1`.
+	</TabItem>
+	<TabItem label="Claude models" icon="star">
+		Use **OpenRouter** with a model such as `anthropic/claude-…`.
+	</TabItem>
+	<TabItem label="No key (on-device)" icon="padlock">
+		Pick **On-Device** as the provider to run a model on the phone. [On-device AI →](/setup/on-device/)
+	</TabItem>
+</Tabs>

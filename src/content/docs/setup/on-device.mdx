@@ -1,0 +1,37 @@
+---
+title: On-device AI
+description: Run a private assistant fully on the phone, with no cloud and no API key.
+---
+
+import { Card, CardGrid, Steps, Aside } from '@astrojs/starlight/components';
+
+The **Offline Assistant** template, and the **On-Device** provider, generate replies on your phone. No cloud AI, no key. The bot still needs internet to receive and send chat messages.
+
+## Pick a model
+
+<CardGrid>
+	<Card title="Qwen2.5 0.5B" icon="rocket">
+		**4 GB RAM or more** · about 550 MB download
+
+		Faster replies. Good for short answers and quick rewrites.
+	</Card>
+	<Card title="Qwen2.5 1.5B" icon="star">
+		**6 GB RAM or more** · about 1.6 GB download
+
+		Better answers, a bit slower.
+	</Card>
+</CardGrid>
+
+The app only offers models your phone can run.
+
+## Set it up
+
+<Steps>
+1. Tap **Add bot** and choose **Offline Assistant**.
+2. Pick a model and download it once, on Wi-Fi.
+3. Paste your Telegram bot token and tap **Start**.
+</Steps>
+
+<Aside>
+Small models are great for chat and rewriting but less accurate than big cloud models. Replies use CPU and battery, so keep the phone charging if it runs all day.
+</Aside>

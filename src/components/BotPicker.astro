@@ -1,0 +1,120 @@
+---
+// "What do you want to build?" — pick a goal, get the bot type and templates to start from.
+import { Icon } from '@astrojs/starlight/components';
+
+interface Props { lang?: 'en' | 'vi' }
+const { lang = 'en' } = Astro.props;
+const base = lang === 'vi' ? '/vi' : '';
+
+type Goal = { icon: 'comment' | 'clock' | 'padlock' | 'puzzle'; title: string; blurb: string; type: string; why: string; templates: string[]; link: string; cta: string };
+const data: Record<'en' | 'vi', { heading: string; sub: string; goals: Goal[] }> = {
+	en: {
+		heading: 'What do you want to build?', sub: 'Pick a goal to see where to start.',
+		goals: [
+			{ icon: 'comment', title: 'An AI chat assistant', blurb: 'Answers questions, remembers context', type: 'AI agent',
+				why: 'Bring a key from OpenRouter, Gemini, Groq or others. Works on all 9 channels, several at once.',
+				templates: ['Q&A Assistant', 'Personal Assistant', 'FAQ Responder'], link: '/setup/ai-providers/', cta: 'Set up an AI provider' },
+			{ icon: 'clock', title: 'Alerts & reminders', blurb: 'Prices, feeds, daily messages', type: 'Python script',
+				why: 'Runs on the phone with no AI key. Fill in a form, no code.',
+				templates: ['Medicine Reminder', 'Sale Tracker', 'Crypto Price Alert', 'RSS Watcher'], link: '/templates/', cta: 'Browse templates' },
+			{ icon: 'padlock', title: 'Something fully private', blurb: 'No cloud, no API key', type: 'On-device assistant',
+				why: 'Replies are generated on your phone. Needs 4 GB of RAM or more.',
+				templates: ['Offline Assistant'], link: '/setup/on-device/', cta: 'Read about on-device AI' },
+			{ icon: 'puzzle', title: 'A bot with live data', blurb: 'Markets, travel, blockchain', type: 'AI agent + MCP tools',
+				why: 'Templates come with a tool server attached, so answers use real data.',
+				templates: ['Crypto Assistant', 'Travel Assistant', 'On-chain Explorer'], link: '/setup/mcp-tools/', cta: 'See MCP tools' },
+		],
+	},
+	vi: {
+		heading: 'Bạn muốn tạo bot gì?', sub: 'Chọn một mục tiêu để biết nên bắt đầu từ đâu.',
+		goals: [
+			{ icon: 'comment', title: 'Trợ lý chat AI', blurb: 'Trả lời câu hỏi, nhớ ngữ cảnh', type: 'Agent AI',
+				why: 'Dùng key từ OpenRouter, Gemini, Groq hoặc nơi khác. Chạy trên cả 9 kênh, nhiều kênh cùng lúc.',
+				templates: ['Q&A Assistant', 'Personal Assistant', 'FAQ Responder'], link: '/setup/ai-providers/', cta: 'Thiết lập nhà cung cấp AI' },
+			{ icon: 'clock', title: 'Cảnh báo & nhắc việc', blurb: 'Giá, tin RSS, tin nhắn hằng ngày', type: 'Script Python',
+				why: 'Chạy trên máy, không cần key AI. Chỉ cần điền biểu mẫu, không code.',
+				templates: ['Medicine Reminder', 'Sale Tracker', 'Crypto Price Alert', 'RSS Watcher'], link: '/templates/', cta: 'Xem các mẫu' },
+			{ icon: 'padlock', title: 'Hoàn toàn riêng tư', blurb: 'Không đám mây, không API key', type: 'Trợ lý trên máy',
+				why: 'Câu trả lời được tạo ngay trên điện thoại. Cần từ 4 GB RAM.',
+				templates: ['Offline Assistant'], link: '/setup/on-device/', cta: 'Tìm hiểu AI trên máy' },
+			{ icon: 'puzzle', title: 'Bot có dữ liệu thật', blurb: 'Thị trường, du lịch, blockchain', type: 'Agent AI + công cụ MCP',
+				why: 'Mẫu đi kèm máy chủ công cụ, câu trả lời dùng dữ liệu thật.',
+				templates: ['Crypto Assistant', 'Travel Assistant', 'On-chain Explorer'], link: '/setup/mcp-tools/', cta: 'Xem công cụ MCP' },
+		],
+	},
+};
+const d = data[lang];
+const startWith = lang === 'vi' ? 'Bắt đầu với' : 'Start with';
+const botType = lang === 'vi' ? 'Loại bot' : 'Bot type';
+---
+
+<section class="picker not-content" data-picker>
+	<h2>{d.heading}</h2>
+	<p class="sub">{d.sub}</p>
+	<div class="goals" role="tablist">
+		{d.goals.map((g, i) => (
+			<button type="button" role="tab" aria-selected={i === 0 ? 'true' : 'false'} data-goal={i}>
+				<Icon name={g.icon} size="1.5rem" />
+				<strong>{g.title}</strong>
+				<small>{g.blurb}</small>
+			</button>
+		))}
+	</div>
+	{d.goals.map((g, i) => (
+		<div class="answer" role="tabpanel" data-answer={i} hidden={i !== 0}>
+			<div>
+				<span class="label">{botType}</span>
+				<p class="type">{g.type}</p>
+				<p>{g.why}</p>
+			</div>
+			<div>
+				<span class="label">{startWith}</span>
+				<ul>{g.templates.map((n) => <li><Icon name="rocket" />{n}</li>)}</ul>
+				<a href={`${base}${g.link}`}>{g.cta} →</a>
+			</div>
+		</div>
+	))}
+</section>
+
+<style>
+	.picker { margin-block: 3rem; }
+	h2 { font-size: var(--sl-text-3xl); font-weight: 700; color: var(--sl-color-white); }
+	.sub { color: var(--sl-color-gray-3); margin-top: 0.25rem; }
+	.goals { display: grid; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); gap: 0.75rem; margin-top: 1.25rem; }
+	.goals button {
+		display: flex; flex-direction: column; align-items: flex-start; gap: 0.3rem; text-align: left; cursor: pointer;
+		font: inherit; padding: 1rem; border-radius: 1rem; border: 1px solid var(--sl-color-gray-5);
+		background: var(--sl-color-gray-6); color: var(--sl-color-gray-2); transition: border-color 0.15s, transform 0.15s;
+	}
+	.goals button:hover { transform: translateY(-2px); border-color: var(--sl-color-gray-4); }
+	.goals button[aria-selected='true'] { border-color: #00e5c8; box-shadow: 0 0 0 1px #00e5c8, 0 12px 30px -15px rgb(0 229 200 / 0.6); }
+	.goals :global(svg) { color: var(--sl-color-accent); }
+	.goals strong { color: var(--sl-color-white); }
+	.goals small { font-size: var(--sl-text-xs); color: var(--sl-color-gray-3); }
+	.answer {
+		display: grid; gap: 1.5rem; margin-top: 1rem; padding: 1.25rem 1.5rem; border-radius: 1rem;
+		background: linear-gradient(135deg, var(--sl-color-accent-low), transparent 70%); border: 1px solid var(--sl-color-gray-5);
+		animation: fade 0.25s ease-out;
+	}
+	.answer[hidden] { display: none; }
+	@media (min-width: 50rem) { .answer { grid-template-columns: 1fr 1fr; } }
+	.label { font-family: var(--sl-font-mono); font-size: var(--sl-text-xs); text-transform: uppercase; letter-spacing: 0.08em; color: #ffb830; }
+	.type { font-size: var(--sl-text-xl); font-weight: 700; color: var(--sl-color-white); margin: 0.2rem 0 0.4rem; }
+	.answer p { margin: 0 0 0.4rem; color: var(--sl-color-gray-2); }
+	ul { list-style: none; padding: 0; margin: 0.4rem 0 0.8rem; }
+	li { display: flex; align-items: center; gap: 0.5rem; margin: 0.3rem 0; color: var(--sl-color-white); }
+	li :global(svg) { color: var(--sl-color-accent); }
+	.answer a { color: var(--sl-color-accent-high); font-weight: 600; }
+	@keyframes fade { from { opacity: 0; transform: translateY(4px); } }
+</style>
+
+<script>
+	document.querySelectorAll<HTMLElement>('[data-picker]').forEach((root) => {
+		const tabs = [...root.querySelectorAll<HTMLButtonElement>('[data-goal]')];
+		const panels = [...root.querySelectorAll<HTMLElement>('[data-answer]')];
+		tabs.forEach((tab, i) => tab.addEventListener('click', () => {
+			tabs.forEach((t, j) => t.setAttribute('aria-selected', String(i === j)));
+			panels.forEach((p, j) => (p.hidden = i !== j));
+		}));
+	});
+</script>

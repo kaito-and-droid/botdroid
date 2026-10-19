@@ -1,0 +1,20 @@
+---
+title: Giữ bot luôn chạy
+description: Ba cài đặt giúp Android không dừng bot của bạn.
+---
+
+import Checklist from '../../../../components/Checklist.astro';
+import { Aside } from '@astrojs/starlight/components';
+
+Android và các hãng điện thoại dừng app nền để tiết kiệm pin. Đánh dấu các mục dưới đây một lần là bot luôn online. Tiến độ được lưu trên trình duyệt này.
+
+<Checklist id="keep-running" lang="vi" items={[
+	{ title: 'Bỏ tối ưu pin', text: 'Phần giới thiệu sẽ hỏi, hoặc mở Settings → Battery Optimization trong BotDroid.' },
+	{ title: 'Cho phép tự khởi động (OEM autostart)', text: 'Chỉ khi BotDroid hiện thẻ OEM Autostart. Cài đặt có thể tên là Tự khởi động, Khởi chạy ứng dụng hoặc Hoạt động nền.', href: 'https://dontkillmyapp.com/', link: 'Hướng dẫn cho hãng điện thoại của bạn' },
+	{ title: 'Đặt chạy nền Không hạn chế', text: 'Cài đặt Android → Ứng dụng → BotDroid → Pin → Không hạn chế.' },
+	{ title: 'Chạy Diagnostics', text: 'Settings → Diagnostics trong BotDroid kiểm tra tất cả các mục trên.' },
+]} />
+
+<Aside type="tip" title="Dùng một máy riêng làm máy chủ bot?">
+Cắm sạc và dùng Wi-Fi. BotDroid tự chạy lại bot sau khi khởi động máy.
+</Aside>

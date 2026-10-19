@@ -1,0 +1,76 @@
+---
+title: FAQ
+description: Common questions about BotDroid.
+---
+
+Tap a question to open it.
+
+<div class="faq">
+
+<details>
+<summary>Does my phone need to stay on?</summary>
+
+Yes. Your phone is the server, so bots are online while it's on, connected, and allowed to run BotDroid in the background. A spare phone on a charger makes a great bot host.
+</details>
+
+<details>
+<summary>Where are my tokens and API keys stored?</summary>
+
+On your phone, encrypted per bot with AES-256-GCM in the Android Keystore. They're never logged, only sent to the service they belong to, and never put in backup files.
+</details>
+
+<details>
+<summary>Does BotDroid read my messages?</summary>
+
+No. Messages go between the chat app and your phone, and for AI bots to the provider you chose. On-device bots don't send message text to any AI service. See the [privacy policy](/privacy).
+</details>
+
+<details>
+<summary>Do I need to know how to code?</summary>
+
+No. Templates have forms for their settings. Python scripts are there if you want them.
+</details>
+
+<details>
+<summary>Which phones are supported?</summary>
+
+Android phones with a 64-bit ARM chip (arm64-v8a), which covers almost all recent phones. On-device AI needs 4 GB of RAM or more.
+</details>
+
+<details>
+<summary>Which AI providers work? Can I use Claude?</summary>
+
+OpenRouter, OpenAI, Gemini, Groq, NVIDIA, DeepSeek, xAI, Cloudflare Workers AI, and any OpenAI-compatible endpoint. Claude works through OpenRouter. [AI providers →](/setup/ai-providers/)
+</details>
+
+<details>
+<summary>Who pays for the AI?</summary>
+
+You pay your provider directly with your own key. Several have free tiers or free models. On-device bots cost nothing to run.
+</details>
+
+<details>
+<summary>Can one bot answer on Telegram and Discord at the same time?</summary>
+
+Yes. AI agent bots can connect several channels. [Managing bots →](/guide/managing-bots/)
+</details>
+
+<details>
+<summary>How do I move my bots to a new phone?</summary>
+
+**Settings → Backup & Restore**: export, then import on the new phone. Re-enter tokens and keys afterwards, because backups never contain secrets.
+</details>
+
+<details>
+<summary>Is BotDroid open source?</summary>
+
+The AI agent runtime is the open-source [PicoClaw](https://github.com/sipeed/picoclaw). The BotDroid app itself is not open source.
+</details>
+
+<details>
+<summary>What does Pro include?</summary>
+
+Some templates, extra bots and channels, and scheduled tasks need Pro. The app marks those features and shows current plans through Google Play.
+</details>
+
+</div>
