@@ -40,8 +40,8 @@
   },
   {
     "id": "python-btc-price",
-    "name": "BTC Price",
-    "description": "Replies with the current Bitcoin price in USD when you send /btc or /price. Uses the free CoinGecko API, no key needed.",
+    "name": "Crypto Price",
+    "description": "Replies with the current price and 24h change of a coin when you send /price <code> (for example /price btc). Supports multiple coins. Uses the free CoinGecko API, no key needed.",
     "category": "Python Scripts",
     "botType": "PYTHON_SCRIPT",
     "mcp": [],
@@ -139,8 +139,7 @@
     "channels": [
       "Telegram"
     ],
-    "needsKey": false,
-    "beta": true
+    "needsKey": false
   },
   {
     "id": "picoclaw-telegram-qa",
@@ -228,7 +227,7 @@
   {
     "id": "picoclaw-telegram-travel-assistant",
     "name": "Travel Assistant",
-    "description": "An AI-powered Telegram or Zalo bot for hotel and flight search — ask it in plain language, like 'find hotels in Lisbon next weekend', and it searches live results for you, powered by Gondola. Ships pre-attached to Gondola's MCP tool server, which receives your search queries to answer them with real data. Gondola requires a one-time sign-in to your Gondola account: after creating the bot, open its Tools tab, edit the gondola server, and tap Connect — the Gondola sign-in page opens right in the app. Until you connect, the bot can't run searches.",
+    "description": "Search flights and hotels from Telegram or Zalo in plain language, like 'find hotels in Lisbon next weekend' or 'flights from Saigon to Tokyo in December'. The bot looks up current prices through BotDroid's travel search and replies with a short list. Results link out to the provider's site, so you book there. The bot cannot book or pay for anything. Your search text is sent to the travel search service to get results.",
     "category": "AI Bots — Telegram",
     "botType": "PICOCLAW",
     "mcp": [
