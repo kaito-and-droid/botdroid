@@ -20,9 +20,12 @@ const slim = list.map((t) => ({
   beta: Boolean(t.beta) || (t.mcpServers ?? []).length > 0,
 }));
 
-// Python and on-device bots run on Telegram. AI templates name their default channel in the
-// category ("AI Bots — Discord"); several also say they work on Zalo.
+// Python templates list their channels; the rest of the Python and on-device bots run on Telegram.
+// AI templates name their default channel in the category ("AI Bots — Discord"); several also say
+// they work on Zalo.
 function channelsOf(t) {
+  const names = { telegram: 'Telegram', zalo: 'Zalo', whatsapp: 'WhatsApp' };
+  if (t.channels?.length) return t.channels.map((c) => names[c] ?? c);
   if (t.botType !== 'PICOCLAW') return ['Telegram'];
   const main = t.category.split('—').pop().trim();
   const list = [main];

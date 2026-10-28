@@ -1,31 +1,5 @@
 [
   {
-    "id": "python-hello-world",
-    "name": "Hello World",
-    "description": "A minimal Python bot that replies to every message. Great starting point.",
-    "category": "Python Scripts",
-    "botType": "PYTHON_SCRIPT",
-    "mcp": [],
-    "channels": [
-      "Telegram"
-    ],
-    "needsKey": false,
-    "beta": false
-  },
-  {
-    "id": "python-echo",
-    "name": "Echo Bot",
-    "description": "Echoes every message back to the sender. Useful for testing connectivity.",
-    "category": "Python Scripts",
-    "botType": "PYTHON_SCRIPT",
-    "mcp": [],
-    "channels": [
-      "Telegram"
-    ],
-    "needsKey": false,
-    "beta": false
-  },
-  {
     "id": "python-daily-reporter",
     "name": "Daily Reporter",
     "description": "Sends a message to a chat at the same time every day. Set the chat, send time, and message text in the bot's settings.",
@@ -33,7 +7,9 @@
     "botType": "PYTHON_SCRIPT",
     "mcp": [],
     "channels": [
-      "Telegram"
+      "Telegram",
+      "Zalo",
+      "WhatsApp"
     ],
     "needsKey": false,
     "beta": false
@@ -41,12 +17,14 @@
   {
     "id": "python-btc-price",
     "name": "Crypto Price",
-    "description": "Replies with the current price and 24h change of a coin when you send /price <code> (for example /price btc). Supports multiple coins. Uses the free CoinGecko API, no key needed.",
+    "description": "Reply with the USD price and 24h change of any coin: /price btc eth sol. Uses the free CoinGecko API, no key needed.",
     "category": "Python Scripts",
     "botType": "PYTHON_SCRIPT",
     "mcp": [],
     "channels": [
-      "Telegram"
+      "Telegram",
+      "Zalo",
+      "WhatsApp"
     ],
     "needsKey": false,
     "beta": false
@@ -59,7 +37,9 @@
     "botType": "PYTHON_SCRIPT",
     "mcp": [],
     "channels": [
-      "Telegram"
+      "Telegram",
+      "Zalo",
+      "WhatsApp"
     ],
     "needsKey": false,
     "beta": false
@@ -72,7 +52,9 @@
     "botType": "PYTHON_SCRIPT",
     "mcp": [],
     "channels": [
-      "Telegram"
+      "Telegram",
+      "Zalo",
+      "WhatsApp"
     ],
     "needsKey": false,
     "beta": false
@@ -98,7 +80,9 @@
     "botType": "PYTHON_SCRIPT",
     "mcp": [],
     "channels": [
-      "Telegram"
+      "Telegram",
+      "Zalo",
+      "WhatsApp"
     ],
     "needsKey": false,
     "beta": false
@@ -111,7 +95,9 @@
     "botType": "PYTHON_SCRIPT",
     "mcp": [],
     "channels": [
-      "Telegram"
+      "Telegram",
+      "Zalo",
+      "WhatsApp"
     ],
     "needsKey": true,
     "beta": false
@@ -124,7 +110,9 @@
     "botType": "PYTHON_SCRIPT",
     "mcp": [],
     "channels": [
-      "Telegram"
+      "Telegram",
+      "Zalo",
+      "WhatsApp"
     ],
     "needsKey": false,
     "beta": false
@@ -137,9 +125,12 @@
     "botType": "PYTHON_SCRIPT",
     "mcp": [],
     "channels": [
-      "Telegram"
+      "Telegram",
+      "Zalo",
+      "WhatsApp"
     ],
-    "needsKey": false
+    "needsKey": false,
+    "beta": true
   },
   {
     "id": "picoclaw-telegram-qa",
@@ -231,7 +222,7 @@
     "category": "AI Bots — Telegram",
     "botType": "PICOCLAW",
     "mcp": [
-      "gondola"
+      "travel"
     ],
     "channels": [
       "Telegram",
@@ -339,12 +330,14 @@
   {
     "id": "python-medicine-reminder",
     "name": "Medicine Reminder",
-    "description": "Reminds a parent to take their medicine on Telegram at the times you set. Each reminder has a Taken button; if it is not tapped, the bot re-reminds every few minutes up to a limit, then alerts the caregiver. Set both chats and the dose list in the bot's settings. The parent must open this bot's chat and press Start first. Keep BotDroid running (battery unrestricted) so reminders arrive on time.",
+    "description": "Reminds a parent to take their medicine on Telegram, Zalo or WhatsApp at the times you set. Telegram reminders have a Taken button; on Zalo or WhatsApp the parent replies \"taken\". If a dose is not confirmed, the bot re-reminds every few minutes up to a limit, then alerts the caregiver on the caregiver's own channel. If the parent cannot be reached, the caregiver is told. Set both recipients and the dose list in the bot's settings. The parent must message this bot first. Keep BotDroid running (battery unrestricted) so reminders arrive on time.",
     "category": "Python Scripts",
     "botType": "PYTHON_SCRIPT",
     "mcp": [],
     "channels": [
-      "Telegram"
+      "Telegram",
+      "Zalo",
+      "WhatsApp"
     ],
     "needsKey": false,
     "beta": true

@@ -1,8 +1,6 @@
 {
-  "python-hello-world": "Bot Python tối giản, trả lời mọi tin nhắn. Điểm khởi đầu tốt.",
-  "python-echo": "Gửi lại mọi tin nhắn cho người gửi. Hữu ích để kiểm tra kết nối.",
   "python-daily-reporter": "Gửi một tin nhắn vào chat vào cùng một giờ mỗi ngày. Đặt chat, giờ gửi và nội dung trong phần cài đặt của bot.",
-  "python-btc-price": "Trả lời giá hiện tại và thay đổi 24h của một coin khi bạn gửi /price <mã> (ví dụ /price btc). Hỗ trợ nhiều coin. Dùng API miễn phí của CoinGecko, không cần key.",
+  "python-btc-price": "Trả lời giá USD và thay đổi 24h của bất kỳ coin nào: /price btc eth sol. Dùng API miễn phí của CoinGecko, không cần key.",
   "python-reminder": "Gửi một hoặc nhiều tin nhắc vào các giờ cố định mỗi ngày. Đặt chat và danh sách giờ, nội dung trong phần cài đặt của bot.",
   "python-weather": "Trả lời thời tiết hiện tại của một thành phố khi bạn gửi /weather <thành phố>. Dùng API miễn phí wttr.in, không cần key.",
   "python-poll": "Gửi một cuộc bình chọn Telegram khi bạn gửi /poll Câu hỏi | Lựa chọn 1 | Lựa chọn 2 | ...",
@@ -24,5 +22,5 @@
   "picoclaw-slack-standup": "Chạy standup bất đồng bộ hằng ngày trên Slack. Tự thu thập cập nhật từ nhóm.",
   "picoclaw-zalo-support": "Agent chăm sóc khách hàng dùng AI trên Zalo. Trả lời câu hỏi thường gặp và chuyển cho người thật khi cần.",
   "local-llm-offline-assistant": "Trợ lý riêng tư chạy hoàn toàn trên máy: không cần API đám mây, không cần internet sau khi tải model. Chọn model ở bước tiếp theo.",
-  "python-medicine-reminder": "Nhắc bố mẹ uống thuốc qua Telegram vào các giờ bạn đặt. Mỗi lời nhắc có nút Đã uống; nếu chưa bấm, bot nhắc lại sau vài phút đến một giới hạn, rồi báo cho người chăm sóc. Đặt hai chat và danh sách liều trong phần cài đặt của bot. Bố mẹ cần mở chat với bot và bấm Start trước. Giữ BotDroid chạy (không giới hạn pin) để lời nhắc đến đúng giờ."
+  "python-medicine-reminder": "Nhắc bố mẹ uống thuốc qua Telegram, Zalo hoặc WhatsApp vào các giờ bạn đặt. Trên Telegram mỗi lời nhắc có nút Đã uống; trên Zalo hoặc WhatsApp bố mẹ trả lời \"taken\". Nếu chưa xác nhận, bot nhắc lại sau vài phút đến một giới hạn, rồi báo cho người chăm sóc qua kênh của người chăm sóc. Nếu không liên lạc được với bố mẹ, người chăm sóc sẽ được báo. Đặt hai người nhận và danh sách liều trong phần cài đặt của bot. Bố mẹ cần nhắn cho bot trước. Giữ BotDroid chạy (không giới hạn pin) để lời nhắc đến đúng giờ."
 }
