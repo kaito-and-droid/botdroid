@@ -22,8 +22,22 @@ On your phone, encrypted per bot with AES-256-GCM in the Android Keystore. They'
 <details>
 <summary>Does BotDroid read my messages?</summary>
 
-No. Messages go between the chat app and your phone, and for AI bots to the provider you chose. On-device bots don't send message text to any AI service. See the [privacy policy](/privacy).
+No. Messages go between the chat app and your phone, and for AI bots to the provider you chose. On-device bots don't send message text to any AI service. {/* ASSISTANT:start */}Assistant messages in Chat may use a cloud backup unless you turn it off in **Settings**; no BotDroid account is needed.{/* ASSISTANT:end */} See the [privacy policy](/privacy).
 </details>
+
+<details>
+<summary>Do I need Telegram or another messenger?</summary>
+
+For messenger use, yes: you connect a bot to a messenger such as Telegram. Chat in the app works without one. [Chat →](/guide/chat/)
+</details>
+
+{/* ASSISTANT:start */}
+<details>
+<summary>What is the Assistant?</summary>
+
+The Assistant answers when you type a plain message in Chat. It needs no setup, replies on your phone first, and can use an optional cloud backup within a daily limit. It is text only.
+</details>
+{/* ASSISTANT:end */}
 
 <details>
 <summary>Do I need to know how to code?</summary>
@@ -46,7 +60,7 @@ OpenRouter, OpenAI, Gemini, Groq, NVIDIA, DeepSeek, xAI, Cloudflare Workers AI, 
 <details>
 <summary>Who pays for the AI?</summary>
 
-You pay your provider directly with your own key. Several have free tiers or free models. On-device bots cost nothing to run.
+For your AI bots, you pay your provider directly with your own key. Several have free tiers or free models. On-device bots cost nothing to run. {/* ASSISTANT:start */}The Assistant in Chat needs no key and no BotDroid account.{/* ASSISTANT:end */}
 </details>
 
 <details>
@@ -71,6 +85,8 @@ The AI agent runtime is the open-source [PicoClaw](https://github.com/sipeed/pic
 <summary>What does Pro include?</summary>
 
 Some templates, extra bots and channels, and scheduled tasks need Pro. The app marks those features and shows current plans through Google Play.
+
+In Chat, Python bots {/* ASSISTANT:start */}and the Assistant {/* ASSISTANT:end */}are free; AI bots need Pro.
 </details>
 
 </div>
