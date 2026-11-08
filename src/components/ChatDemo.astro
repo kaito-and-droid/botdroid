@@ -6,8 +6,8 @@ import { Icon } from '@astrojs/starlight/components';
 interface Props { lang?: 'en' | 'vi' }
 const { lang = 'en' } = Astro.props;
 
-type Msg = { from: 'user' | 'bot'; text: string };
-type Scenario = { label: string; bot: string; channel: string; icon: 'telegram' | 'discord' | 'slack'; note: string; msgs: Msg[] };
+type Msg = { from: 'user' | 'bot'; text: string; name?: string };
+type Scenario = { label: string; bot: string; channel?: string; icon?: 'telegram' | 'discord' | 'slack'; note: string; msgs: Msg[] };
 
 const scenarios: Record<'en' | 'vi', Scenario[]> = {
 	en: [
@@ -19,6 +19,8 @@ const scenarios: Record<'en' | 'vi', Scenario[]> = {
 			msgs: [{ from: 'user', text: 'how do I get the member role?' }, { from: 'bot', text: 'Read #rules, then react with ✅ on the pinned message. The role appears in a few seconds.' }] },
 		{ label: 'Offline', bot: 'Offline Assistant', channel: 'Telegram', icon: 'telegram', note: 'Runs on the phone · no cloud',
 			msgs: [{ from: 'user', text: 'make this polite: im late, start without me' }, { from: 'bot', text: "Sorry, I'm running a little late. Please go ahead and start without me." }] },
+		{ label: 'Chat', bot: 'Chat', note: 'In-app Chat · no messenger needed',
+			msgs: [{ from: 'user', text: 'what can I cook with eggs and rice?' }, { from: 'bot', name: 'Assistant', text: 'Try egg fried rice: 10 minutes, one pan. Want the steps?' }, { from: 'user', text: '@expenses spent $8 on coffee' }, { from: 'bot', name: 'Expense Tracker', text: 'Logged: ☕ Food — $8' }] },
 	],
 	vi: [
 		{ label: 'Thời tiết', bot: 'Weather Bot', channel: 'Telegram', icon: 'telegram', note: 'Script Python · không cần API key',
@@ -29,6 +31,8 @@ const scenarios: Record<'en' | 'vi', Scenario[]> = {
 			msgs: [{ from: 'user', text: 'làm sao để có role member?' }, { from: 'bot', text: 'Đọc #rules rồi bấm ✅ ở tin nhắn được ghim. Role sẽ xuất hiện sau vài giây.' }] },
 		{ label: 'Offline', bot: 'Offline Assistant', channel: 'Telegram', icon: 'telegram', note: 'Chạy trên máy · không dùng đám mây',
 			msgs: [{ from: 'user', text: 'viết lịch sự hơn: tới trễ, cứ họp trước đi' }, { from: 'bot', text: 'Xin lỗi, mình sẽ tới trễ một chút. Mọi người cứ bắt đầu trước nhé.' }] },
+		{ label: 'Trò chuyện', bot: 'Trò chuyện', note: 'Trò chuyện trong app · không cần messenger',
+			msgs: [{ from: 'user', text: 'trứng với cơm nấu món gì?' }, { from: 'bot', name: 'Trợ lý', text: 'Thử cơm chiên trứng: 10 phút, một chảo. Bạn muốn xem các bước không?' }, { from: 'user', text: '@expenses cà phê 30k' }, { from: 'bot', name: 'Expense Tracker', text: 'Đã ghi: ☕ Ăn uống — 30.000đ' }] },
 	],
 };
 const list = scenarios[lang];
@@ -41,11 +45,11 @@ const example = lang === 'vi' ? 'Ví dụ minh hoạ' : 'Example conversation';
 		{list.map((s, i) => (
 			<div class="screen" data-scenario={i} hidden={i !== 0}>
 				<header>
-					<span class="avatar"><Icon name={s.icon} size="1.1rem" /></span>
-					<span><strong>{s.bot}</strong><small>{s.channel} · online</small></span>
+					<span class="avatar"><Icon name={s.icon ?? 'comment-alt'} size="1.1rem" /></span>
+					<span><strong>{s.bot}</strong>{s.channel && <small>{s.channel} · online</small>}</span>
 				</header>
 				<div class="msgs">
-					{s.msgs.map((m) => <p class={`msg ${m.from}`}>{m.text}</p>)}
+					{s.msgs.map((m) => <p class={`msg ${m.from}`}>{m.name && <b class="tag">{m.name}</b>}{m.text}</p>)}
 					<p class="msg bot typing" aria-hidden="true"><i></i><i></i><i></i></p>
 				</div>
 				<footer>{s.note}</footer>
@@ -78,6 +82,7 @@ const example = lang === 'vi' ? 'Ví dụ minh hoạ' : 'Example conversation';
 	.msg { margin: 0; max-width: 85%; padding: 0.5rem 0.75rem; border-radius: 1rem; font-size: 0.82rem; line-height: 1.35; white-space: pre-line; animation: pop 0.25s ease-out; }
 	.msg.user { align-self: flex-end; background: #00b8a0; color: #032420; border-bottom-right-radius: 0.3rem; }
 	.msg.bot { align-self: flex-start; background: #17241f; color: #e6f2ee; border-bottom-left-radius: 0.3rem; }
+	.tag { display: block; font-size: 0.68rem; color: #00e5c8; margin-bottom: 0.15rem; }
 	.msg[data-off] { display: none; }
 	.typing { display: none; gap: 0.25rem; }
 	.typing.on { display: flex; }

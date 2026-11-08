@@ -11,6 +11,7 @@ const t = {
 	en: {
 		featuresTitle: 'Everything a bot needs, in one app',
 		features: [
+			{ icon: 'comment-alt', title: 'One in-app chat for all your bots', text: 'Talk to every bot and the built-in Assistant in one place. No messenger needed.' },
 			{ icon: 'laptop', title: 'Runs on your phone', text: 'A foreground service keeps bots online with the screen off, and restarts them after a reboot.' },
 			{ icon: 'seti:lock', title: 'Your keys, encrypted', text: 'Tokens and API keys are stored with AES-256-GCM in the Android Keystore and never put in backups.' },
 			{ icon: 'random', title: 'Any AI provider', text: 'OpenRouter, OpenAI, Gemini, Groq, NVIDIA, DeepSeek, xAI, Cloudflare, or any OpenAI-compatible endpoint.' },
@@ -18,11 +19,22 @@ const t = {
 			{ icon: 'puzzle', title: 'Tools with MCP', text: 'Connect tool servers for live prices, travel search or blockchain data.' },
 			{ icon: 'clock', title: 'Scheduled tasks', text: 'Let an agent send a morning summary or a weekly report on its own.' },
 		] as { icon: IconName; title: string; text: string }[],
+		chat: {
+			title: 'Chat with all your bots in one place',
+			items: [
+				'Talk to AI bots with @name.',
+				'Run Python bots with /command.',
+				'Ask the built-in Assistant by just typing.',
+				'Attach photos or files for AI bots that support them.',
+			],
+			rule: 'In Chat, everyone can use the Assistant and Python bots. AI bots need Pro (and their provider, key and model set up).',
+			cta: 'Read the Chat guide',
+		},
 		stepsTitle: 'From install to running bot in three steps',
 		steps: [
 			{ title: 'Install & allow background', text: 'Exempt BotDroid from battery optimization so bots survive screen-off.' },
-			{ title: 'Pick a template', text: 'Paste a bot token. AI bots also need a provider key.' },
-			{ title: 'Tap Start', text: 'Message your bot. Check live logs if anything goes wrong.' },
+			{ title: 'Pick a template', text: 'Add it to Chat, or paste a bot token to use it in Telegram, Discord or Slack. AI bots also need a provider key.' },
+			{ title: 'Tap Start', text: 'Message your bot in Chat or your messenger. Check live logs if anything goes wrong.' },
 		],
 		stepsCta: 'Follow the full guide',
 		ctaTitle: 'Your next bot doesn’t need a server.',
@@ -32,6 +44,7 @@ const t = {
 	vi: {
 		featuresTitle: 'Mọi thứ bot cần, trong một app',
 		features: [
+			{ icon: 'comment-alt', title: 'Một khung trò chuyện cho mọi bot', text: 'Trò chuyện với mọi bot và Trợ lý tích hợp ngay trong app. Không cần messenger.' },
 			{ icon: 'laptop', title: 'Chạy trên điện thoại', text: 'Dịch vụ nền giữ bot online khi tắt màn hình, và tự chạy lại sau khi khởi động máy.' },
 			{ icon: 'seti:lock', title: 'Key được mã hoá', text: 'Token và API key được lưu bằng AES-256-GCM trong Android Keystore và không bao giờ nằm trong bản sao lưu.' },
 			{ icon: 'random', title: 'Mọi nhà cung cấp AI', text: 'OpenRouter, OpenAI, Gemini, Groq, NVIDIA, DeepSeek, xAI, Cloudflare hoặc bất kỳ endpoint tương thích OpenAI.' },
@@ -39,11 +52,22 @@ const t = {
 			{ icon: 'puzzle', title: 'Công cụ qua MCP', text: 'Kết nối máy chủ công cụ để có giá trực tiếp, tìm chuyến đi hay dữ liệu blockchain.' },
 			{ icon: 'clock', title: 'Tác vụ định kỳ', text: 'Để agent tự gửi bản tóm tắt buổi sáng hay báo cáo hằng tuần.' },
 		] as { icon: IconName; title: string; text: string }[],
+		chat: {
+			title: 'Trò chuyện với mọi bot ở một nơi',
+			items: [
+				'Nói chuyện với bot AI bằng @tên.',
+				'Chạy bot Python bằng /lệnh.',
+				'Hỏi Trợ lý tích hợp bằng cách cứ gõ.',
+				'Đính kèm ảnh hoặc tệp cho bot AI có hỗ trợ.',
+			],
+			rule: 'Trong Trò chuyện, ai cũng dùng được Trợ lý và bot Python. Bot AI cần Pro (và đã thiết lập nhà cung cấp, key, model).',
+			cta: 'Xem hướng dẫn Trò chuyện',
+		},
 		stepsTitle: 'Từ lúc cài đến khi bot chạy chỉ ba bước',
 		steps: [
 			{ title: 'Cài & cho phép chạy nền', text: 'Bỏ tối ưu pin cho BotDroid để bot vẫn chạy khi tắt màn hình.' },
-			{ title: 'Chọn một mẫu', text: 'Dán token bot. Bot AI cần thêm key của nhà cung cấp.' },
-			{ title: 'Nhấn Start', text: 'Nhắn tin cho bot. Xem log trực tiếp nếu có lỗi.' },
+			{ title: 'Chọn một mẫu', text: 'Dùng trong Trò chuyện, hoặc dán token bot để dùng trên Telegram, Discord, Slack. Bot AI cần thêm key của nhà cung cấp.' },
+			{ title: 'Nhấn Start', text: 'Nhắn tin cho bot trong Trò chuyện hoặc messenger. Xem log trực tiếp nếu có lỗi.' },
 		],
 		stepsCta: 'Xem hướng dẫn đầy đủ',
 		ctaTitle: 'Bot tiếp theo của bạn không cần máy chủ.',
@@ -64,6 +88,15 @@ const t = {
 			</article>
 		))}
 	</div>
+</section>
+
+<section class="bd-section not-content chat-hl" data-testid="chat-highlight">
+	<h2>{t.chat.title}</h2>
+	<ul>
+		{t.chat.items.map((i) => <li>{i}</li>)}
+	</ul>
+	<p class="rule">{t.chat.rule}</p>
+	<a class="more" href={`${base}/guide/chat/`}>{t.chat.cta} →</a>
 </section>
 
 <section class="bd-section not-content">
@@ -90,6 +123,8 @@ const t = {
 </section>
 
 <style>
+	.chat-hl ul { margin: 0 0 1rem; padding-left: 1.2rem; color: var(--sl-color-gray-2); }
+	.chat-hl .rule { margin-bottom: 1rem; overflow-wrap: anywhere; }
 	.bd-section { margin-block: 4rem; }
 	h2 { font-size: var(--sl-text-3xl); font-weight: 700; color: var(--sl-color-white); margin-bottom: 1.25rem; }
 	h3 { font-size: var(--sl-text-lg); color: var(--sl-color-white); margin: 0.6rem 0 0.3rem; }
