@@ -5,7 +5,7 @@ description: The bot detail screen — status, channels, settings, tasks, tools 
 
 import { Tabs, TabItem, Aside } from '@astrojs/starlight/components';
 
-Tap a bot to open it. The tabs below match the tabs in the app.
+Tap a bot to open it. A bot's card and Bot Detail both have a **Chat** shortcut that opens [Chat](/guide/chat/) with that bot pre-addressed. The tabs below match the tabs in the app.
 
 <Tabs>
 	<TabItem label="Overview" icon="analytics">
@@ -23,6 +23,8 @@ Tap a bot to open it. The tabs below match the tabs in the app.
 		- Changes on a running bot restart it automatically.
 
 		Python and on-device bots use one Telegram channel.
+
+		A bot also works in the in-app Chat without any channel.
 	</TabItem>
 	<TabItem label="Config" icon="setting">
 		Template settings, AI provider and model, and **Conversation memory**.
