@@ -50,7 +50,7 @@ export default defineConfig({
 				{
 					label: 'Use',
 					translations: { vi: 'Sử dụng' },
-					items: [{ slug: 'templates' }, { slug: 'guide/managing-bots' }],
+					items: [{ slug: 'guide/chat' }, { slug: 'templates' }, { slug: 'guide/managing-bots' }],
 				},
 				{
 					label: 'Help',
