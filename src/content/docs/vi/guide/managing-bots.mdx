@@ -5,7 +5,7 @@ description: Màn hình chi tiết bot — trạng thái, kênh, cài đặt, t�
 
 import { Tabs, TabItem, Aside } from '@astrojs/starlight/components';
 
-Nhấn vào một bot để mở. Thẻ bot và màn hình chi tiết bot đều có lối tắt **Trò chuyện** mở [Trò chuyện](/vi/guide/chat/) với bot đó đã được chọn sẵn. Các tab dưới đây giống hệt các tab trong app.
+Nhấn vào một bot để mở. Màn hình chi tiết bot có lối tắt **Trò chuyện trong ứng dụng** mở [Trò chuyện](/vi/guide/chat/) với bot đó đã được chọn sẵn. Các tab dưới đây giống hệt các tab trong app.
 
 <Tabs>
 	<TabItem label="Overview" icon="analytics">
@@ -19,12 +19,12 @@ Nhấn vào một bot để mở. Thẻ bot và màn hình chi tiết bot đều
 		Mọi ứng dụng chat đã kết nối kèm trạng thái. Nhấn để sửa, hoặc **Add channel** để kết nối thêm ([lấy token](/vi/setup/channels/)).
 
 		- Một kênh là kênh **chính**. Đổi bằng **Make primary**.
-		- Không thể xoá kênh chính hoặc kênh duy nhất.
+		- Khi có từ hai kênh trở lên, có thể xoá bất kỳ kênh nào; xoá kênh chính thì kênh kế tiếp trở thành kênh chính. Không thể xoá kênh duy nhất.
 		- Thay đổi khi bot đang chạy sẽ tự khởi động lại bot.
 
-		Bot Python và bot trên máy dùng một kênh Telegram.
+		Bot Python dùng được Telegram, Zalo hoặc WhatsApp. Bot trên máy dùng một kênh Telegram.
 
-		Bot cũng hoạt động trong Trò chuyện của app mà không cần kênh nào.
+		Mỗi bot cần một kênh nhắn tin để chạy. Bạn vẫn có thể nói chuyện với mọi bot trong Trò chuyện của app.
 	</TabItem>
 	<TabItem label="Config" icon="setting">
 		Cài đặt mẫu, nhà cung cấp AI và model, và **Conversation memory**.

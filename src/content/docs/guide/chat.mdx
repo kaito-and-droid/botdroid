@@ -3,11 +3,11 @@ title: Chat
 description: Talk to the Assistant, your AI bots and your Python bots from one conversation inside the app.
 ---
 
-Chat is one conversation inside the app. Type a message and it goes to the Assistant, to an AI bot you address with `@`, or to a Python bot you run with `/`. No messenger channel is needed.
+Chat is one conversation inside the app. Type a message and it goes to the Assistant, to a bot you address with `@`, or to a command you run with `/`. Chatting here needs no messenger app.
 
 ## Open Chat
 
-On the Home screen, tap the **Chat** button. It is the lower of the two round buttons at the bottom-right; the one above it adds a new bot. You can also open Chat from a bot's card or from Bot Detail, with that bot already addressed.
+On the Home screen, tap the **Chat** button. It is the lower of the two round buttons at the bottom-right; the one above it adds a new bot. You can also open Chat from a bot's Bot Detail with **Chat in the app**, with that bot already addressed.
 
 ## Just type: the Assistant
 
@@ -19,17 +19,21 @@ The Assistant is a text conversation only. It has no tools, Knowledge or channel
 For English messages, when the on-device model is downloaded, the Assistant answers on your phone first. For other languages, the cloud backup may answer first, within a daily limit, and an on-device reply then comes with a note that it may be weaker. The cloud backup can also step in when the on-device model is not ready. When neither is available, the app offers to download the on-device model. You can turn the cloud backup off in **Settings**.
 {/* ASSISTANT:end */}
 
-## Talk to an AI bot with @
+## Talk to a bot with @
 
-Type `@` and a bot name anywhere in your message, even mid-sentence, and pick the bot from the suggestion list. A **To: bot** chip appears above the message box. Follow-ups keep going to that bot until you clear the chip with ✕. The next plain message after clearing goes to the Assistant.
+The `@` list shows your Python bots and your AI bots that are set up. Type `@` and a bot name anywhere in your message, even mid-sentence, and pick the bot from the suggestion list. A **To: bot** chip appears above the message box. Follow-ups keep going to that bot until you clear the chip with ✕. The next plain message after clearing goes to the Assistant.
 
-AI bots in Chat need Pro, and they need their provider, key and model set up first. If a bot isn't ready, the app shows a **Set up this bot** card.
+Picking a Python bot opens its command list. AI bots in Chat need Pro (free users see them with a lock), and they need their provider, key and model set up first. If you address an AI bot that isn't set up, the app shows a **Set up this bot** card and keeps your message.
 
-## Run a Python bot with /
+## Run a command with /
 
 Type `/command arguments` to run a Python bot's command. The command list is grouped by bot. If the same command exists on two bots, the app asks **Which bot?**.
 
-Python bots work in Chat with no messenger channel, and for free users.
+You don't need a bot to try commands. `/price`, `/weather`, `/summary` and `/rss` run straight from their templates, labelled **Runs on** and the template name (for example **Runs on Crypto Price**). Nothing is created or saved. `/summary` needs an AI provider key set up in the app. If one of your bots has the same command, your bot answers instead.
+
+Python bots and template commands work in Chat for free users.
+
+You can also tap **+** and pick **Mention an AI bot** or **Run a bot command** to start a message with `@` or `/`.
 
 ## Attachments
 

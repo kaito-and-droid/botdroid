@@ -5,7 +5,7 @@ description: The bot detail screen — status, channels, settings, tasks, tools 
 
 import { Tabs, TabItem, Aside } from '@astrojs/starlight/components';
 
-Tap a bot to open it. A bot's card and Bot Detail both have a **Chat** shortcut that opens [Chat](/guide/chat/) with that bot pre-addressed. The tabs below match the tabs in the app.
+Tap a bot to open it. Bot Detail has a **Chat in the app** shortcut that opens [Chat](/guide/chat/) with that bot pre-addressed. The tabs below match the tabs in the app.
 
 <Tabs>
 	<TabItem label="Overview" icon="analytics">
@@ -19,12 +19,12 @@ Tap a bot to open it. A bot's card and Bot Detail both have a **Chat** shortcut 
 		Every connected chat app with its status. Tap one to edit it, or **Add channel** to connect another ([get tokens](/setup/channels/)).
 
 		- One channel is the **primary**. Change it with **Make primary**.
-		- The primary or the only channel can't be removed.
+		- With two or more channels, any of them can be removed; removing the primary makes the next one primary. The only channel can't be removed.
 		- Changes on a running bot restart it automatically.
 
-		Python and on-device bots use one Telegram channel.
+		Python bots can use Telegram, Zalo or WhatsApp. On-device bots use one Telegram channel.
 
-		A bot also works in the in-app Chat without any channel.
+		Every bot needs a messenger channel to start. You can still talk to any bot in the in-app Chat.
 	</TabItem>
 	<TabItem label="Config" icon="setting">
 		Template settings, AI provider and model, and **Conversation memory**.

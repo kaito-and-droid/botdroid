@@ -105,7 +105,7 @@
     <div class="relative mx-auto max-w-4xl px-5 pb-12 pt-12 lg:px-8 lg:pt-16">
       <div class="mono inline-flex items-center gap-2 rounded-full border border-cyan/30 bg-cyan-soft px-3 py-1 text-[11px] tracking-wider2 text-cyan">
         <span class="led inline-block h-1.5 w-1.5 rounded-full bg-cyan text-cyan"></span>
-        PRIVACY&nbsp;POLICY&nbsp;·&nbsp;V1.4.0
+        PRIVACY&nbsp;POLICY&nbsp;·&nbsp;V1.5.0
       </div>
       <h1 class="mt-5 text-4xl font-extrabold tracking-tight text-ink sm:text-5xl">
         Your tokens stay on your phone.
@@ -114,7 +114,7 @@
         BotDroid is built so that your bot tokens, LLM API keys, and message contents never sit on our servers — because we don't operate any. This page explains exactly what lives on your device, what gets sent where, and what you control.
       </p>
       <p class="mono mt-6 text-[11px] tracking-wider2 text-inkdim">
-        LAST&nbsp;UPDATED&nbsp;·&nbsp;2026-09-18 · EFFECTIVE&nbsp;·&nbsp;2026-05-27
+        LAST&nbsp;UPDATED&nbsp;·&nbsp;2026-11-09 · EFFECTIVE&nbsp;·&nbsp;2026-05-27
       </p>
     </div>
   </section>
@@ -126,9 +126,10 @@
     <section class="mb-12 rounded-lg border border-cyan/30 bg-cyan-soft p-5">
       <h2 class="text-[12px] tracking-wider2 text-cyan">TL;DR</h2>
       <ul class="mt-3 space-y-2 text-[15px] text-ink">
-        <li>BotDroid runs entirely on your Android device. We do not operate a backend server that handles your bot traffic or messages.</li>
+        <li>BotDroid runs primarily on your Android device. We do not operate a backend server that handles your bot traffic or messages.</li>
         <li>Bot tokens and LLM API keys are stored in encrypted local storage (<code>EncryptedSharedPreferences</code>, AES-256-GCM with a key sealed by the Android Keystore).</li>
-        <li>Outbound network calls go only to: (a) the messaging providers <em>you</em> configure (Telegram, Discord, Slack, Zalo, etc.), (b) the LLM provider <em>you</em> point at with <em>your</em> API key, (c) Google Firebase for crash reporting and app configuration, and (d) Google Play Billing for subscription purchases.</li>
+        <li>Outbound network calls go to: (a) the messaging providers <em>you</em> configure (Telegram, Discord, Slack, Zalo, etc.), (b) the LLM provider <em>you</em> point at with <em>your</em> API key, (c) Google Firebase for crash reporting, app configuration, and — only when you use cloud backup replies (Play version) — backup AI replies, and (d) Google Play Billing for subscription purchases.</li>
+        <li>Cloud backup replies (Play version): when the on-device model can’t answer, BotDroid may send your bot and Chat Assistant messages to the developer’s Firebase AI project to generate a backup reply, within a daily limit. You can turn cloud backup off in Settings. Message content is never sent to telemetry/analytics. The direct (open) build does not use cloud backup replies.</li>
         <li>Uninstalling the app deletes all your local data, including tokens and message history. There is no separate "delete account" flow because there is no account.</li>
       </ul>
     </section>
@@ -169,6 +170,7 @@
     <ul class="mt-3 space-y-2 text-inkdim">
       <li><strong class="text-ink">Messaging providers (Telegram, Discord, Slack, Zalo, …):</strong> the app long-polls or connects to each provider you configure, using <em>your</em> token. Message contents flow between your phone and the provider's API. We do not proxy this traffic.</li>
       <li><strong class="text-ink">LLM providers (OpenAI, OpenRouter, Gemini, Groq, NVIDIA, DeepSeek, xAI, Cloudflare, custom OpenAI-compatible endpoints):</strong> when a bot calls a model, the app issues an HTTPS request from your phone directly to the API base URL you set, using your API key. The request body (prompts, conversation history) is visible to that provider per its own privacy policy. We do not proxy this traffic.</li>
+      <li><strong class="text-ink">Cloud backup replies via Firebase AI (Play version):</strong> when you use the built-in Chat Assistant, or when a bot needs a backup reply, and the on-device model cannot answer, the Play version may send the relevant message text and recent conversation context to the developer’s Firebase AI project (Google Firebase AI Logic / Gemini) to generate a backup reply. This is subject to a daily limit and is governed by the <em>Cloud backup replies</em> setting (Settings), which you can turn off at any time. Message content sent for a backup reply is not included in Firebase Analytics, Crashlytics, or telemetry. The direct (open) build does not use cloud backup replies.</li>
       <li><strong class="text-ink">picoclaw agent (bundled binary):</strong> when you use PicoClaw agent mode, an embedded Go binary executes on your phone and calls the LLM provider directly with your key. It does not phone home to BotDroid.</li>
     </ul>
 
@@ -222,6 +224,7 @@
       <li><strong class="text-ink">Delete everything:</strong> uninstalling BotDroid removes all on-device data instantly. There is no separate account to close.</li>
       <li><strong class="text-ink">Revoke a token:</strong> delete it from inside the relevant provider (e.g. Telegram BotFather) — the local copy in BotDroid becomes inert.</li>
       <li><strong class="text-ink">Opt out of Crashlytics / Analytics:</strong> in-app, go to Settings → Privacy and turn off "Share anonymous usage data" — this stops both Crashlytics and Analytics collection immediately, and also stops the anonymous RevenueCat/Firebase link described in 3.4. In the EEA/UK this is off by default and you're asked once, on first run, before anything is collected; elsewhere it defaults on and you can turn it off anytime. You can also email <a href="mailto:kaiteam@proton.me">kaiteam@proton.me</a>.</li>
+      <li><strong class="text-ink">Turn off cloud backup replies (Play version):</strong> in-app, go to Settings and turn off <em>Cloud backup replies</em>. This stops sending bot and Chat Assistant messages to the developer’s Firebase AI project for backup replies. The on-device model may still answer when available. The direct (open) build does not use cloud backup replies.</li>
       <li><strong class="text-ink">Access / correct / port:</strong> because everything personal lives on your device, you already have full access. For diagnostic data Firebase holds on our behalf, contact us and we will request export or deletion from Google.</li>
       <li><strong class="text-ink">Regional rights (GDPR / UK GDPR / CCPA / LGPD):</strong> you may exercise any rights granted by the law of your residence by emailing <a href="mailto:kaiteam@proton.me">kaiteam@proton.me</a>. We aim to respond within 30 days. Legal basis under GDPR is (i) <em>contract</em> for entitlement processing, (ii) <em>legitimate interest</em> for crash diagnostics and product analytics, and (iii) <em>consent</em> for any future opt-in features.</li>
     </ul>
@@ -311,7 +314,7 @@
     </div>
     <div class="border-t border-line">
       <div class="mono mx-auto flex max-w-7xl flex-col items-center justify-between gap-2 px-5 py-5 text-[10px] tracking-wider2 text-inkdim sm:flex-row lg:px-8">
-        <span>PRIVACY&nbsp;v1.3 · LAST&nbsp;UPDATED&nbsp;2026-09-18</span>
+        <span>PRIVACY&nbsp;v1.5.0 · LAST&nbsp;UPDATED&nbsp;2026-11-09</span>
         <span class="flex items-center gap-2"><span class="led inline-block h-1.5 w-1.5 rounded-full bg-cyan text-cyan"></span>SYSTEM&nbsp;ONLINE</span>
       </div>
     </div>
